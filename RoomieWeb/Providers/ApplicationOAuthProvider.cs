@@ -8,15 +8,16 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using RoomieWeb.Models;
 
 namespace RoomieWeb.Providers
 {
 	public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
 	{
 		private readonly string _publicClientId;
-		private readonly Func<UserManager<IdentityUser>> _userManagerFactory;
+		private readonly Func<UserManager<Mate>> _userManagerFactory;
 
-		public ApplicationOAuthProvider(string publicClientId, Func<UserManager<IdentityUser>> userManagerFactory)
+		public ApplicationOAuthProvider(string publicClientId, Func<UserManager<Mate>> userManagerFactory)
 		{
 			if (publicClientId == null)
 			{
@@ -34,9 +35,9 @@ namespace RoomieWeb.Providers
 
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
 		{
-			using (UserManager<IdentityUser> userManager = _userManagerFactory())
+			using (UserManager<Mate> userManager = _userManagerFactory())
 			{
-				IdentityUser user = await userManager.FindAsync(context.UserName, context.Password);
+				Mate user = await userManager.FindAsync(context.UserName, context.Password);
 
 				if (user == null)
 				{

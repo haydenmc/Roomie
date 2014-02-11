@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using RoomieWeb.Providers;
+using RoomieWeb.Models;
 
 namespace RoomieWeb
 {
@@ -17,7 +18,7 @@ namespace RoomieWeb
 		{
 			PublicClientId = "self";
 
-			UserManagerFactory = () => new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+			UserManagerFactory = () => new UserManager<Mate>(new UserStore<Mate>(new ApplicationDbContext()));
 
 			OAuthOptions = new OAuthAuthorizationServerOptions
 			{
@@ -31,7 +32,7 @@ namespace RoomieWeb
 
 		public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-		public static Func<UserManager<IdentityUser>> UserManagerFactory { get; set; }
+		public static Func<UserManager<Mate>> UserManagerFactory { get; set; }
 
 		public static string PublicClientId { get; private set; }
 
