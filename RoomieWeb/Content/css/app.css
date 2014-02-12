@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular-webfont.eot');
+  src: url('../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Regular-webfont.svg#open_sanslight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Light-webfont.eot');
+  src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'), url('../fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+  font-weight: 100;
+  font-style: normal;
+}
+/* Some functions ... */
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Open Sans';
+}
+/* Log In Dialog */
+#LogIn {
+  width: 480px;
+  height: 200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -240px;
+}
+#LogIn h1 {
+  display: block;
+  font-family: 'Open Sans';
+  font-weight: 100;
+  font-size: 60px;
+  margin: 56px 0 0 0;
+  float: left;
+}
+#LogIn div.separator {
+  height: 100%;
+  width: 3px;
+  margin: 0 16px 0 32px;
+  float: left;
+  background-color: #ff4ceb;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc831), to(#ff4ceb));
+  background-image: -webkit-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -moz-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -o-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -ms-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: linear-gradient(top, #ffc831, #ff4ceb);
+}
+#LogIn form {
+  display: block;
+  margin-top: 20px;
+  float: left;
+}
+#LogIn form input {
+  font-family: 'Open Sans';
+  font-weight: 100;
+  width: 200px;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  padding: 5px 6px;
+  margin: 14px 8px;
+}
+#LogIn a.register {
+  color: #ff4ceb;
+  font-size: 12px;
+  text-decoration: none;
+}
+/*# sourceMappingURL=app.css.map */
