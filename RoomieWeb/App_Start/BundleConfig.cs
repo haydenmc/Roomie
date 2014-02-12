@@ -15,9 +15,7 @@ namespace RoomieWeb
 				"~/Scripts/ts/page.js",
 				"~/Scripts/ts/pages/login.js"));
 
-			bundles.Add(new StyleBundle("~/bundle/Content/css").Include(
-				 "~/Content/css/app.css",
-				 "~/Content/css/animation.css"));
+			bundles.Add(new StyleBundle("~/bundle/Content/css").Include("~/Content/css/*.css", new CssRewriteUrlTransform()));
 		}
 	}
 }
