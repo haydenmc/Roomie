@@ -1,6 +1,7 @@
 class Application {
 	// Running instance reference
 	public static instance: Application;
+	public static auth_token: string;
 
 	// Page stack!
 	public pages: Page[] = new Array<Page>();
