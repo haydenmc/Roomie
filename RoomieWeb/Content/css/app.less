@@ -31,6 +31,22 @@
 	background-image: linear-gradient(top, @from, @to);
 }
 
+.transform(@transform) {
+    -webkit-transform: @transform;
+    -moz-transform: @transform;
+    -ms-transform: @transform;
+    -o-transform: @transform;
+    transform: @transform;
+}
+
+.transform_origin(@transform-origin) {
+	-webkit-transform-origin: @transform-origin;
+	-moz-transform-origin: @transform-origin;
+	-ms-transform-origin: @transform-origin;
+	-o-transform-origin: @transform-origin;
+	transform-origin: @transform-origin;
+}
+
 body {
 	background-color:#000;
 	color:#fff;
@@ -46,6 +62,20 @@ div.page {
 	right:0;
 	bottom:0;
 	left:0;
+
+	h1.title {
+		position:absolute;
+		top:0;
+		right:100%;
+		font-family:'Open Sans';
+		font-size:116px;
+		.transform(rotate(-90deg) translateY(-36px));
+		.transform_origin(right top);
+		opacity:0.5;
+		margin:16px 0 0 0;
+		padding:0;
+		font-weight:100;
+	}
 }
 
 /* Log In Dialog */
@@ -78,8 +108,12 @@ div.page {
 		float:left;
 
 		input {
+			&:hover {
+				opacity:1;
+			}
 			font-family: 'Open Sans';
 			font-weight: 100;
+			opacity:0.65;
 			color:#fff;
 			width:200px;
 			font-size:20px;
@@ -88,6 +122,7 @@ div.page {
 			border-bottom: 2px solid #fff;
 			padding:5px 6px;
 			margin:14px 8px;
+			transition:opacity 200ms ease-out;
 		}
 
 		input[type=submit]

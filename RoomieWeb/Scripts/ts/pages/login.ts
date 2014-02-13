@@ -23,8 +23,16 @@ class LogIn implements Page {
 		});
 	}
 
+	public show(): void {
+		this.page_element = <HTMLElement>(document.getElementsByTagName("body")[0].insertBefore(this.page_element));
+	}
+
+	public hide(): void {
+		this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));
+	}
+
 	public register(): void {
-		alert("REGISTER!");
+		Application.instance.navigateTo(new Register());
 	}
 
 	public authenticate(): void {
@@ -52,13 +60,5 @@ class LogIn implements Page {
 				alert("Boo.");
 			}
 		});
-	}
-
-	public show(): void {
-		this.page_element = <HTMLElement>(document.getElementsByTagName("body")[0].insertBefore(this.page_element));
-	}
-
-	public hide(): void {
-
 	}
 } 

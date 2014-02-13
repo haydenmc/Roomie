@@ -20,8 +20,16 @@ var LogIn = (function () {
             return false;
         });
     }
+    LogIn.prototype.show = function () {
+        this.page_element = (document.getElementsByTagName("body")[0].insertBefore(this.page_element));
+    };
+
+    LogIn.prototype.hide = function () {
+        this.page_element = (this.page_element.parentNode.removeChild(this.page_element));
+    };
+
     LogIn.prototype.register = function () {
-        alert("REGISTER!");
+        Application.instance.navigateTo(new Register());
     };
 
     LogIn.prototype.authenticate = function () {
@@ -49,13 +57,6 @@ var LogIn = (function () {
                 alert("Boo.");
             }
         });
-    };
-
-    LogIn.prototype.show = function () {
-        this.page_element = (document.getElementsByTagName("body")[0].insertBefore(this.page_element));
-    };
-
-    LogIn.prototype.hide = function () {
     };
     return LogIn;
 })();

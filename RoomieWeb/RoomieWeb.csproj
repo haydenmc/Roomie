@@ -308,6 +308,7 @@
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
     <TypeScriptCompile Include="Scripts\ts\page.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\login.ts" />
+    <TypeScriptCompile Include="Scripts\ts\pages\register.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <PropertyGroup>
