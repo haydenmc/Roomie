@@ -41,6 +41,14 @@ class Application {
 	public canGoBack(): boolean {
 		return (this.pages.length > 1);
 	}
+
+	/**
+	 * hasPages
+	 * Returns true if the page stack has at least one page.
+	 */
+	public hasPages(): boolean{
+		return (this.pages.length > 0);
+	}
 }
 
 window.onload = function () {

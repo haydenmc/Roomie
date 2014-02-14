@@ -237,6 +237,8 @@
     </Content>
     <Content Include="Content\fonts\OpenSans-Light-webfont.svg" />
     <Content Include="Content\fonts\OpenSans-Regular-webfont.svg" />
+    <Content Include="Content\svg\arrow_back_black.svg" />
+    <Content Include="Content\svg\arrow_back_white.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

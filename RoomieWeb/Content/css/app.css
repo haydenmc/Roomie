@@ -25,6 +25,36 @@ div.page {
   bottom: 0;
   left: 0;
 }
+div.page a.back {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  z-index: 100;
+  border: 3px solid #fff;
+  border-radius: 28px;
+  background-color: transparent;
+  background-image: url(../svg/arrow_back_white.svg);
+  background-size: 36px;
+  background-repeat: no-repeat;
+  background-position-x: 6px;
+  background-position-y: 6px;
+  cursor: pointer;
+  opacity: 0.5;
+  -webkit-transition: opacity 200ms ease-out;
+  -moz-transition: opacity 200ms ease-out;
+  -o-transition: opacity 200ms ease-out;
+  transition: opacity 200ms ease-out;
+}
+div.page a.back:hover {
+  opacity: 1.0;
+}
+div.page a.back:active {
+  background-color: #fff;
+  background-image: url(../svg/arrow_back_black.svg);
+}
 div.page h1.title {
   position: absolute;
   top: 0;
@@ -42,9 +72,10 @@ div.page h1.title {
   -o-transform-origin: right top;
   transform-origin: right top;
   opacity: 0.5;
-  margin: 16px 0 0 0;
+  margin: 72px 0 0 0;
   padding: 0;
   font-weight: 100;
+  text-transform: lowercase;
 }
 /* Log In Dialog */
 #LogIn {
@@ -93,6 +124,9 @@ div.page h1.title {
   border-bottom: 2px solid #fff;
   padding: 5px 6px;
   margin: 14px 8px;
+  -webkit-transition: opacity 200ms ease-out;
+  -moz-transition: opacity 200ms ease-out;
+  -o-transition: opacity 200ms ease-out;
   transition: opacity 200ms ease-out;
 }
 #LogIn form input:hover {

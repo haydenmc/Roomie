@@ -6,13 +6,13 @@ var Page = (function () {
         }
         this.page_element = document.createElement("div");
         this.page_element.classList.add("page");
-        if (Application.instance.canGoBack()) {
+        if (Application.instance.hasPages()) {
             var backButtonElement = document.createElement("a");
             backButtonElement.classList.add("back");
             backButtonElement.addEventListener("click", function () {
                 Application.instance.navigateBack();
             });
-            this.page_element.appendChild(titleElement);
+            this.page_element.appendChild(backButtonElement);
         }
         if (this.title.length > 0) {
             var titleElement = document.createElement("h1");

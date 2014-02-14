@@ -35,6 +35,14 @@ var Application = (function () {
     Application.prototype.canGoBack = function () {
         return (this.pages.length > 1);
     };
+
+    /**
+    * hasPages
+    * Returns true if the page stack has at least one page.
+    */
+    Application.prototype.hasPages = function () {
+        return (this.pages.length > 0);
+    };
     return Application;
 })();
 
