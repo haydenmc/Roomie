@@ -1,31 +1,32 @@
-var LogIn = (function () {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var LogIn = (function (_super) {
+    __extends(LogIn, _super);
     function LogIn() {
         var _this = this;
-        this.name = "Log In";
-        this.form_element = document.createElement("div");
-        this.form_element.id = "LogIn";
-        this.form_element.innerHTML = "<h1>roomie</h1><div class=\"separator\"></div><form><input name=\"email\" placeholder=\"e-mail address\" /><br /><input name=\"password\" type=\"password\" placeholder=\"password\" /><br /><div style=\"text-align:center;\"><input type=\"submit\" value=\"log in\"/><br /><a class=\"register\" href=\"#\">register</a></div></form>";
-
-        this.page_element = document.createElement("div");
-        this.page_element.classList.add("page");
-        this.form_element = (this.page_element.insertBefore(this.form_element));
+        _super.call(this);
+        this.page_element.innerHTML += "<div id=\"LogIn\"><h1>roomie</h1><div class=\"separator\"></div><form><input name=\"email\" placeholder=\"e-mail address\" /><br /><input name=\"password\" type=\"password\" placeholder=\"password\" /><br /><div style=\"text-align:center;\"><input type=\"submit\" value=\"log in\"/><br /><a class=\"register\" href=\"#\">register</a></div></form></div>";
 
         //Bind event handlers.
-        this.form_element.getElementsByClassName("register")[0].addEventListener("click", function () {
+        this.page_element.getElementsByClassName("register")[0].addEventListener("click", function () {
             _this.register();
         });
-        this.form_element.getElementsByTagName("form")[0].addEventListener("submit", function (evt) {
+        this.page_element.getElementsByTagName("form")[0].addEventListener("submit", function (evt) {
             evt.preventDefault();
             _this.authenticate();
             return false;
         });
     }
     LogIn.prototype.show = function () {
-        this.page_element = (document.getElementsByTagName("body")[0].insertBefore(this.page_element));
+        _super.prototype.show.call(this);
     };
 
     LogIn.prototype.hide = function () {
-        this.page_element = (this.page_element.parentNode.removeChild(this.page_element));
+        _super.prototype.hide.call(this);
     };
 
     LogIn.prototype.register = function () {
@@ -34,7 +35,7 @@ var LogIn = (function () {
 
     LogIn.prototype.authenticate = function () {
         // If our inputs are disabled, we're probably already trying to authenticate.
-        var input_elements = this.form_element.getElementsByTagName("input");
+        var input_elements = this.page_element.getElementsByTagName("input");
         if (input_elements[0].disabled)
             return;
 
@@ -59,5 +60,5 @@ var LogIn = (function () {
         });
     };
     return LogIn;
-})();
+})(Page);
 //# sourceMappingURL=login.js.map

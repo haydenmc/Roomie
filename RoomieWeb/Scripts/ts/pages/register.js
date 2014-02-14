@@ -1,20 +1,14 @@
-var Register = (function () {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Register = (function (_super) {
+    __extends(Register, _super);
     function Register() {
-        this.name = "Register";
-        this.page_element = document.createElement("div");
-        this.page_element.classList.add("page");
-        this.page_element.innerHTML = '<h1 class="title">register</h1>';
+        _super.call(this, "Register");
     }
-    Register.prototype.show = function () {
-        this.page_element = (document.getElementsByTagName("body")[0].insertBefore(this.page_element));
-    };
-
-    Register.prototype.hide = function () {
-        this.page_element = (this.page_element.parentNode.removeChild(this.page_element));
-    };
-
-    Register.prototype.destroy = function () {
-    };
     return Register;
-})();
+})(Page);
 //# sourceMappingURL=register.js.map

@@ -32,6 +32,15 @@ class Application {
 			this.pages[this.pages.length - 1].show();
 		}
 	}
+
+	/**
+	 * canGoBack
+	 * Returns true if there is enough room on the page stack to go back.
+	 * False otherwise.
+	 */
+	public canGoBack(): boolean {
+		return (this.pages.length > 1);
+	}
 }
 
 window.onload = function () {

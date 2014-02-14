@@ -1,22 +1,13 @@
-class LogIn implements Page {
-	public name: string = "Log In";
-	public page_element: HTMLElement;
-	public form_element: HTMLElement;
-
+class LogIn extends Page {
 	constructor() {
-		this.form_element = document.createElement("div");
-		this.form_element.id = "LogIn";
-		this.form_element.innerHTML = "<h1>roomie</h1><div class=\"separator\"></div><form><input name=\"email\" placeholder=\"e-mail address\" /><br /><input name=\"password\" type=\"password\" placeholder=\"password\" /><br /><div style=\"text-align:center;\"><input type=\"submit\" value=\"log in\"/><br /><a class=\"register\" href=\"#\">register</a></div></form>";
-
-		this.page_element = document.createElement("div");
-		this.page_element.classList.add("page");
-		this.form_element = <HTMLElement>(this.page_element.insertBefore(this.form_element));
+		super();
+		this.page_element.innerHTML += "<div id=\"LogIn\"><h1>roomie</h1><div class=\"separator\"></div><form><input name=\"email\" placeholder=\"e-mail address\" /><br /><input name=\"password\" type=\"password\" placeholder=\"password\" /><br /><div style=\"text-align:center;\"><input type=\"submit\" value=\"log in\"/><br /><a class=\"register\" href=\"#\">register</a></div></form></div>";
 
 		//Bind event handlers.
-		this.form_element.getElementsByClassName("register")[0].addEventListener("click", () => {
+		this.page_element.getElementsByClassName("register")[0].addEventListener("click", () => {
 			this.register();
 		});
-		this.form_element.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
+		this.page_element.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
 			evt.preventDefault();
 			this.authenticate();
 			return false;
@@ -24,11 +15,11 @@ class LogIn implements Page {
 	}
 
 	public show(): void {
-		this.page_element = <HTMLElement>(document.getElementsByTagName("body")[0].insertBefore(this.page_element));
+		super.show();
 	}
 
 	public hide(): void {
-		this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));
+		super.hide();
 	}
 
 	public register(): void {
@@ -37,7 +28,7 @@ class LogIn implements Page {
 
 	public authenticate(): void {
 		// If our inputs are disabled, we're probably already trying to authenticate.
-		var input_elements = this.form_element.getElementsByTagName("input");
+		var input_elements = this.page_element.getElementsByTagName("input");
 		if (input_elements[0].disabled)
 			return;
 

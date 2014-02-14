@@ -26,6 +26,15 @@ var Application = (function () {
             this.pages[this.pages.length - 1].show();
         }
     };
+
+    /**
+    * canGoBack
+    * Returns true if there is enough room on the page stack to go back.
+    * False otherwise.
+    */
+    Application.prototype.canGoBack = function () {
+        return (this.pages.length > 1);
+    };
     return Application;
 })();
 
