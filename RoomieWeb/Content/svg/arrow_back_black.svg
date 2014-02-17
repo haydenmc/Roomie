@@ -17,7 +17,7 @@
    xml:space="preserve"
    id="svg2"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="icon_8301.svg"><metadata
+   sodipodi:docname="arrow_back_white.svg"><metadata
    id="metadata33"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
@@ -56,11 +56,12 @@
 <g
    id="Left">
 	
-	<polygon
-   points="32,53 46,67 38,67 21,50 38,33 46,33 32,47 79,47 79,53 "
+	<path
+   style="fill:#000000"
+   d="m 29.312538,56.772302 31.604084,31.604083 -18.059476,0 -38.376388,-38.376387 38.376388,-38.376387 18.059476,0 -31.604084,31.604083 66.206702,0 0,13.544608 z"
    id="polygon11"
-   transform="matrix(1.5844535,0,0,1.5844535,-29.222677,-29.222677)"
-   style="fill:#000000" />
+   inkscape:connector-curvature="0"
+   sodipodi:nodetypes="cccccccccc" />
 </g>
 <g
    id="Up">
