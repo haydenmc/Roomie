@@ -30,13 +30,17 @@ input {
   border-bottom: 2px solid #fff;
   padding: 5px 6px;
   margin: 14px 8px;
-  -webkit-transition: opacity 200ms ease-out;
-  -moz-transition: opacity 200ms ease-out;
-  -o-transition: opacity 200ms ease-out;
-  transition: opacity 200ms ease-out;
+  -webkit-transition: opacity 200ms ease-out, border-color 200ms ease-out;
+  -moz-transition: opacity 200ms ease-out, border-color 200ms ease-out;
+  -o-transition: opacity 200ms ease-out, border-color 200ms ease-out;
+  transition: opacity 200ms ease-out, border-color 200ms ease-out;
 }
 input:hover {
   opacity: 1;
+}
+input:focus {
+  opacity: 1;
+  border-color: #ffc831;
 }
 input[type=submit] {
   cursor: pointer;
@@ -111,6 +115,7 @@ div.progress.closed {
   top: -18px;
   opacity: 0;
 }
+/* Default page container. */
 div.page {
   position: fixed;
   top: 0;

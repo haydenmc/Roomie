@@ -18,15 +18,27 @@ class Page {
 		{
 			var titleElement = document.createElement("h1");
 			titleElement.classList.add("title");
+			titleElement.classList.add("animation");
+			titleElement.classList.add("anim_title_flyin");
 			titleElement.innerHTML = this.title;
 			this.page_element.appendChild(titleElement);
 		}
 		
 	}
 	show(): void {
-		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element));
+		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element,null));
 	}
 	hide(): void {
-		this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));
+		// Title flyout
+		var title = <HTMLElement>(this.page_element.getElementsByClassName("title")[0]);
+		if (title) {
+			title.classList.remove("anim_title_flyin");
+			title.classList.add("anim_title_flyout");
+		}
+		// Unless this method is overridden, each page has 400ms to animate out
+		// before it's cleared from the DOM
+		setTimeout(() => {
+			this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));
+		}, 500);
 	}
 } 

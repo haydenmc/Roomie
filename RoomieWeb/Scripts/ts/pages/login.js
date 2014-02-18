@@ -22,10 +22,30 @@ var LogIn = (function (_super) {
     }
     LogIn.prototype.show = function () {
         _super.prototype.show.call(this);
+
+        // Clear old animations...
+        var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
+        if (roomie_title.classList.contains("animation"))
+            roomie_title.classList.remove("animation");
+        if (roomie_title.classList.contains("anim_shoveout_left"))
+            roomie_title.classList.remove("anim_shoveout_left");
+        var form_element = this.page_element.getElementsByTagName("form")[0];
+        if (form_element.classList.contains("animation"))
+            form_element.classList.remove("animation");
+        if (form_element.classList.contains("anim_shoveout_right"))
+            form_element.classList.remove("anim_shoveout_right");
     };
 
     LogIn.prototype.hide = function () {
         _super.prototype.hide.call(this);
+
+        // Animate out
+        var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
+        roomie_title.classList.add("animation");
+        roomie_title.classList.add("anim_shoveout_left");
+        var form_element = this.page_element.getElementsByTagName("form")[0];
+        form_element.classList.add("animation");
+        form_element.classList.add("anim_shoveout_right");
     };
 
     LogIn.prototype.register = function () {

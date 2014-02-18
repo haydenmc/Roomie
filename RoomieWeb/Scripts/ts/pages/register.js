@@ -28,6 +28,7 @@ var Register = (function (_super) {
     * Called when submitting the registration form.
     */
     Register.prototype.submit = function () {
+        var _this = this;
         // Get the inputs
         var inputs = this.page_element.getElementsByTagName("input");
 
@@ -64,6 +65,7 @@ var Register = (function (_super) {
             error: function () {
                 Progress.hide(); // Hide the progress bar.
                 alert("failure.");
+                var inputs = _this.page_element.getElementsByTagName("input");
                 inputs[0].disabled = false;
                 inputs[1].disabled = false;
                 inputs[2].disabled = false;

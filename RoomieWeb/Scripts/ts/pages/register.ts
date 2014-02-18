@@ -56,6 +56,7 @@ class Register extends Page {
 			error: () => {
 				Progress.hide(); // Hide the progress bar.
 				alert("failure.");
+				var inputs = this.page_element.getElementsByTagName("input");
 				inputs[0].disabled = false;
 				inputs[1].disabled = false;
 				inputs[2].disabled = false;
