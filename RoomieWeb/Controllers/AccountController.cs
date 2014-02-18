@@ -126,24 +126,24 @@ namespace RoomieWeb.Controllers
 		}
 
 		// POST api/Account/SetPassword
-		[Route("SetPassword")]
-		public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+		//[Route("SetPassword")]
+		//public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
+		//{
+		//	if (!ModelState.IsValid)
+		//	{
+		//		return BadRequest(ModelState);
+		//	}
 
-			IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-			IHttpActionResult errorResult = GetErrorResult(result);
+		//	IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+		//	IHttpActionResult errorResult = GetErrorResult(result);
 
-			if (errorResult != null)
-			{
-				return errorResult;
-			}
+		//	if (errorResult != null)
+		//	{
+		//		return errorResult;
+		//	}
 
-			return Ok();
-		}
+		//	return Ok();
+		//}
 
 		// POST api/Account/AddExternalLogin
 		//[Route("AddExternalLogin")]
@@ -186,35 +186,35 @@ namespace RoomieWeb.Controllers
 		//}
 
 		// POST api/Account/RemoveLogin
-		[Route("RemoveLogin")]
-		public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+		//[Route("RemoveLogin")]
+		//public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
+		//{
+		//	if (!ModelState.IsValid)
+		//	{
+		//		return BadRequest(ModelState);
+		//	}
 
-			IdentityResult result;
+		//	IdentityResult result;
 
-			if (model.LoginProvider == LocalLoginProvider)
-			{
-				result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
-			}
-			else
-			{
-				result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-					new UserLoginInfo(model.LoginProvider, model.ProviderKey));
-			}
+		//	if (model.LoginProvider == LocalLoginProvider)
+		//	{
+		//		result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+		//	}
+		//	else
+		//	{
+		//		result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+		//			new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+		//	}
 
-			IHttpActionResult errorResult = GetErrorResult(result);
+		//	IHttpActionResult errorResult = GetErrorResult(result);
 
-			if (errorResult != null)
-			{
-				return errorResult;
-			}
+		//	if (errorResult != null)
+		//	{
+		//		return errorResult;
+		//	}
 
-			return Ok();
-		}
+		//	return Ok();
+		//}
 
 		// GET api/Account/ExternalLogin
 		//[OverrideAuthentication]
