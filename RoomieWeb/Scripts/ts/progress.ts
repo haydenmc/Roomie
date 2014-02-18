@@ -12,10 +12,11 @@ class Progress {
 		if (!Progress.element) {
 			Progress.element = document.createElement("div");
 			Progress.element.classList.add("progress");
+			Progress.element.classList.add("closed");
 			document.body.appendChild(Progress.element);
-		} else {
-			Progress.element.hidden = false;
 		}
+		if (Progress.element.classList.contains("closed"))
+			Progress.element.classList.remove("closed");
 	}
 	/**
 	 * hide
@@ -25,7 +26,8 @@ class Progress {
 	public static hide(): void {
 		Progress.progress_queue--;
 		if (Progress.progress_queue <= 0) {
-			Progress.element.hidden = true;
+			if (!Progress.element.classList.contains("closed"))
+				Progress.element.classList.add("closed");
 			Progress.progress_queue = 0;
 		}
 	}
