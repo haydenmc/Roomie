@@ -47,6 +47,7 @@ input[type=submit] {
   text-decoration: none;
   background-color: transparent;
   border: 0;
+  margin: 3px;
   opacity: 0.65;
   -webkit-transition: opacity 200ms ease-out;
   -moz-transition: opacity 200ms ease-out;
@@ -55,6 +56,52 @@ input[type=submit] {
 }
 input[type=submit]:hover {
   opacity: 1;
+}
+/* Global Progress Indicator */
+@-moz-keyframes progress-indicator {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: 48px;
+  }
+}
+@-webkit-keyframes progress-indicator {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: 48px;
+  }
+}
+@keyframes progress-indicator {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: 48px;
+  }
+}
+div.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: url(../svg/progress_stripe.svg);
+  opacity: 0.6;
+  animation-name: progress-indicator;
+  -webkit-animation-name: progress-indicator;
+  animation-duration: 1600ms;
+  -webkit-animation-duration: 1600ms;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-direction: normal;
+  -webkit-animation-direction: normal;
+  animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+  animation-play-state: running;
+  -webkit-animation-play-state: running;
 }
 div.page {
   position: fixed;
@@ -151,34 +198,12 @@ div.page h1.title {
   float: left;
 }
 #LogIn form input {
-  font-family: 'Open Sans';
-  font-weight: 100;
-  opacity: 0.65;
-  color: #fff;
   width: 200px;
   font-size: 20px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 2px solid #fff;
-  padding: 5px 6px;
-  margin: 14px 8px;
   -webkit-transition: opacity 200ms ease-out;
   -moz-transition: opacity 200ms ease-out;
   -o-transition: opacity 200ms ease-out;
   transition: opacity 200ms ease-out;
-}
-#LogIn form input:hover {
-  opacity: 1;
-}
-#LogIn form input[type=submit] {
-  cursor: pointer;
-  color: #ff4ceb;
-  font-family: 'Open Sans';
-  font-weight: normal;
-  font-size: 12px;
-  text-decoration: none;
-  background-color: transparent;
-  border: 0;
 }
 #LogIn a.register {
   color: #ff4ceb;
@@ -193,5 +218,11 @@ div.page h1.title {
   top: 50%;
   left: 50%;
   margin: -125px 0 0 -180px;
+}
+#Register input[type=submit] {
+  position: absolute;
+  right: 0;
+  top: 112px;
+  font-size: 22px;
 }
 /*# sourceMappingURL=app.css.map */

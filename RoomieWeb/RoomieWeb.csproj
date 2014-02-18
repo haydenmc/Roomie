@@ -239,6 +239,7 @@
     <Content Include="Content\fonts\OpenSans-Regular-webfont.svg" />
     <Content Include="Content\svg\arrow_back_black.svg" />
     <Content Include="Content\svg\arrow_back_white.svg" />
+    <Content Include="Content\svg\progress_stripe.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -252,6 +253,9 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Content\css\animation.css.map">
+      <DependentUpon>animation.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -285,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\" />
     <Folder Include="Models\BindingModels\" />
     <Folder Include="Models\ViewModels\" />
   </ItemGroup>
