@@ -34,6 +34,7 @@ namespace RoomieWeb.Controllers
 			ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
 		{
 			UserManager = userManager;
+			UserManager.UserValidator = new UserValidator<Mate>(UserManager) { AllowOnlyAlphanumericUserNames = false };
 			AccessTokenFormat = accessTokenFormat;
 		}
 
@@ -323,7 +324,8 @@ namespace RoomieWeb.Controllers
 
 			Mate user = new Mate
 			{
-				UserName = model.UserName,
+				UserName = model.Email,
+				DisplayName = model.DisplayName,
 				JoinTime = DateTime.Now
 			};
 

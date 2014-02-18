@@ -16,6 +16,7 @@ namespace RoomieWeb
 
 			bundles.Add(new ScriptBundle("~/bundle/Scripts/ts").Include(
 				"~/Scripts/ts/application.js",
+				"~/Scripts/ts/progress.js",
 				"~/Scripts/ts/page.js",
 				"~/Scripts/ts/pages/login.js",
 				"~/Scripts/ts/pages/register.js"));

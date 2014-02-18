@@ -18,7 +18,6 @@ var LogIn = (function (_super) {
         this.page_element.getElementsByTagName("form")[0].addEventListener("submit", function (evt) {
             evt.preventDefault();
             _this.authenticate();
-            return false;
         });
     }
     LogIn.prototype.show = function () {
@@ -47,15 +46,24 @@ var LogIn = (function (_super) {
         input_elements[0].disabled = true;
         input_elements[1].disabled = true;
 
+        // Show the progress bar
+        Progress.show();
+
         // Authenticate!
         $.ajax("/Token", {
             type: "POST",
             data: { grant_type: "password", username: username, password: password },
             success: function () {
                 alert("YAY");
+
+                // Hide the progress bar
+                Progress.hide();
             },
             error: function () {
                 alert("Boo.");
+
+                // Hide the progress bar
+                Progress.hide();
             }
         });
     };

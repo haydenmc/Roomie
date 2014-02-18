@@ -10,7 +10,6 @@ class LogIn extends Page {
 		this.page_element.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
 			evt.preventDefault();
 			this.authenticate();
-			return false;
 		});
 	}
 
@@ -40,15 +39,22 @@ class LogIn extends Page {
 		input_elements[0].disabled = true;
 		input_elements[1].disabled = true;
 
+		// Show the progress bar
+		Progress.show();
+
 		// Authenticate!
 		$.ajax("/Token", {
 			type: "POST",
 			data: { grant_type: "password", username: username, password: password },
 			success: () => {
 				alert("YAY");
+				// Hide the progress bar
+				Progress.hide();
 			},
 			error: () => {
 				alert("Boo.");
+				// Hide the progress bar
+				Progress.hide();
 			}
 		});
 	}
