@@ -56,11 +56,10 @@ var Register = (function (_super) {
             data: { Email: email, DisplayName: displayname, Password: password, ConfirmPassword: confirmpassword },
             success: function () {
                 Progress.hide(); // Hide the progress bar.
-                alert("account created!");
-                inputs[0].disabled = false;
-                inputs[1].disabled = false;
-                inputs[2].disabled = false;
-                inputs[3].disabled = false;
+
+                // Navigate to hub.
+                Application.instance.clearPages();
+                Application.instance.navigateTo(new Hub());
             },
             error: function () {
                 Progress.hide(); // Hide the progress bar.

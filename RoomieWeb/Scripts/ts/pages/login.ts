@@ -45,16 +45,22 @@ class LogIn extends Page {
 		// Authenticate!
 		$.ajax("/Token", {
 			type: "POST",
+			dataType: "JSON",
 			data: { grant_type: "password", username: username, password: password },
-			success: () => {
-				alert("YAY");
+			success: (data) => {
 				// Hide the progress bar
 				Progress.hide();
+				// Navigate to hub!
+				Application.instance.clearPages();
+				Application.instance.navigateTo(new Hub());
 			},
 			error: () => {
 				alert("Boo.");
 				// Hide the progress bar
 				Progress.hide();
+				// Re-enable inputs
+				input_elements[0].disabled = false;
+				input_elements[1].disabled = false;
 			}
 		});
 	}

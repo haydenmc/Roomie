@@ -19,7 +19,8 @@ namespace RoomieWeb
 				"~/Scripts/ts/progress.js",
 				"~/Scripts/ts/page.js",
 				"~/Scripts/ts/pages/login.js",
-				"~/Scripts/ts/pages/register.js"));
+				"~/Scripts/ts/pages/register.js",
+				"~/Scripts/ts/pages/hub.js"));
 
 			bundles.Add(new StyleBundle("~/bundle/Content/css").Include("~/Content/css/*.css", new CssRewriteUrlTransform()));
 		}

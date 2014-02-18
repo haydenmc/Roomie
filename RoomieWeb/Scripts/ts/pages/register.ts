@@ -49,11 +49,9 @@ class Register extends Page {
 			data: { Email: email, DisplayName: displayname, Password: password, ConfirmPassword: confirmpassword },
 			success: () => {
 				Progress.hide(); // Hide the progress bar.
-				alert("account created!");
-				inputs[0].disabled = false;
-				inputs[1].disabled = false;
-				inputs[2].disabled = false;
-				inputs[3].disabled = false;
+				// Navigate to hub.
+				Application.instance.clearPages();
+				Application.instance.navigateTo(new Hub());
 			},
 			error: () => {
 				Progress.hide(); // Hide the progress bar.

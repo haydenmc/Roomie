@@ -11,6 +11,17 @@ class Application {
 	}
 
 	/**
+	 * clearPages
+	 * Clears the page stack history and hides the last page present.
+	 */
+	public clearPages(): void {
+		if (this.pages.length >= 1) {
+			this.pages[this.pages.length - 1].hide();
+		}
+		this.pages = new Array<Page>();
+	}
+
+	/**
 	 * navigateTo
 	 * Navigate to a specific page and add it to the page stack.
 	 */
