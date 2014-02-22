@@ -22,6 +22,13 @@ var Register = (function (_super) {
 
         // Insert into page.
         this.page_element.insertBefore(form, null);
+
+        // Prepare animations
+        // Show
+        this.show_animations.push(new Animation("form.register", "anim_shovein_bottom"));
+
+        // Hide
+        this.hide_animations.push(new Animation("form.register", "anim_shoveout_bottom"));
     }
     /**
     * submit

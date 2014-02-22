@@ -11,6 +11,17 @@ var LogIn = (function (_super) {
         _super.call(this);
         this.page_element.innerHTML += "<div id=\"LogIn\"><h1>roomie</h1><div class=\"separator\"></div><form><input name=\"email\" placeholder=\"e-mail address\" /><br /><input name=\"password\" type=\"password\" placeholder=\"password\" /><br /><div style=\"text-align:center;\"><input type=\"submit\" value=\"log in\"/><br /><a class=\"register\" href=\"#\">register</a></div></form></div>";
 
+        // Add animations
+        // Show
+        this.show_animations.push(new Animation("#LogIn h1", "anim_shovein_left")); // Title shoves left
+        this.show_animations.push(new Animation("#LogIn form", "anim_shovein_right")); //Form shoves right
+        this.show_animations.push(new Animation("#LogIn .separator", "anim_fadein")); //Separator fades out
+
+        // Hide
+        this.hide_animations.push(new Animation("#LogIn h1", "anim_shoveout_left")); // Title shoves left
+        this.hide_animations.push(new Animation("#LogIn form", "anim_shoveout_right")); //Form shoves right
+        this.hide_animations.push(new Animation("#LogIn .separator", "anim_fadeout")); //Separator fades out
+
         //Bind event handlers.
         this.page_element.getElementsByClassName("register")[0].addEventListener("click", function () {
             _this.register();
@@ -20,34 +31,26 @@ var LogIn = (function (_super) {
             _this.authenticate();
         });
     }
-    LogIn.prototype.show = function () {
-        _super.prototype.show.call(this);
-
-        // Clear old animations...
-        var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
-        if (roomie_title.classList.contains("animation"))
-            roomie_title.classList.remove("animation");
-        if (roomie_title.classList.contains("anim_shoveout_left"))
-            roomie_title.classList.remove("anim_shoveout_left");
-        var form_element = this.page_element.getElementsByTagName("form")[0];
-        if (form_element.classList.contains("animation"))
-            form_element.classList.remove("animation");
-        if (form_element.classList.contains("anim_shoveout_right"))
-            form_element.classList.remove("anim_shoveout_right");
-    };
-
-    LogIn.prototype.hide = function () {
-        _super.prototype.hide.call(this);
-
-        // Animate out
-        var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
-        roomie_title.classList.add("animation");
-        roomie_title.classList.add("anim_shoveout_left");
-        var form_element = this.page_element.getElementsByTagName("form")[0];
-        form_element.classList.add("animation");
-        form_element.classList.add("anim_shoveout_right");
-    };
-
+    //public show(): void {
+    //	super.show();
+    //	// Clear old animations...
+    //	var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
+    //	if (roomie_title.classList.contains("animation")) roomie_title.classList.remove("animation");
+    //	if (roomie_title.classList.contains("anim_shoveout_left")) roomie_title.classList.remove("anim_shoveout_left");
+    //	var form_element = this.page_element.getElementsByTagName("form")[0];
+    //	if (form_element.classList.contains("animation")) form_element.classList.remove("animation");
+    //	if (form_element.classList.contains("anim_shoveout_right")) form_element.classList.remove("anim_shoveout_right");
+    //}
+    //public hide(): void {
+    //	super.hide();
+    //	// Animate out
+    //	var roomie_title = document.getElementById("LogIn").getElementsByTagName("h1")[0];
+    //	roomie_title.classList.add("animation");
+    //	roomie_title.classList.add("anim_shoveout_left");
+    //	var form_element = this.page_element.getElementsByTagName("form")[0];
+    //	form_element.classList.add("animation");
+    //	form_element.classList.add("anim_shoveout_right");
+    //}
     LogIn.prototype.register = function () {
         Application.instance.navigateTo(new Register());
     };

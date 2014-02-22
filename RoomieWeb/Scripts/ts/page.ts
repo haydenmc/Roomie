@@ -1,6 +1,8 @@
 class Page {
 	title: string = "";
 	page_element: HTMLElement;
+	show_animations: Animation[] = new Array<Animation>();
+	hide_animations: Animation[] = new Array<Animation>();
 
 	constructor(t?: string) {
 		if (t) {
@@ -26,7 +28,15 @@ class Page {
 		
 	}
 	show(): void {
-		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element,null));
+		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element, null));
+		for (var i in this.hide_animations)
+		{
+			this.hide_animations[i].clear(this.page_element);
+		}
+		for (var j in this.show_animations)
+		{
+			this.show_animations[j].apply(this.page_element);
+		}
 	}
 	hide(): void {
 		// Title flyout
@@ -36,6 +46,12 @@ class Page {
 			title.classList.add("anim_title_flyout");
 		}
 		// Unless this method is overridden, each page has 400ms to animate out
+		for (var i in this.show_animations) {
+			this.show_animations[i].clear(this.page_element);
+		}
+		for (var j in this.hide_animations) {
+			this.hide_animations[j].apply(this.page_element);
+		}
 		// before it's cleared from the DOM
 		setTimeout(() => {
 			this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));

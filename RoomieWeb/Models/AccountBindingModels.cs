@@ -35,6 +35,7 @@ namespace RoomieWeb.Models
 	public class RegisterBindingModel
 	{
 		[Required]
+		[EmailAddress]
 		[Display(Name = "Email Address")]
 		public string Email { get; set; }
 

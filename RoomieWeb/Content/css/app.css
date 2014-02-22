@@ -12,6 +12,13 @@
   font-weight: 100;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-ExtraBold-webfont.eot');
+  src: url('../fonts/OpenSans-ExtraBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-ExtraBold-webfont.woff') format('woff'), url('../fonts/OpenSans-ExtraBold-webfont.ttf') format('truetype'), url('../fonts/OpenSans-ExtraBold-webfont.svg#open_sanslight') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
 /* Some functions ... */
 body {
   background-color: #000;
@@ -237,5 +244,57 @@ div.page h1.title {
   right: 0;
   top: 112px;
   font-size: 22px;
+}
+h1.listTitle {
+  font-family: 'Open Sans';
+  font-weight: 900;
+  font-size: 30px;
+  text-transform: uppercase;
+  padding: 0;
+  margin: 32px 0 6px 12px;
+}
+h1.listTitle div.gradient {
+  float: left;
+  display: block;
+  height: 34px;
+  width: 10px;
+  margin: 4px 12px 0 8px;
+  background-color: #ff4ceb;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc831), to(#ff4ceb));
+  background-image: -webkit-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -moz-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -o-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -ms-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: linear-gradient(top, #ffc831, #ff4ceb);
+}
+#MeTile {
+  z-index: 10;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 48px;
+  height: 48px;
+  background-image: url(../img/me_temp.jpg);
+  background-size: contain;
+  opacity: 0.6;
+  -webkit-transition: opacity 300ms ease-out;
+  -moz-transition: opacity 300ms ease-out;
+  -o-transition: opacity 300ms ease-out;
+  transition: opacity 300ms ease-out;
+}
+#MeTile:hover {
+  opacity: 1;
+}
+#PadsList {
+  width: 300px;
+  position: absolute;
+  left: 128px;
+  height: 100%;
+}
+#NewsList {
+  position: absolute;
+  left: 428px;
+  right: 0;
+  height: 100%;
 }
 /*# sourceMappingURL=app.css.map */

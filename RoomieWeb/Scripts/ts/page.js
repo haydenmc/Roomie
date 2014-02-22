@@ -1,6 +1,8 @@
 var Page = (function () {
     function Page(t) {
         this.title = "";
+        this.show_animations = new Array();
+        this.hide_animations = new Array();
         if (t) {
             this.title = t;
         }
@@ -25,6 +27,12 @@ var Page = (function () {
     }
     Page.prototype.show = function () {
         this.page_element = (document.body.insertBefore(this.page_element, null));
+        for (var i in this.hide_animations) {
+            this.hide_animations[i].clear(this.page_element);
+        }
+        for (var j in this.show_animations) {
+            this.show_animations[j].apply(this.page_element);
+        }
     };
     Page.prototype.hide = function () {
         var _this = this;
@@ -35,7 +43,13 @@ var Page = (function () {
             title.classList.add("anim_title_flyout");
         }
 
-        // Unless this method is overridden, each page has 400ms to animate out
+        for (var i in this.show_animations) {
+            this.show_animations[i].clear(this.page_element);
+        }
+        for (var j in this.hide_animations) {
+            this.hide_animations[j].apply(this.page_element);
+        }
+
         // before it's cleared from the DOM
         setTimeout(function () {
             _this.page_element = (_this.page_element.parentNode.removeChild(_this.page_element));
