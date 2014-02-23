@@ -241,6 +241,8 @@
     <Content Include="Content\img\me_temp.jpg" />
     <Content Include="Content\svg\arrow_back_black.svg" />
     <Content Include="Content\svg\arrow_back_white.svg" />
+    <Content Include="Content\svg\plus_black.svg" />
+    <Content Include="Content\svg\plus_white.svg" />
     <Content Include="Content\svg\progress_stripe.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -320,6 +322,7 @@
     <TypeScriptCompile Include="Scripts\ts\page.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\hub.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\login.ts" />
+    <TypeScriptCompile Include="Scripts\ts\pages\newpad.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\register.ts" />
     <TypeScriptCompile Include="Scripts\ts\progress.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

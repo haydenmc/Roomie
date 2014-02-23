@@ -27,6 +27,13 @@ var Page = (function () {
     }
     Page.prototype.show = function () {
         this.page_element = (document.body.insertBefore(this.page_element, null));
+
+        // Title flyin
+        var title = (this.page_element.getElementsByClassName("title")[0]);
+        if (title && title.classList.contains("anim_title_flyout")) {
+            title.classList.remove("anim_title_flyout");
+            title.classList.add("anim_title_flyin");
+        }
         for (var i in this.hide_animations) {
             this.hide_animations[i].clear(this.page_element);
         }

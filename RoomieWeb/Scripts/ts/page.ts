@@ -13,7 +13,7 @@ class Page {
 		if (Application.instance.hasPages()) {
 			var backButtonElement = document.createElement("a");
 			backButtonElement.classList.add("back");
-			backButtonElement.addEventListener("click", () => { Application.instance.navigateBack(); });
+			backButtonElement.addEventListener("click", function() { Application.instance.navigateBack(); });
 			this.page_element.appendChild(backButtonElement);
 		}
 		if (this.title.length > 0)
@@ -29,6 +29,12 @@ class Page {
 	}
 	show(): void {
 		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element, null));
+		// Title flyin
+		var title = <HTMLElement>(this.page_element.getElementsByClassName("title")[0]);
+		if (title && title.classList.contains("anim_title_flyout")) {
+			title.classList.remove("anim_title_flyout");
+			title.classList.add("anim_title_flyin");
+		}
 		for (var i in this.hide_animations)
 		{
 			this.hide_animations[i].clear(this.page_element);

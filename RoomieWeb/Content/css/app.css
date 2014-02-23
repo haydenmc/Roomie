@@ -181,6 +181,7 @@ div.page h1.title {
   padding: 0;
   font-weight: 100;
   text-transform: lowercase;
+  white-space: nowrap;
 }
 /* Log In Dialog */
 #LogIn {
@@ -285,16 +286,157 @@ h1.listTitle div.gradient {
 #MeTile:hover {
   opacity: 1;
 }
+#MeTile:hover .meText {
+  opacity: 1;
+}
+#MeTile:hover .dimmer {
+  opacity: 0.6;
+}
+#MeTile .dimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  opacity: 0;
+  -webkit-transition: opacity 300ms ease-out;
+  -moz-transition: opacity 300ms ease-out;
+  -o-transition: opacity 300ms ease-out;
+  transition: opacity 300ms ease-out;
+}
+#MeTile .meText {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  font-family: 'Open Sans';
+  font-weight: 900;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: lowercase;
+  line-height: 2.5;
+  color: #ff4ceb;
+  opacity: 0;
+  -webkit-transition: opacity 300ms ease-out;
+  -moz-transition: opacity 300ms ease-out;
+  -o-transition: opacity 300ms ease-out;
+  transition: opacity 300ms ease-out;
+}
 #PadsList {
   width: 300px;
   position: absolute;
   left: 128px;
   height: 100%;
 }
+#PadsList ul {
+  margin: 28px 0 0 32px;
+  padding: 0;
+}
+#PadsList ul li.add {
+  margin-left: 4px;
+  opacity: 0.2;
+  -webkit-transition: opacity 300ms ease-out;
+  -moz-transition: opacity 300ms ease-out;
+  -o-transition: opacity 300ms ease-out;
+  transition: opacity 300ms ease-out;
+  /* Plus Button */
+}
+#PadsList ul li.add:hover {
+  opacity: 1;
+}
+#PadsList ul li.add:active a {
+  background-color: #fff;
+  background-image: url(../svg/plus_black.svg);
+}
+#PadsList ul li.add a {
+  float: left;
+  width: 36px;
+  height: 36px;
+  background-image: url(../svg/plus_white.svg);
+  background-size: 24px;
+  background-position: 6px 6px;
+  background-repeat: no-repeat;
+  border: 3px solid #fff;
+  border-radius: 24px;
+}
+#PadsList ul li.add a:active {
+  background-color: #fff;
+  background-image: url(../svg/plus_black.svg);
+}
+#PadsList ul li.add .desc {
+  float: left;
+  height: 100%;
+  padding: 12px 0 0 12px;
+  font-family: 'Open Sans';
+  font-weight: 100;
+  font-size: 16px;
+}
+#PadsList ul li {
+  cursor: pointer;
+  list-style-type: none;
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin: 16px 0;
+  -webkit-transition: -webkit-transform 150ms ease-in-out;
+  -moz-transition: -moz-transform 150ms ease-in-out;
+  -o-transition: -o-transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out;
+  /* Normal pad listings ... */
+}
+#PadsList ul li[class=pad]:hover {
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transform: scale(1.1);
+}
+#PadsList ul li img {
+  float: left;
+  width: 48px;
+  height: 48px;
+  background-color: #ff4ceb;
+  margin-right: 8px;
+}
+#PadsList ul li div.desc {
+  float: left;
+  height: 100%;
+}
+#PadsList ul li div.desc .address {
+  font-family: 'Open Sans';
+  font-weight: 900;
+  font-size: 18px;
+  color: #fff;
+}
+#PadsList ul li div.desc .stats {
+  font-family: 'Open Sans';
+  font-weight: 100;
+  font-size: 14px;
+  text-transform: lowercase;
+  color: #fff;
+}
 #NewsList {
   position: absolute;
   left: 428px;
   right: 0;
   height: 100%;
+}
+#NewPad {
+  width: 360px;
+  height: 130px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -65px 0 0 -180px;
+}
+#NewPad input[type=submit] {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  font-size: 22px;
 }
 /*# sourceMappingURL=app.css.map */
