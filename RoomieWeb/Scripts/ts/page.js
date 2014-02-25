@@ -15,6 +15,10 @@ var Page = (function () {
                 Application.instance.navigateBack();
             });
             this.page_element.appendChild(backButtonElement);
+
+            // Back button animations
+            this.show_animations.push(new Animation("a.back", "anim_shovein_left"));
+            this.hide_animations.push(new Animation("a.back", "anim_shoveout_left"));
         }
         if (this.title.length > 0) {
             var titleElement = document.createElement("h1");
@@ -26,6 +30,11 @@ var Page = (function () {
         }
     }
     Page.prototype.show = function () {
+        // If scheduled to remove page, cancel timer.
+        if (this.timeout_handle > 0) {
+            clearTimeout(this.timeout_handle);
+            this.timeout_handle = 0;
+        }
         this.page_element = (document.body.insertBefore(this.page_element, null));
 
         // Title flyin
@@ -58,7 +67,7 @@ var Page = (function () {
         }
 
         // before it's cleared from the DOM
-        setTimeout(function () {
+        this.timeout_handle = setTimeout(function () {
             _this.page_element = (_this.page_element.parentNode.removeChild(_this.page_element));
         }, 500);
     };

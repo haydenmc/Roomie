@@ -3,6 +3,7 @@ class Page {
 	page_element: HTMLElement;
 	show_animations: Animation[] = new Array<Animation>();
 	hide_animations: Animation[] = new Array<Animation>();
+	timeout_handle: number;
 
 	constructor(t?: string) {
 		if (t) {
@@ -15,6 +16,9 @@ class Page {
 			backButtonElement.classList.add("back");
 			backButtonElement.addEventListener("click", function() { Application.instance.navigateBack(); });
 			this.page_element.appendChild(backButtonElement);
+			// Back button animations
+			this.show_animations.push(new Animation("a.back", "anim_shovein_left"));
+			this.hide_animations.push(new Animation("a.back", "anim_shoveout_left"));
 		}
 		if (this.title.length > 0)
 		{
@@ -28,6 +32,11 @@ class Page {
 		
 	}
 	show(): void {
+		// If scheduled to remove page, cancel timer.
+		if (this.timeout_handle > 0) {
+			clearTimeout(this.timeout_handle);
+			this.timeout_handle = 0;
+		}
 		this.page_element = <HTMLElement>(document.body.insertBefore(this.page_element, null));
 		// Title flyin
 		var title = <HTMLElement>(this.page_element.getElementsByClassName("title")[0]);
@@ -60,7 +69,7 @@ class Page {
 			this.hide_animations[j].apply(this.page_element);
 		}
 		// before it's cleared from the DOM
-		setTimeout(() => {
+		this.timeout_handle = setTimeout(() => {
 			this.page_element = <HTMLElement>(this.page_element.parentNode.removeChild(this.page_element));
 		}, 500);
 	}
