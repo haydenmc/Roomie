@@ -52,6 +52,7 @@ class Page {
 			title.classList.add("anim_title_flyout");
 		}
 		// Unless this method is overridden, each page has 400ms to animate out
+		// TODO: BUG! If page is shown again before this timer runs out, it'll be hidden!
 		for (var i in this.show_animations) {
 			this.show_animations[i].clear(this.page_element);
 		}
