@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace RoomieWeb.Controllers
 {
-    public class WebappController : Controller
-    {
-        //
-        // GET: /Webapp/
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class WebappController : Controller
+	{
+		//
+		// GET: /Webapp/
+		public ActionResult Index()
+		{
+			return View();
+		}
 	}
 }

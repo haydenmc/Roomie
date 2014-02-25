@@ -7,6 +7,7 @@ var __extends = this.__extends || function (d, b) {
 var NewPad = (function (_super) {
     __extends(NewPad, _super);
     function NewPad() {
+        var _this = this;
         _super.call(this, "New Pad");
 
         var form = document.createElement("form");
@@ -15,6 +16,38 @@ var NewPad = (function (_super) {
         formhtml += '<br /><input name="ZipCode" placeholder = "Zip Code">';
         formhtml += '<br /><input type="submit" value="Create">';
         form.innerHTML = formhtml;
+        form.addEventListener("submit", function (evt) {
+            var inputs = _this.page_element.getElementsByTagName("input");
+
+            // If one of the inputs is already disabled, we're already submitting.
+            if (inputs[0].disabled) {
+                return;
+            }
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = true;
+            }
+            evt.preventDefault();
+
+            // Show the progress bar
+            Progress.show();
+
+            // Call the API
+            API.newpad(inputs[0].value, inputs[1].value, function (data) {
+                // On success ...
+                Progress.hide();
+                if (Application.instance.pages[Application.instance.pages.length - 2] instanceof Hub) {
+                    (Application.instance.pages[Application.instance.pages.length - 2]).resetPadLoadTime(); // Reload pads
+                }
+                Application.instance.navigateBack();
+            }, function () {
+                // On error ...
+                // TODO: Better error handling.
+                Progress.hide();
+                alert("ERROR CREATING PAD");
+                Application.instance.navigateBack();
+            });
+        });
         this.page_element.appendChild(form);
 
         // Prepare animations

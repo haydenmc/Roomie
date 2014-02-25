@@ -13,7 +13,13 @@ var Register = (function (_super) {
         // Generate Registration form
         var form = document.createElement("div");
         form.id = "Register";
-        form.innerHTML = '<form class="register"><input type="email" name="Email" placeholder="e-mail address" /><br /><input type="text" name="DisplayName" placeholder="display name" /><br /><input type="password" name="Password" placeholder="password" /><br /><input type="password" name="ConfirmPassword" placeholder="confirm password" /><input type="submit" value="register" /></form>';
+        form.innerHTML = '<form class="register">\
+			<input type="email" name="Email" placeholder="e-mail address" /><br />\
+			<input type="text" name="DisplayName" placeholder="display name" /><br />\
+			<input type="password" name="Password" placeholder="password" /><br />\
+			<input type="password" name="ConfirmPassword" placeholder="confirm password" />\
+			<input type="submit" value="register" />\
+			</form>';
 
         form.getElementsByTagName("form")[0].addEventListener("submit", function (evt) {
             evt.preventDefault();
@@ -40,8 +46,9 @@ var Register = (function (_super) {
         var inputs = this.page_element.getElementsByTagName("input");
 
         // If the input is already disabled, we're probably trying to register already.
-        if (inputs[0].disabled == true)
+        if (inputs[0].disabled === true) {
             return;
+        }
 
         // Show progress indicator
         Progress.show();
@@ -59,25 +66,35 @@ var Register = (function (_super) {
         var confirmpassword = inputs[3].value;
 
         // Call API
-        $.ajax("/api/Account/Register", {
-            type: "POST",
-            data: { Email: email, DisplayName: displayname, Password: password, ConfirmPassword: confirmpassword },
-            success: function () {
-                Progress.hide(); // Hide the progress bar.
+        API.register(email, displayname, password, confirmpassword, function (data) {
+            // Fetch authentication token
+            API.token(email, password, function (data) {
+                // Hide the progress bar
+                Progress.hide();
 
-                // Navigate to hub.
+                // Get our auth token
+                Application.auth_token = data.access_token;
+
+                // Navigate to hub!
                 Application.instance.clearPages();
                 Application.instance.navigateTo(new Hub());
-            },
-            error: function () {
+            }, function () {
                 Progress.hide(); // Hide the progress bar.
-                alert("failure.");
+                alert("Error logging in.");
                 var inputs = _this.page_element.getElementsByTagName("input");
                 inputs[0].disabled = false;
                 inputs[1].disabled = false;
                 inputs[2].disabled = false;
                 inputs[3].disabled = false;
-            }
+            });
+        }, function () {
+            Progress.hide(); // Hide the progress bar.
+            alert("failure.");
+            var inputs = _this.page_element.getElementsByTagName("input");
+            inputs[0].disabled = false;
+            inputs[1].disabled = false;
+            inputs[2].disabled = false;
+            inputs[3].disabled = false;
         });
     };
     return Register;

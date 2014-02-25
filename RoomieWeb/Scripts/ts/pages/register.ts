@@ -5,7 +5,13 @@ class Register extends Page {
 		// Generate Registration form
 		var form = document.createElement("div");
 		form.id = "Register";
-		form.innerHTML = '<form class="register"><input type="email" name="Email" placeholder="e-mail address" /><br /><input type="text" name="DisplayName" placeholder="display name" /><br /><input type="password" name="Password" placeholder="password" /><br /><input type="password" name="ConfirmPassword" placeholder="confirm password" /><input type="submit" value="register" /></form>';
+		form.innerHTML = '<form class="register">\
+			<input type="email" name="Email" placeholder="e-mail address" /><br />\
+			<input type="text" name="DisplayName" placeholder="display name" /><br />\
+			<input type="password" name="Password" placeholder="password" /><br />\
+			<input type="password" name="ConfirmPassword" placeholder="confirm password" />\
+			<input type="submit" value="register" />\
+			</form>';
 
 		form.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
 			evt.preventDefault();
@@ -31,11 +37,12 @@ class Register extends Page {
 		var inputs = this.page_element.getElementsByTagName("input");
 
 		// If the input is already disabled, we're probably trying to register already.
-		if (inputs[0].disabled == true)
+		if (inputs[0].disabled === true) {
 			return;
+		}
 
 		// Show progress indicator
-		Progress.show(); 
+		Progress.show();
 
 		// Disable input boxes
 		inputs[0].disabled = true;
@@ -50,24 +57,33 @@ class Register extends Page {
 		var confirmpassword = inputs[3].value;
 
 		// Call API
-		$.ajax("/api/Account/Register", {
-			type: "POST",
-			data: { Email: email, DisplayName: displayname, Password: password, ConfirmPassword: confirmpassword },
-			success: () => {
-				Progress.hide(); // Hide the progress bar.
-				// Navigate to hub.
+		API.register(email, displayname, password, confirmpassword, (data) => {
+			// Fetch authentication token
+			API.token(email, password, (data) => {
+				// Hide the progress bar
+				Progress.hide();
+				// Get our auth token
+				Application.auth_token = data.access_token;
+				// Navigate to hub!
 				Application.instance.clearPages();
 				Application.instance.navigateTo(new Hub());
-			},
-			error: () => {
+			}, () => {
 				Progress.hide(); // Hide the progress bar.
-				alert("failure.");
+				alert("Error logging in.");
 				var inputs = this.page_element.getElementsByTagName("input");
 				inputs[0].disabled = false;
 				inputs[1].disabled = false;
 				inputs[2].disabled = false;
 				inputs[3].disabled = false;
-			}
-		})
+			});
+		}, () => {
+			Progress.hide(); // Hide the progress bar.
+			alert("failure.");
+			var inputs = this.page_element.getElementsByTagName("input");
+			inputs[0].disabled = false;
+			inputs[1].disabled = false;
+			inputs[2].disabled = false;
+			inputs[3].disabled = false;
+		});
 	}
 } 

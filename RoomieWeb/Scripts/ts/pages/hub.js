@@ -9,6 +9,7 @@ var Hub = (function (_super) {
     function Hub() {
         var _this = this;
         _super.call(this, "Roomie");
+        this.lastPadLoadTime = 0;
 
         // Add Me Tile
         this.page_element.innerHTML += '<div id="MeTile"><div class="dimmer"></div><a href="#" class="meText">Me</a></div>';
@@ -34,27 +35,79 @@ var Hub = (function (_super) {
             _this.loadPads();
         }, 100);
     }
+    Hub.prototype.show = function () {
+        _super.prototype.show.call(this);
+        if ((new Date()).getTime() - this.lastPadLoadTime > 10000) {
+            this.loadPads();
+        }
+    };
+
+    Hub.prototype.resetPadLoadTime = function () {
+        this.lastPadLoadTime = 0;
+    };
+
     Hub.prototype.loadPads = function () {
+        var _this = this;
+        this.lastPadLoadTime = (new Date()).getTime();
+
+        //If we get rid of this line, we could load pads when page isn't even shown.
         var padsColumn = document.getElementById("PadsList");
+
+        // Check and remove existing pad lists.
+        var existingLists = padsColumn.getElementsByTagName("ul");
+        if (existingLists.length > 0) {
+            existingLists[0].parentNode.removeChild(existingLists[0]);
+        }
+
         var padList = document.createElement("ul");
 
-        var testPad = document.createElement("li");
-        testPad.innerHTML = '<img src="" /><div class="desc"><span class="address">2121 Malibu Drive</span><br /><span class="stats">6 mates, Indiana</span></div>';
-        testPad.classList.add("pad");
-        padList.insertBefore(testPad, null);
+        var loadingPad = document.createElement("li");
+        loadingPad.innerHTML = '<div class="meter"></div><div class="desc">Loading ...</div>';
+        loadingPad.classList.add("loading");
+        padList.insertBefore(loadingPad, null);
 
-        testPad = document.createElement("li");
-        testPad.innerHTML = '<img src="" /><div class="desc"><span class="address">100 E North Avenue</span><br /><span class="stats">4 mates, Illinois</span></div>';
-        testPad.classList.add("pad");
-        padList.insertBefore(testPad, null);
-
-        testPad = document.createElement("li");
-        testPad.innerHTML = '<a href="#"></a><div class="desc">New Pad</div>';
-        testPad.classList.add("add");
-        testPad.addEventListener("click", function () {
+        var addPad = document.createElement("li");
+        addPad.innerHTML = '<a href="#"></a><div class="desc">New Pad</div>';
+        addPad.classList.add("add");
+        addPad.addEventListener("click", function () {
             Application.instance.navigateTo(new NewPad());
         });
-        padList.insertBefore(testPad, null);
+        padList.insertBefore(addPad, null);
+
+        padsColumn.insertBefore(padList, null);
+
+        API.pads(function (data) {
+            _this.loadPads_success(data);
+        }, function () {
+            //Todo: Error reporting
+        });
+    };
+
+    Hub.prototype.loadPads_success = function (pads) {
+        var padsColumn = document.getElementById("PadsList");
+
+        // Check and remove existing pad lists.
+        var existingLists = padsColumn.getElementsByTagName("ul");
+        if (existingLists.length > 0) {
+            existingLists[0].parentNode.removeChild(existingLists[0]);
+        }
+
+        var padList = document.createElement("ul");
+
+        for (var i = 0; i < pads.length; i++) {
+            var padListing = document.createElement("li");
+            padListing.innerHTML = '<img src="" /><div class="desc"><span class="address">' + pads[i].streetAddress + '</span><br /><span class="stats">more data here</span></div>';
+            padListing.classList.add("pad");
+            padList.insertBefore(padListing, null);
+        }
+
+        var addPad = document.createElement("li");
+        addPad.innerHTML = '<a href="#"></a><div class="desc">New Pad</div>';
+        addPad.classList.add("add");
+        addPad.addEventListener("click", function () {
+            Application.instance.navigateTo(new NewPad());
+        });
+        padList.insertBefore(addPad, null);
 
         padsColumn.insertBefore(padList, null);
     };

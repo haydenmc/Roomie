@@ -43,10 +43,10 @@ var Page = (function () {
             title.classList.remove("anim_title_flyout");
             title.classList.add("anim_title_flyin");
         }
-        for (var i in this.hide_animations) {
+        for (var i = 0; i < this.hide_animations.length; i++) {
             this.hide_animations[i].clear(this.page_element);
         }
-        for (var j in this.show_animations) {
+        for (var j = 0; j < this.show_animations.length; j++) {
             this.show_animations[j].apply(this.page_element);
         }
     };
@@ -59,10 +59,10 @@ var Page = (function () {
             title.classList.add("anim_title_flyout");
         }
 
-        for (var i in this.show_animations) {
+        for (var i = 0; i < this.hide_animations.length; i++) {
             this.show_animations[i].clear(this.page_element);
         }
-        for (var j in this.hide_animations) {
+        for (var j = 0; j < this.show_animations.length; j++) {
             this.hide_animations[j].apply(this.page_element);
         }
 

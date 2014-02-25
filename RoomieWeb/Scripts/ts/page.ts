@@ -20,8 +20,7 @@ class Page {
 			this.show_animations.push(new Animation("a.back", "anim_shovein_left"));
 			this.hide_animations.push(new Animation("a.back", "anim_shoveout_left"));
 		}
-		if (this.title.length > 0)
-		{
+		if (this.title.length > 0) {
 			var titleElement = document.createElement("h1");
 			titleElement.classList.add("title");
 			titleElement.classList.add("animation");
@@ -44,12 +43,10 @@ class Page {
 			title.classList.remove("anim_title_flyout");
 			title.classList.add("anim_title_flyin");
 		}
-		for (var i in this.hide_animations)
-		{
+		for (var i = 0; i < this.hide_animations.length; i++) {
 			this.hide_animations[i].clear(this.page_element);
 		}
-		for (var j in this.show_animations)
-		{
+		for (var j = 0; j < this.show_animations.length; j++) {
 			this.show_animations[j].apply(this.page_element);
 		}
 	}
@@ -61,11 +58,10 @@ class Page {
 			title.classList.add("anim_title_flyout");
 		}
 		// Unless this method is overridden, each page has 400ms to animate out
-		// TODO: BUG! If page is shown again before this timer runs out, it'll be hidden!
-		for (var i in this.show_animations) {
+		for (var i = 0; i < this.hide_animations.length; i++) {
 			this.show_animations[i].clear(this.page_element);
 		}
-		for (var j in this.hide_animations) {
+		for (var j = 0; j < this.show_animations.length; j++) {
 			this.hide_animations[j].apply(this.page_element);
 		}
 		// before it's cleared from the DOM

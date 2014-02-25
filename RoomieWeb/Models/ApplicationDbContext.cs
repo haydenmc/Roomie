@@ -14,5 +14,7 @@ namespace RoomieWeb.Models
 		{
 
 		}
+
+		public DbSet<Pad> Pads { get; set; }
 	}
 }
