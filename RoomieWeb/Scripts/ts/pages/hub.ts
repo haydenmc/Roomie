@@ -40,7 +40,7 @@ class Hub extends Page {
 		this.lastPadLoadTime = (new Date()).getTime();
 
 		//If we get rid of this line, we could load pads when page isn't even shown.
-		var padsColumn = document.getElementById("PadsList"); 
+		var padsColumn = document.getElementById("PadsList");
 
 		// Check and remove existing pad lists.
 		var existingLists = padsColumn.getElementsByTagName("ul");
@@ -85,8 +85,17 @@ class Hub extends Page {
 
 		for (var i = 0; i < pads.length; i++) {
 			var padListing = document.createElement("li");
-			padListing.innerHTML = '<img src="" /><div class="desc"><span class="address">' + pads[i].streetAddress + '</span><br /><span class="stats">more data here</span></div>';
+			padListing.innerHTML =	'<img src="" /><div class="desc"><span class="address">'
+				+ pads[i].streetAddress
+				+ '</span><br /><span class="stats">more data here</span></div>';
 			padListing.classList.add("pad");
+			var padId = pads[i].padId;
+			var streetAddress = pads[i].streetAddress;
+			(function (p, s) {
+				padListing.addEventListener("click", function (e) {
+					Application.instance.navigateTo(new Pad(p, s));
+				});
+			})(padId, streetAddress);
 			padList.insertBefore(padListing, null);
 		}
 		

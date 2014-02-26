@@ -98,6 +98,13 @@ var Hub = (function (_super) {
             var padListing = document.createElement("li");
             padListing.innerHTML = '<img src="" /><div class="desc"><span class="address">' + pads[i].streetAddress + '</span><br /><span class="stats">more data here</span></div>';
             padListing.classList.add("pad");
+            var padId = pads[i].padId;
+            var streetAddress = pads[i].streetAddress;
+            (function (p, s) {
+                padListing.addEventListener("click", function (e) {
+                    Application.instance.navigateTo(new Pad(p, s));
+                });
+            })(padId, streetAddress);
             padList.insertBefore(padListing, null);
         }
 

@@ -23,7 +23,8 @@ namespace RoomieWeb
 				"~/Scripts/ts/pages/login.js",
 				"~/Scripts/ts/pages/register.js",
 				"~/Scripts/ts/pages/newpad.js",
-				"~/Scripts/ts/pages/hub.js"));
+				"~/Scripts/ts/pages/hub.js",
+				"~/Scripts/ts/pages/pad.js"));
 
 			bundles.Add(new StyleBundle("~/bundle/Content/css").Include("~/Content/css/*.css", new CssRewriteUrlTransform()));
 		}
