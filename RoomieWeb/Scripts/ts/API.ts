@@ -55,6 +55,10 @@ class API {
 		API.get("Pad", success, error);
 	}
 
+	public static padmates(padId: string, success: Function, error: Function) {
+		API.get("Pad/" + padId + "/Mates", success, error);
+	}
+
 	public static newpad(StreetAddress: string, ZipCode: string,success:Function, error:Function) {
 		API.post("Pad", {StreetAddress: StreetAddress, ZipCode: ZipCode}, success, error);
 	}

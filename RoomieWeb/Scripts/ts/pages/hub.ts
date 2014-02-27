@@ -72,6 +72,7 @@ class Hub extends Page {
 		});
 	}
 
+	//TODO: Make this update the existing list instead of replacing it entirely...
 	public loadPads_success(pads) {
 		var padsColumn = document.getElementById("PadsList");
 

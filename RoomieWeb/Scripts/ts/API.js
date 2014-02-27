@@ -58,6 +58,10 @@ var API = (function () {
         API.get("Pad", success, error);
     };
 
+    API.padmates = function (padId, success, error) {
+        API.get("Pad/" + padId + "/Mates", success, error);
+    };
+
     API.newpad = function (StreetAddress, ZipCode, success, error) {
         API.post("Pad", { StreetAddress: StreetAddress, ZipCode: ZipCode }, success, error);
     };

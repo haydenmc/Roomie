@@ -83,6 +83,7 @@ var Hub = (function (_super) {
         });
     };
 
+    //TODO: Make this update the existing list instead of replacing it entirely...
     Hub.prototype.loadPads_success = function (pads) {
         var padsColumn = document.getElementById("PadsList");
 

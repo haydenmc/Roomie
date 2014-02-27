@@ -16,13 +16,19 @@ using RoomieWeb.Models.ViewModels;
 
 namespace RoomieWeb.Controllers
 {
+	[RoutePrefix("api/Pad")]
 	public class PadController : ApiController
 	{
 		private ApplicationDbContext db = new ApplicationDbContext();
 
 		// GET api/Pad
+		/// <summary>
+		/// Gets a list of the current user's Pads.
+		/// </summary>
+		/// <returns>Array of pad objects that the user belongs to.</returns>
+		[Route("")]
 		[Authorize]
-		public ICollection<PadViewModel> GetPads()
+		public ICollection<PadViewModel> Get()
 		{
 			string currentUserId = User.Identity.GetUserId();
 			Mate currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
@@ -38,8 +44,14 @@ namespace RoomieWeb.Controllers
 		}
 
 		// GET api/Pad/5
-		[ResponseType(typeof(Pad))]
-		public IHttpActionResult GetPad(string id)
+		/// <summary>
+		/// Gets details of a specific pad.
+		/// </summary>
+		/// <param name="id">GUID of the pad to fetch details for.</param>
+		/// <returns>Pad object with pad's details</returns>
+		[Route("{id}")]
+		[ResponseType(typeof(PadViewModel))]
+		public IHttpActionResult Get(string id)
 		{
 			Pad pad = db.Pads.Find(id);
 			if (pad == null)
@@ -47,11 +59,17 @@ namespace RoomieWeb.Controllers
 				return NotFound();
 			}
 
-			return Ok(pad);
+			return Ok(new PadViewModel()
+			{
+				PadId = pad.PadId,
+				StreetAddress = pad.StreetAddress,
+				ZipCode = pad.ZipCode
+			});
 		}
 
 		// PUT api/Pad/5
-		public IHttpActionResult PutPad(string id, Pad pad)
+		[Route("{id}")]
+		public IHttpActionResult Put(string id, Pad pad)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -85,9 +103,10 @@ namespace RoomieWeb.Controllers
 		}
 
 		// POST api/Pad
+		[Route("")]
 		[ResponseType(typeof(PadViewModel))]
 		[Authorize]
-		public IHttpActionResult PostPad(PadBindingModel pad)
+		public IHttpActionResult Post(PadBindingModel pad)
 		{
 			string currentUserId = User.Identity.GetUserId();
 			Mate currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
@@ -127,19 +146,50 @@ namespace RoomieWeb.Controllers
 		}
 
 		// DELETE api/Pad/5
+		/// <summary>
+		/// Causes the current user to leave the specified pad. If pad is empty, it is deleted.
+		/// </summary>
+		/// <param name="id">ID of the pad to leave.</param>
+		/// <returns></returns>
+		[Route("{id}")]
 		[ResponseType(typeof(Pad))]
-		public IHttpActionResult DeletePad(string id)
+		public IHttpActionResult Delete(string id)
 		{
-			Pad pad = db.Pads.Find(id);
-			if (pad == null)
-			{
-				return NotFound();
-			}
+			//Pad pad = db.Pads.Find(id);
+			//if (pad == null)
+			//{
+			//	return NotFound();
+			//}
 
-			db.Pads.Remove(pad);
-			db.SaveChanges();
+			//db.Pads.Remove(pad);
+			//db.SaveChanges();
 
-			return Ok(pad);
+			//return Ok(pad);
+			return Ok();
+		}
+
+		/// <summary>
+		/// Get the list of mates that belong to a pad.
+		/// </summary>
+		/// <param name="id">ID of the pad</param>
+		/// <returns>Array of mate objects</returns>
+		[Route("{id}/Mates")]
+		[ResponseType(typeof(IEnumerable<MateViewModel>))]
+		[Authorize]
+		public IHttpActionResult GetMates(string id)
+		{
+			var padGuid = new Guid(id);
+			//var Pad = db.Pads.Find(id);
+			var R = from p in db.Pads
+					where p.PadId == padGuid
+					from m in p.Mates
+					select new MateViewModel()
+					{
+						MateId = m.Id,
+						DisplayName = m.DisplayName,
+						JoinTime = m.JoinTime
+					};
+			return Ok(R);
 		}
 
 		protected override void Dispose(bool disposing)
