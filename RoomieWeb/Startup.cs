@@ -13,6 +13,9 @@ namespace RoomieWeb
 		public void Configuration(IAppBuilder app)
 		{
 			ConfigureAuth(app);
+
+			// Set up SignalR
+			app.MapSignalR();
 		}
 	}
 }
