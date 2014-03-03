@@ -227,6 +227,7 @@
     <Compile Include="Models\ApplicationDbContextInitializer.cs" />
     <Compile Include="Models\BindingModels\PadBindingModel.cs" />
     <Compile Include="Models\Mate.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Pad.cs" />
     <Compile Include="Models\ViewModels\MateViewModel.cs" />
     <Compile Include="Models\ViewModels\PadViewModel.cs" />

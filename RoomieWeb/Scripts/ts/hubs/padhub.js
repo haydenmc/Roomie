@@ -10,7 +10,6 @@ var PadHub = (function () {
             _this.systemMessage(body);
         };
         $.connection.hub.start().done(function () {
-            //this.hub.server.joinPads(Application.auth_token); // Should happen automagically.
             _this.ready = true;
         });
     }

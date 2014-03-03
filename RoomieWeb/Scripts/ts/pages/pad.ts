@@ -1,5 +1,12 @@
+class Mate {
+	mateId: string;
+	displayName: string;
+	joinTime: Date;
+}
+
 class Pad extends Page {
 	pad_id: string;
+	mates: Array<Mate>;
 	constructor(pad_id: string, pad_name: string) {
 		super(pad_name);
 		this.pad_id = pad_id;
@@ -10,7 +17,11 @@ class Pad extends Page {
 
 		var chatPane = document.createElement("div");
 		chatPane.id = "ChatPane";
-		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><ul class="chatlist"><li><div class="body">This is a test message.</div><div class="information"><div class="name">Hayden McAfee</div><div class="time">16:30</div></div></li></ul><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
+		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + 
+		'<ul class="chatlist" ></ul>' +
+		'<form class="messageEntry" >' +
+		'<input type = "text" name = "body" placeholder ="type your message" / >' +
+		'<input type = "submit" value ="Send" /></form>';
 		this.page_element.appendChild(chatPane);
 
 		// Set up event handlers ...
@@ -42,6 +53,7 @@ class Pad extends Page {
 
 	//TODO: Make this update the existing list instead of replacing it entirely...
 	public loadMates_success(mates: any): void {
+		this.mates = mates;
 		var matesColumn = document.getElementById("MatesList");
 
 		// Check and remove existing pad lists.
@@ -66,14 +78,31 @@ class Pad extends Page {
 
 	public messageReceived(user_id: string, pad_id: string, body: string, time: string) {
 		if (pad_id != this.pad_id) return; // Don't do anything if this message isn't for this pad.
+
+		// Clean the message body
 		var cleanBody = htmlEscape(body);
+
+		// Find the user
+		var dname = "Unknown User";
+		for (var i = 0; i < this.mates.length; i++) {
+			if (this.mates[i].mateId == user_id) {
+				var dname = this.mates[i].displayName;
+				break;
+			}
+		}
+
+		// Format the date
+		var date = new Date(time);
+		var friendlyDate = date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+		
+		// Build the message element
 		var msgElement = document.createElement("li");
 		msgElement.classList.add("animation");
 		msgElement.classList.add("anim_shovein_bottom");
 		msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' +
 		'<div class="information">' +
-		'<div class="name">' + user_id + '</div>' +
-		'<div class="time">' + time + '</div>' +
+		'<div class="name">' + dname + '</div>' +
+		'<div class="time">' + friendlyDate + '</div>' +
 		'</div>' +
 		'</div>';
 

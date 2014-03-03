@@ -21,7 +21,21 @@ namespace RoomieWeb.Hubs
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
-				if ((from p in user.Pads where p.PadId == new Guid(pad_id) select p).Count() > 0) {
+				var pads = (from p in user.Pads where p.PadId == new Guid(pad_id) select p);
+				if (pads.Count() > 0) {
+					// Save the message to the database
+					var msg = new Message()
+					{
+						MessageId = new Guid(),
+						Author = user,
+						Body = body,
+						SendTime = DateTime.UtcNow,
+						Pad = pads.First()
+					};
+					db.Messages.Add(msg);
+					pads.First().Messages.Add(msg);
+					db.SaveChanges();
+					// Send the message to all clients
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTime.UtcNow);
 				}
 			}

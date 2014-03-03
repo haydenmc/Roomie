@@ -4,6 +4,12 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+var Mate = (function () {
+    function Mate() {
+    }
+    return Mate;
+})();
+
 var Pad = (function (_super) {
     __extends(Pad, _super);
     function Pad(pad_id, pad_name) {
@@ -17,7 +23,7 @@ var Pad = (function (_super) {
 
         var chatPane = document.createElement("div");
         chatPane.id = "ChatPane";
-        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><ul class="chatlist"><li><div class="body">This is a test message.</div><div class="information"><div class="name">Hayden McAfee</div><div class="time">16:30</div></div></li></ul><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
+        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + '<ul class="chatlist" ></ul>' + '<form class="messageEntry" >' + '<input type = "text" name = "body" placeholder ="type your message" / >' + '<input type = "submit" value ="Send" /></form>';
         this.page_element.appendChild(chatPane);
 
         // Set up event handlers ...
@@ -53,6 +59,7 @@ var Pad = (function (_super) {
 
     //TODO: Make this update the existing list instead of replacing it entirely...
     Pad.prototype.loadMates_success = function (mates) {
+        this.mates = mates;
         var matesColumn = document.getElementById("MatesList");
 
         // Check and remove existing pad lists.
@@ -77,11 +84,28 @@ var Pad = (function (_super) {
     Pad.prototype.messageReceived = function (user_id, pad_id, body, time) {
         if (pad_id != this.pad_id)
             return;
+
+        // Clean the message body
         var cleanBody = htmlEscape(body);
+
+        // Find the user
+        var dname = "Unknown User";
+        for (var i = 0; i < this.mates.length; i++) {
+            if (this.mates[i].mateId == user_id) {
+                var dname = this.mates[i].displayName;
+                break;
+            }
+        }
+
+        // Format the date
+        var date = new Date(time);
+        var friendlyDate = date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+
+        // Build the message element
         var msgElement = document.createElement("li");
         msgElement.classList.add("animation");
         msgElement.classList.add("anim_shovein_bottom");
-        msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + user_id + '</div>' + '<div class="time">' + time + '</div>' + '</div>' + '</div>';
+        msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + dname + '</div>' + '<div class="time">' + friendlyDate + '</div>' + '</div>' + '</div>';
 
         document.getElementById("ChatPane").getElementsByTagName("ul")[0].appendChild(msgElement);
     };

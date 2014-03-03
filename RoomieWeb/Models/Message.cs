@@ -7,14 +7,14 @@ using System.Web;
 
 namespace RoomieWeb.Models
 {
-	public class Pad
+	public class Message
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public Guid PadId { get; set; }
-		public string StreetAddress { get; set; }
-		public int ZipCode { get; set; }
-		public virtual ICollection<Mate> Mates { get; set; }
-		public virtual ICollection<Message> Messages { get; set; }
+		public Guid MessageId { get; set; }
+		public Mate Author { get; set; }
+		public Pad Pad { get; set; }
+		public string Body { get; set; }
+		public DateTime SendTime { get; set; }
 	}
 }

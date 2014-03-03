@@ -11,7 +11,6 @@ class PadHub {
 		this.hub.client.messageReceived = (userid, padid, body, time) => { this.messageReceived(userid, padid, body, time); };
 		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
 		$.connection.hub.start().done(() => {
-			//this.hub.server.joinPads(Application.auth_token); // Should happen automagically.
 			this.ready = true;
 		});
 	}
