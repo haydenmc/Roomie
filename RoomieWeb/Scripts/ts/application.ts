@@ -2,9 +2,16 @@ class Application {
 	// Running instance reference
 	public static instance: Application;
 	public static auth_token: string;
+	public static pad_hub: PadHub;
 
 	// Page stack!
 	public pages: Page[] = new Array<Page>();
+
+	/* Static Methods */
+	public static set_auth_token(token: string) {
+		Application.auth_token = token;
+		Application.pad_hub = new PadHub(); // Connect to SignalR Hub
+	}
 
 	constructor() {
 		Application.instance = this;

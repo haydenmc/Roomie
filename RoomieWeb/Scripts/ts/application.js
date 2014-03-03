@@ -4,6 +4,12 @@ var Application = (function () {
         this.pages = new Array();
         Application.instance = this;
     }
+    /* Static Methods */
+    Application.set_auth_token = function (token) {
+        Application.auth_token = token;
+        Application.pad_hub = new PadHub(); // Connect to SignalR Hub
+    };
+
     /**
     * clearPages
     * Clears the page stack history and hides the last page present.

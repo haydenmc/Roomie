@@ -88,7 +88,7 @@ var LogIn = (function (_super) {
             Progress.hide();
 
             // Get our auth token
-            Application.auth_token = data.access_token;
+            Application.set_auth_token(data.access_token);
 
             // Navigate to hub!
             Application.instance.clearPages();

@@ -328,7 +328,7 @@
     <TypeScriptCompile Include="Scripts\ts\animation.ts" />
     <TypeScriptCompile Include="Scripts\ts\API.ts" />
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
-    <TypeScriptCompile Include="Scripts\ts\padhub.ts" />
+    <TypeScriptCompile Include="Scripts\ts\hubs\padhub.ts" />
     <TypeScriptCompile Include="Scripts\ts\page.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\hub.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\login.ts" />

@@ -19,6 +19,7 @@ namespace RoomieWeb
 				"~/Scripts/ts/API.js",
 				"~/Scripts/ts/progress.js",
 				"~/Scripts/ts/animation.js",
+				"~/Scripts/ts/hubs/padhub.js",
 				"~/Scripts/ts/page.js",
 				"~/Scripts/ts/pages/login.js",
 				"~/Scripts/ts/pages/register.js",
