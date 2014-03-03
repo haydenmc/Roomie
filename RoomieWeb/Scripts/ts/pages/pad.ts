@@ -38,17 +38,24 @@ class Pad extends Page {
 		this.hide_animations.push(new Animation("#MatesList", "anim_shoveout_right"));
 		this.hide_animations.push(new Animation("#ChatPane", "anim_shoveout_right"));
 
-		this.loadMates();
+		// Load mates, and load history AFTER mates (we need mate list to associate IDs with names)
+		this.loadMates(() => { this.loadHistory(); });
+		
 	}
 
 	public sendMessage() {
 		var input = this.page_element.getElementsByTagName("input")[0];
 		Application.pad_hub.sendMessage(this.pad_id, input.value);
 		input.value = '';
+		// Scroll to bottom
+		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+		messagelist.scrollTop = messagelist.scrollHeight;
+		input.focus();
+
 	}
 
-	public loadMates(): void {
-		API.padmates(this.pad_id, (d) => { this.loadMates_success(d); }, () => {/*TODO: Handle error*/});
+	public loadMates(f?:Function): void {
+		API.padmates(this.pad_id, (d) => { this.loadMates_success(d); if (f) { f(); } }, () => {/*TODO: Handle error*/});
 	}
 
 	//TODO: Make this update the existing list instead of replacing it entirely...
@@ -76,6 +83,45 @@ class Pad extends Page {
 		matesColumn.insertBefore(mateList, null);
 	}
 
+	public loadHistory(): void {
+		// TODO: Deal with failure.
+		API.padmessages(this.pad_id, (d) => { this.loadHistory_success(d); }, () => { });
+	}
+
+	public loadHistory_success(data: any): void {
+		var html = '';
+		for (var i = 0; i < data.length; i++) {
+			html += '<li class="animation anim_fadein">' +
+			'<div class="body" > ' + data[i].body + ' </div > ' +
+			'<div class="information">' +
+			'<div class="name">' + this.guidToDisplayName(data[i].mateId) + '</div>' +
+			'<div class="time">' + this.friendlyDateTime(new Date(data[i].sendTime)) + '</div>' +
+			'</div>' +
+			'</div>' +
+			'</li>';
+		}
+		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+		messagelist.innerHTML = html + messagelist.innerHTML;
+
+		// Scroll to bottom
+		messagelist.scrollTop = messagelist.scrollHeight;
+	}
+	
+	public friendlyDateTime(date: Date) {
+		return date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+	}
+
+	public guidToDisplayName(guid: string) {
+		var dname = "Unknown User";
+		for (var i = 0; i < this.mates.length; i++) {
+			if (this.mates[i].mateId == guid) {
+				var dname = this.mates[i].displayName;
+				break;
+			}
+		}
+		return dname;
+	}
+
 	public messageReceived(user_id: string, pad_id: string, body: string, time: string) {
 		if (pad_id != this.pad_id) return; // Don't do anything if this message isn't for this pad.
 
@@ -83,22 +129,16 @@ class Pad extends Page {
 		var cleanBody = htmlEscape(body);
 
 		// Find the user
-		var dname = "Unknown User";
-		for (var i = 0; i < this.mates.length; i++) {
-			if (this.mates[i].mateId == user_id) {
-				var dname = this.mates[i].displayName;
-				break;
-			}
-		}
+		var dname = this.guidToDisplayName(user_id);
 
 		// Format the date
 		var date = new Date(time);
-		var friendlyDate = date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+		var friendlyDate = this.friendlyDateTime(date);
 		
 		// Build the message element
 		var msgElement = document.createElement("li");
 		msgElement.classList.add("animation");
-		msgElement.classList.add("anim_shovein_bottom");
+		msgElement.classList.add("anim_shovein_left");
 		msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' +
 		'<div class="information">' +
 		'<div class="name">' + dname + '</div>' +
@@ -106,7 +146,15 @@ class Pad extends Page {
 		'</div>' +
 		'</div>';
 
-		document.getElementById("ChatPane").getElementsByTagName("ul")[0].appendChild(msgElement);
+		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+		var style = window.getComputedStyle(messagelist, null);
+		var innerheight = parseInt(style.getPropertyValue("height"));
+		var scroll = (messagelist.scrollHeight - (innerheight + messagelist.scrollTop) <= 16);
+		messagelist.appendChild(msgElement);
+		if (scroll) {
+			// Scroll to bottom
+			messagelist.scrollTop = messagelist.scrollHeight;
+		}
 	}
 
 	public show(): void {

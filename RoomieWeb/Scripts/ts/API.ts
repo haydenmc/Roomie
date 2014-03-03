@@ -62,4 +62,8 @@ class API {
 	public static newpad(StreetAddress: string, ZipCode: string,success:Function, error:Function) {
 		API.post("Pad", {StreetAddress: StreetAddress, ZipCode: ZipCode}, success, error);
 	}
+
+	public static padmessages(padId: string, success: Function, error: Function) {
+		API.get("Pad/" + padId + "/Messages", success, error);
+	}
 } 

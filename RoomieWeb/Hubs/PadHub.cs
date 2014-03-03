@@ -15,6 +15,11 @@ namespace RoomieWeb.Hubs
 		public void SendMessage(string pad_id, string body)
 		{
 			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			body = body.Trim();
+			if (body.Length <= 0)
+			{
+				return;
+			}
 			// Check that the user belongs in this pad...
 			using (var db = new ApplicationDbContext())
 			{
@@ -23,6 +28,7 @@ namespace RoomieWeb.Hubs
 							select u).First();
 				var pads = (from p in user.Pads where p.PadId == new Guid(pad_id) select p);
 				if (pads.Count() > 0) {
+					var pad = pads.First();
 					// Save the message to the database
 					var msg = new Message()
 					{
@@ -32,8 +38,8 @@ namespace RoomieWeb.Hubs
 						SendTime = DateTime.UtcNow,
 						Pad = pads.First()
 					};
+					pad.Messages.Add(msg);
 					db.Messages.Add(msg);
-					pads.First().Messages.Add(msg);
 					db.SaveChanges();
 					// Send the message to all clients
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTime.UtcNow);

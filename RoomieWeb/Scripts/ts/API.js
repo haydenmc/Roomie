@@ -65,6 +65,10 @@ var API = (function () {
     API.newpad = function (StreetAddress, ZipCode, success, error) {
         API.post("Pad", { StreetAddress: StreetAddress, ZipCode: ZipCode }, success, error);
     };
+
+    API.padmessages = function (padId, success, error) {
+        API.get("Pad/" + padId + "/Messages", success, error);
+    };
     return API;
 })();
 //# sourceMappingURL=API.js.map

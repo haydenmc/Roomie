@@ -41,18 +41,29 @@ var Pad = (function (_super) {
         this.hide_animations.push(new Animation("#MatesList", "anim_shoveout_right"));
         this.hide_animations.push(new Animation("#ChatPane", "anim_shoveout_right"));
 
-        this.loadMates();
+        // Load mates, and load history AFTER mates (we need mate list to associate IDs with names)
+        this.loadMates(function () {
+            _this.loadHistory();
+        });
     }
     Pad.prototype.sendMessage = function () {
         var input = this.page_element.getElementsByTagName("input")[0];
         Application.pad_hub.sendMessage(this.pad_id, input.value);
         input.value = '';
+
+        // Scroll to bottom
+        var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+        messagelist.scrollTop = messagelist.scrollHeight;
+        input.focus();
     };
 
-    Pad.prototype.loadMates = function () {
+    Pad.prototype.loadMates = function (f) {
         var _this = this;
         API.padmates(this.pad_id, function (d) {
             _this.loadMates_success(d);
+            if (f) {
+                f();
+            }
         }, function () {
         });
     };
@@ -81,6 +92,42 @@ var Pad = (function (_super) {
         matesColumn.insertBefore(mateList, null);
     };
 
+    Pad.prototype.loadHistory = function () {
+        var _this = this;
+        // TODO: Deal with failure.
+        API.padmessages(this.pad_id, function (d) {
+            _this.loadHistory_success(d);
+        }, function () {
+        });
+    };
+
+    Pad.prototype.loadHistory_success = function (data) {
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+            html += '<li class="animation anim_fadein">' + '<div class="body" > ' + data[i].body + ' </div > ' + '<div class="information">' + '<div class="name">' + this.guidToDisplayName(data[i].mateId) + '</div>' + '<div class="time">' + this.friendlyDateTime(new Date(data[i].sendTime)) + '</div>' + '</div>' + '</div>' + '</li>';
+        }
+        var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+        messagelist.innerHTML = html + messagelist.innerHTML;
+
+        // Scroll to bottom
+        messagelist.scrollTop = messagelist.scrollHeight;
+    };
+
+    Pad.prototype.friendlyDateTime = function (date) {
+        return date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+    };
+
+    Pad.prototype.guidToDisplayName = function (guid) {
+        var dname = "Unknown User";
+        for (var i = 0; i < this.mates.length; i++) {
+            if (this.mates[i].mateId == guid) {
+                var dname = this.mates[i].displayName;
+                break;
+            }
+        }
+        return dname;
+    };
+
     Pad.prototype.messageReceived = function (user_id, pad_id, body, time) {
         if (pad_id != this.pad_id)
             return;
@@ -89,25 +136,27 @@ var Pad = (function (_super) {
         var cleanBody = htmlEscape(body);
 
         // Find the user
-        var dname = "Unknown User";
-        for (var i = 0; i < this.mates.length; i++) {
-            if (this.mates[i].mateId == user_id) {
-                var dname = this.mates[i].displayName;
-                break;
-            }
-        }
+        var dname = this.guidToDisplayName(user_id);
 
         // Format the date
         var date = new Date(time);
-        var friendlyDate = date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+        var friendlyDate = this.friendlyDateTime(date);
 
         // Build the message element
         var msgElement = document.createElement("li");
         msgElement.classList.add("animation");
-        msgElement.classList.add("anim_shovein_bottom");
+        msgElement.classList.add("anim_shovein_left");
         msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + dname + '</div>' + '<div class="time">' + friendlyDate + '</div>' + '</div>' + '</div>';
 
-        document.getElementById("ChatPane").getElementsByTagName("ul")[0].appendChild(msgElement);
+        var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+        var style = window.getComputedStyle(messagelist, null);
+        var innerheight = parseInt(style.getPropertyValue("height"));
+        var scroll = (messagelist.scrollHeight - (innerheight + messagelist.scrollTop) <= 16);
+        messagelist.appendChild(msgElement);
+        if (scroll) {
+            // Scroll to bottom
+            messagelist.scrollTop = messagelist.scrollHeight;
+        }
     };
 
     Pad.prototype.show = function () {
