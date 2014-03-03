@@ -9,29 +9,41 @@ using RoomieWeb.Models;
 
 namespace RoomieWeb.Hubs
 {
+	[Authorize]
 	public class PadHub : Hub
 	{
-		public void JoinPads(string auth_token)
+		public void SendMessage(string pad_id, string body)
 		{
-			var ticket = Startup.OAuthOptions.AccessTokenFormat.Unprotect(auth_token);
-			bool isAuth = ticket.Identity.IsAuthenticated;
-			var user_id = IdentityExtensions.GetUserId(ticket.Identity);
-			var guid = new Guid(user_id);
+			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			// Check that the user belongs in this pad...
 			using (var db = new ApplicationDbContext())
 			{
 				var user = (from u in db.Users
-						   where u.Id == user_id
-							   select u).First();
-				Clients.Caller.systemMessage("You've authenticated and connected! Hi " + user.DisplayName + "!");
+							where u.Id == user_id
+							select u).First();
+				if ((from p in user.Pads where p.PadId == new Guid(pad_id) select p).Count() > 0) {
+					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body);
+				}
 			}
-		}
-		public void SendMessage(string pad_id, string body)
-		{
-			Clients.Group(pad_id).messageReceived("", pad_id, body);
+			
 		}
 
 		public override Task OnConnected()
 		{
+			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			using (var db = new ApplicationDbContext())
+			{
+				var user = (from u in db.Users
+							where u.Id == user_id
+							select u).First();
+				Clients.Caller.systemMessage("You've authenticated and connected! Hi " + user.DisplayName + "!");
+				var pads = user.Pads;
+				foreach (Pad p in pads)
+				{
+					Groups.Add(Context.ConnectionId, p.PadId.ToString());
+					Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
+				}
+			}
 			return base.OnConnected();
 		}
 	}

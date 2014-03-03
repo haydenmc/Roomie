@@ -10,7 +10,7 @@ var PadHub = (function () {
             _this.systemMessage(body);
         };
         $.connection.hub.start().done(function () {
-            _this.hub.server.joinPads(Application.auth_token);
+            //this.hub.server.joinPads(Application.auth_token); // Should happen automagically.
             _this.ready = true;
         });
     }
@@ -20,7 +20,7 @@ var PadHub = (function () {
     };
 
     PadHub.prototype.systemMessage = function (body) {
-        console.log("System message from server: " + body);
+        console.log("SYSTEM: " + body);
     };
 
     /* Server-side methods */

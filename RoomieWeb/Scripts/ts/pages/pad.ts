@@ -10,7 +10,7 @@ class Pad extends Page {
 
 		var chatPane = document.createElement("div");
 		chatPane.id = "ChatPane";
-		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>';
+		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><div class="chatlist"></div><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
 		this.page_element.appendChild(chatPane);
 
 		// Prepare animations

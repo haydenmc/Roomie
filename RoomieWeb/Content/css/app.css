@@ -534,7 +534,26 @@ h1.listTitle div.gradient {
 #ChatPane {
   position: absolute;
   left: 348px;
-  width: 480px;
-  height: 100%;
+  width: 400px;
+  /* height:100%; */
+  top: 0;
+  bottom: 64px;
+}
+#ChatPane div.chatlist {
+  height: calc(100% - 134px);
+  overflow-y: auto;
+}
+#ChatPane form.messageEntry {
+  height: 64px;
+}
+#ChatPane form.messageEntry input {
+  float: left;
+}
+#ChatPane form.messageEntry input[type=text] {
+  width: calc(100% - 100px);
+}
+#ChatPane form.messageEntry input[type=submit] {
+  font-size: 18px;
+  margin: 8px 0 0 0;
 }
 /*# sourceMappingURL=app.css.map */

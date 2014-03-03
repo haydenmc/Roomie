@@ -1,4 +1,4 @@
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -16,7 +16,7 @@ var Pad = (function (_super) {
 
         var chatPane = document.createElement("div");
         chatPane.id = "ChatPane";
-        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>';
+        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><div class="chatlist"></div><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
         this.page_element.appendChild(chatPane);
 
         // Prepare animations

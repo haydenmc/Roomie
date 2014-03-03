@@ -7,10 +7,10 @@ class PadHub {
 	public ready: boolean = false;
 
 	constructor() {
-		this.hub.client.messageReceived = (userid, padid, body) => { this.messageReceived(userid, padid, body); }
-		this.hub.client.systemMessage = (body) => { this.systemMessage(body); }
+		this.hub.client.messageReceived = (userid, padid, body) => { this.messageReceived(userid, padid, body); };
+		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
 		$.connection.hub.start().done(() => {
-			this.hub.server.joinPads(Application.auth_token);
+			//this.hub.server.joinPads(Application.auth_token); // Should happen automagically.
 			this.ready = true;
 		});
 	}
@@ -21,7 +21,7 @@ class PadHub {
 	}
 
 	public systemMessage(body) {
-		console.log("System message from server: " + body);
+		console.log("SYSTEM: " + body);
 	}
 
 	/* Server-side methods */
