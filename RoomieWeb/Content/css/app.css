@@ -539,9 +539,42 @@ h1.listTitle div.gradient {
   top: 0;
   bottom: 64px;
 }
-#ChatPane div.chatlist {
+#ChatPane ul.chatlist {
   height: calc(100% - 134px);
   overflow-y: auto;
+  margin: 28px 4px 4px 16px;
+  padding: 0;
+}
+#ChatPane ul.chatlist li {
+  display: block;
+  list-style-type: none;
+  background-color: #ff4ceb;
+  color: #fff;
+  font-family: 'Open Sans';
+  overflow: auto;
+  margin: 16px 4px;
+  padding: 6px 10px;
+}
+#ChatPane ul.chatlist li:first-child {
+  margin-top: 0;
+}
+#ChatPane ul.chatlist li:last-child {
+  margin-bottom: 0;
+}
+#ChatPane ul.chatlist li div.body {
+  width: 100%;
+  font-size: 16px;
+}
+#ChatPane ul.chatlist li div.information {
+  width: 100%;
+  font-size: 12px;
+  color: #000;
+}
+#ChatPane ul.chatlist li div.information div.name {
+  float: left;
+}
+#ChatPane ul.chatlist li div.information div.time {
+  float: right;
 }
 #ChatPane form.messageEntry {
   height: 64px;

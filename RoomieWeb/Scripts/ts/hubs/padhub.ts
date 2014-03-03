@@ -5,9 +5,10 @@ interface SignalR {
 class PadHub {
 	private hub = $.connection.padHub;
 	public ready: boolean = false;
+	private messageReceivedFunction: Function;
 
 	constructor() {
-		this.hub.client.messageReceived = (userid, padid, body) => { this.messageReceived(userid, padid, body); };
+		this.hub.client.messageReceived = (userid, padid, body, time) => { this.messageReceived(userid, padid, body, time); };
 		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
 		$.connection.hub.start().done(() => {
 			//this.hub.server.joinPads(Application.auth_token); // Should happen automagically.
@@ -15,9 +16,17 @@ class PadHub {
 		});
 	}
 
+	public assignMessageReceived(f: Function) {
+		this.messageReceivedFunction = f;
+	}
+
 	/* Client-side methods*/
-	public messageReceived(userid,padid,body) {
-		console.log("Message from '" + userid + "': " + body);
+	public messageReceived(userid, padid, body, time) {
+		if (this.messageReceivedFunction) {
+			this.messageReceivedFunction(userid, padid, body, time);
+		} else {
+			console.log("Message @ " + time + " from '" + userid + "': " + body);
+		}
 	}
 
 	public systemMessage(body) {

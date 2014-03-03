@@ -3,8 +3,8 @@ var PadHub = (function () {
         var _this = this;
         this.hub = $.connection.padHub;
         this.ready = false;
-        this.hub.client.messageReceived = function (userid, padid, body) {
-            _this.messageReceived(userid, padid, body);
+        this.hub.client.messageReceived = function (userid, padid, body, time) {
+            _this.messageReceived(userid, padid, body, time);
         };
         this.hub.client.systemMessage = function (body) {
             _this.systemMessage(body);
@@ -14,9 +14,17 @@ var PadHub = (function () {
             _this.ready = true;
         });
     }
+    PadHub.prototype.assignMessageReceived = function (f) {
+        this.messageReceivedFunction = f;
+    };
+
     /* Client-side methods*/
-    PadHub.prototype.messageReceived = function (userid, padid, body) {
-        console.log("Message from '" + userid + "': " + body);
+    PadHub.prototype.messageReceived = function (userid, padid, body, time) {
+        if (this.messageReceivedFunction) {
+            this.messageReceivedFunction(userid, padid, body, time);
+        } else {
+            console.log("Message @ " + time + " from '" + userid + "': " + body);
+        }
     };
 
     PadHub.prototype.systemMessage = function (body) {

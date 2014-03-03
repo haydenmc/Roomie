@@ -22,7 +22,7 @@ namespace RoomieWeb.Hubs
 							where u.Id == user_id
 							select u).First();
 				if ((from p in user.Pads where p.PadId == new Guid(pad_id) select p).Count() > 0) {
-					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body);
+					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTime.UtcNow);
 				}
 			}
 			

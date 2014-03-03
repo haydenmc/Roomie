@@ -74,6 +74,10 @@ function PrefixedEvent(element, type, callback) {
     }
 }
 
+function htmlEscape(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 window.onload = function () {
     (new Application()).navigateTo(new LogIn());
 };

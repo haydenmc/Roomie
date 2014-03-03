@@ -10,8 +10,14 @@ class Pad extends Page {
 
 		var chatPane = document.createElement("div");
 		chatPane.id = "ChatPane";
-		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><div class="chatlist"></div><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
+		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1><ul class="chatlist"><li><div class="body">This is a test message.</div><div class="information"><div class="name">Hayden McAfee</div><div class="time">16:30</div></div></li></ul><form class="messageEntry"><input type="text" name="body" placeholder="type your message" /><input type="submit" value="Send" /></form>';
 		this.page_element.appendChild(chatPane);
+
+		// Set up event handlers ...
+		chatPane.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
+			evt.preventDefault();
+			this.sendMessage();
+		});
 
 		// Prepare animations
 		// Show
@@ -22,6 +28,12 @@ class Pad extends Page {
 		this.hide_animations.push(new Animation("#ChatPane", "anim_shoveout_right"));
 
 		this.loadMates();
+	}
+
+	public sendMessage() {
+		var input = this.page_element.getElementsByTagName("input")[0];
+		Application.pad_hub.sendMessage(this.pad_id, input.value);
+		input.value = '';
 	}
 
 	public loadMates(): void {
@@ -50,5 +62,29 @@ class Pad extends Page {
 		}
 
 		matesColumn.insertBefore(mateList, null);
+	}
+
+	public messageReceived(user_id: string, pad_id: string, body: string, time: string) {
+		if (pad_id != this.pad_id) return; // Don't do anything if this message isn't for this pad.
+		var cleanBody = htmlEscape(body);
+		var msgElement = document.createElement("li");
+		msgElement.classList.add("animation");
+		msgElement.classList.add("anim_shovein_bottom");
+		msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' +
+		'<div class="information">' +
+		'<div class="name">' + user_id + '</div>' +
+		'<div class="time">' + time + '</div>' +
+		'</div>' +
+		'</div>';
+
+		document.getElementById("ChatPane").getElementsByTagName("ul")[0].appendChild(msgElement);
+	}
+
+	public show(): void {
+		super.show();
+
+		Application.pad_hub.assignMessageReceived((user_id, pad_id, body, time) => {
+			this.messageReceived(user_id, pad_id, body, time);
+		});
 	}
 } 

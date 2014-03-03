@@ -559,9 +559,48 @@ h1.listTitle {
 	top:0;
 	bottom:64px;
 
-	div.chatlist {
+	ul.chatlist {
 		height: calc(~"100% - 134px");
 		overflow-y:auto;
+		margin:28px 4px 4px 16px;
+		padding:0;
+		
+		li {
+			display:block;
+			list-style-type:none;
+			background-color:@gradient-end-color;
+			color:#fff;
+			font-family:'Open Sans';
+			overflow:auto;
+			margin:16px 4px;
+			padding:6px 10px;
+
+			&:first-child {
+				margin-top:0;
+			}
+			&:last-child {
+				margin-bottom:0;
+			}
+
+			div.body {
+				width:100%;
+				font-size:16px;
+			}
+
+			div.information {
+				width:100%;
+				font-size:12px;
+				color:#000;
+
+				div.name {
+					float:left
+				}
+
+				div.time {
+					float:right;
+				}
+			}
+		}
 	}
 
 	form.messageEntry {
