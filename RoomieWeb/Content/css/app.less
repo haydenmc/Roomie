@@ -32,7 +32,7 @@
 }
 
 /* Some functions ... */
-.css-gradient(@from: #20416A, @to: #3D69A5) {
+.css-gradient-vertical(@from: #20416A, @to: #3D69A5) {
 	background-color: @to;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
 	background-image: -webkit-linear-gradient(top, @from, @to);
@@ -40,6 +40,15 @@
 	background-image: -o-linear-gradient(top, @from, @to);
 	background-image: -ms-linear-gradient(top, @from, @to);
 	background-image: linear-gradient(top, @from, @to);
+}
+.css-gradient-horizontal(@from: #20416A, @to: #3D69A5) {
+	background-color: @to;
+	background-image: -webkit-gradient(linear, left middle, right middle, from(@from), to(@to));
+	background-image: -webkit-linear-gradient(left, @from, @to);
+	background-image: -moz-linear-gradient(left, @from, @to);
+	background-image: -o-linear-gradient(left, @from, @to);
+	background-image: -ms-linear-gradient(left, @from, @to);
+	background-image: linear-gradient(left, @from, @to);
 }
 .transition(@transition) {
 	-webkit-transition: @transition;
@@ -79,7 +88,8 @@ body {
 
 @gradient-start-color: #ffc831;
 @gradient-end-color: #ff4ceb;
-
+//@gradient-start-color:#34daff;
+//@gradient-end-color:#0062b5;
 /* Input Styles */
 input {
 	&:hover {
@@ -118,6 +128,24 @@ input[type=submit]
 	border:0;
 	margin:3px;
 	opacity:0.65;
+	.transition(opacity 200ms ease-out);
+}
+
+button {
+	&:hover {
+		opacity:1.0;
+	}
+	&.default {
+		border-bottom:2px dotted @gradient-end-color;
+	}
+	font-family:'Open Sans';
+	font-size:20px;
+	background-color:transparent;
+	color: @gradient-end-color;
+	border:none;
+	cursor: pointer;
+	padding:2px 8px;
+	opacity:0.7;
 	.transition(opacity 200ms ease-out);
 }
 
@@ -161,6 +189,7 @@ div.progress {
 	right:0;
 	height:@progressheight;
 	background: url(../svg/progress_stripe.svg);
+	z-index:1000; // Always on top
 	opacity:0.6;
 	animation-name: progress-indicator;
 	-webkit-animation-name: progress-indicator;
@@ -190,6 +219,7 @@ div.page {
 			opacity:1.0;
 		}
 		&:active {
+			opacity:1.0;
 			background-color:#fff;
 			background-image:url(../svg/arrow_back_black.svg);
 		}
@@ -199,7 +229,7 @@ div.page {
 		left:0;
 		width:48px;
 		height:48px;
-		z-index:100;
+		z-index:5; // Above the title text
 		border:3px solid #fff;
 		border-radius:28px;
 		background-color:transparent;
@@ -230,6 +260,62 @@ div.page {
 	}
 }
 
+/* Dark overlay to render something on top of */
+div.darkOverlay {
+	position:fixed;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color:#000;
+	opacity:0.8;
+	z-index:10; // Objects rendered on top of this have to have a larger z-index. 
+}
+
+/* Default dialog container. */
+div.dialog {
+	position:fixed;
+	top:0;
+	width:800px;
+	left:50%;
+	margin-left:-400px;
+	bottom:0;
+	background-color:#000;
+	z-index:15;
+	h1 {
+		font-family:'Open Sans';
+		font-weight:100;
+		font-size:80px;
+		text-transform:lowercase;
+		margin:0 16px;
+		height:96px;
+		padding-top:24px;
+		line-height:1;
+	}
+	div.separator {
+		height:6px;
+		width:100%;
+		.css-gradient-horizontal(@gradient-start-color, @gradient-end-color);
+	}
+	div.content {
+		height:calc(~"100% - 248px");
+		padding:2px 32px;
+	}
+	ul.actions {
+		height:64px;
+		margin-bottom:64px;
+		text-align:center;
+		margin:0;
+		padding:0;
+		li {
+			list-style-type:none;
+			display:inline-block;
+			margin:0;
+			padding:0 18px;
+		}
+	}
+}
+
 /* Log In Dialog */
 #LogIn {
 	width:480px;
@@ -252,7 +338,7 @@ div.page {
 		width:3px;
 		margin:0 16px 0 32px;
 		float:left;
-		.css-gradient(@gradient-start-color,@gradient-end-color);
+		.css-gradient-vertical(@gradient-start-color,@gradient-end-color);
 	}
 	form {
 		display:block;
@@ -302,7 +388,7 @@ h1.listTitle {
 		height:34px;
 		width:10px;
 		margin:4px 12px 0 8px;
-		.css-gradient(@gradient-start-color,@gradient-end-color);
+		.css-gradient-vertical(@gradient-start-color,@gradient-end-color);
 	}
 }
 
@@ -361,6 +447,36 @@ h1.listTitle {
 	position:absolute;
 	left:128px;
 	height:100%;
+	div.invites {
+		margin-left:32px;
+		cursor:pointer;
+		line-height:3;
+		a.inviteButton {
+			&:hover {
+				opacity:1.0;
+			}
+			&:active {
+				opacity:1.0;
+				background-color:#fff;
+				background-image:url(../svg/icon_add_pad_black.svg);
+			}
+			display:block;
+			float:left;
+			width:40px;
+			height:40px;
+			border:3px solid #fff;
+			margin-right:8px;
+			border-radius:26px;
+			background-color:transparent;
+			background-image:url(../svg/icon_add_pad_white.svg);
+			background-size:26px;
+			background-repeat:no-repeat;
+			background-position-x: 7px;
+			background-position-y: 6px;
+			opacity:0.5;
+			.transition(opacity 200ms ease-out);
+		}
+	}
 	ul {
 		margin:28px 0 0 32px;
 		padding:0;
@@ -452,6 +568,29 @@ h1.listTitle {
 	height:100%;
 }
 
+ul.invitelist {
+	margin:24px 24px 6px 24px;
+	padding:0;
+	li {
+		list-style-type:none;
+		margin:8px 0;
+		div.info {
+			display:inline-block;
+			margin-right:24px;
+			span.name {
+				font-family:'Open Sans';
+				font-weight:900;
+			}
+		}
+		div.actions {
+			display:inline-block;
+			margin:4px 0;
+			button {
+				font-size:18px;
+			}
+		}
+	}
+}
 
 #NewPad {
 	width:360px;
@@ -568,7 +707,7 @@ h1.listTitle {
 		li {
 			display:block;
 			list-style-type:none;
-			background-color:darken(@gradient-end-color,25%);
+			background-color:darken(@gradient-end-color,15%);
 			color:#fff;
 			font-family:'Open Sans';
 			overflow:auto;

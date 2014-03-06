@@ -66,5 +66,22 @@ namespace RoomieWeb.Hubs
 			}
 			return base.OnConnected();
 		}
+
+		public void RefreshGroups()
+		{
+			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			using (var db = new ApplicationDbContext())
+			{
+				var user = (from u in db.Users
+							where u.Id == user_id
+							select u).First();
+				var pads = user.Pads;
+				foreach (Pad p in pads)
+				{
+					Groups.Add(Context.ConnectionId, p.PadId.ToString());
+					Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
+				}
+			}
+		}
 	}
 }

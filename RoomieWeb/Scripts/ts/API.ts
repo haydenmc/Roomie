@@ -26,6 +26,34 @@ class API {
 			}
 		});
 	}
+	public static put(url: string, data: any, success: Function, error: Function) {
+		$.ajax("/api/" + url, {
+			type: "PUT",
+			dataType: "JSON",
+			data: data,
+			headers: { "Authorization": "Bearer " + Application.auth_token },
+			success: (d) => {
+				success(d);
+			},
+			error: () => {
+				error();
+			}
+		});
+	}
+	public static delete(url: string, success: Function, error: Function) {
+		$.ajax("/api/" + url, {
+			type: "DELETE",
+			dataType: "JSON",
+			headers: { "Authorization": "Bearer " + Application.auth_token },
+			success: (data) => {
+				success(data);
+			},
+			error: () => {
+				error();
+			}
+		});
+	}
+
 	/* AUTHENTICATION */
 	public static token(username: string, password: string, success: Function, error: Function) {
 		$.ajax("/Token", {
@@ -65,5 +93,22 @@ class API {
 
 	public static padmessages(padId: string, success: Function, error: Function) {
 		API.get("Pad/" + padId + "/Messages", success, error);
+	}
+
+	/* Invite API */
+	public static invites(success: Function, error: Function) {
+		API.get("Invites", success, error);
+	}
+
+	public static sendInvite(padId: string, userEmail: string, success: Function, error: Function) {
+		API.post("Invites", { RecipientEmail: userEmail, PadId: padId }, success, error);
+	}
+
+	public static acceptInvite(inviteId: string, success: Function, error: Function) {
+		API.put("Invites/" + inviteId + "/Accept", {}, success, error);
+	}
+
+	public static declineInvite(inviteId: string, success: Function, error: Function) {
+		API.delete("Invites/" + inviteId, success, error);
 	}
 } 

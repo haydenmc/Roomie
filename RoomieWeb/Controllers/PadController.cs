@@ -13,11 +13,12 @@ using Microsoft.AspNet.Identity;
 using RoomieWeb.Models.BindingModels;
 using System.Data.Entity.Validation;
 using RoomieWeb.Models.ViewModels;
+using RoomieWeb.Hubs;
 
 namespace RoomieWeb.Controllers
 {
 	[RoutePrefix("api/Pad")]
-	public class PadController : ApiController
+	public class PadController : ApiControllerWithHub<PadHub>
 	{
 		private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -68,39 +69,39 @@ namespace RoomieWeb.Controllers
 		}
 
 		// PUT api/Pad/5
-		[Route("{id}")]
-		public IHttpActionResult Put(string id, Pad pad)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+		//[Route("{id}")]
+		//public IHttpActionResult Put(string id, Pad pad)
+		//{
+		//	if (!ModelState.IsValid)
+		//	{
+		//		return BadRequest(ModelState);
+		//	}
 
-			if (id != pad.PadId.ToString())
-			{
-				return BadRequest();
-			}
+		//	if (id != pad.PadId.ToString())
+		//	{
+		//		return BadRequest();
+		//	}
 
-			db.Entry(pad).State = EntityState.Modified;
+		//	db.Entry(pad).State = EntityState.Modified;
 
-			try
-			{
-				db.SaveChanges();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!PadExists(id))
-				{
-					return NotFound();
-				}
-				else
-				{
-					throw;
-				}
-			}
+		//	try
+		//	{
+		//		db.SaveChanges();
+		//	}
+		//	catch (DbUpdateConcurrencyException)
+		//	{
+		//		if (!PadExists(id))
+		//		{
+		//			return NotFound();
+		//		}
+		//		else
+		//		{
+		//			throw;
+		//		}
+		//	}
 
-			return StatusCode(HttpStatusCode.NoContent);
-		}
+		//	return StatusCode(HttpStatusCode.NoContent);
+		//}
 
 		// POST api/Pad
 		[Route("")]

@@ -36,10 +36,31 @@ class Hub extends Page {
 		this.lastPadLoadTime = 0;
 	}
 
+	public loadInvites() {
+		API.invites((data) => { this.loadInvites_success(data); }, () => { } );
+	}
+
+	public loadInvites_success(data) {
+		var padsColumn = document.getElementById("PadsList");
+		if (data.length <= 0) {
+			return;
+		}
+		if (padsColumn.getElementsByClassName("invites").length > 0) {
+			return; //Don't show multiple multiple notifications
+		}
+		var inviteDiv = document.createElement("div");
+		inviteDiv.classList.add("invites");
+		inviteDiv.innerHTML = '<a href="#" class="inviteButton"></a>New Invites';
+		inviteDiv.addEventListener("click", () => {
+			(new MyInvitesDialog()).show();
+		});
+		padsColumn.insertBefore(inviteDiv, padsColumn.getElementsByTagName("ul")[0]);
+	}
+
 	public loadPads() {
 		this.lastPadLoadTime = (new Date()).getTime();
 
-		//If we get rid of this line, we could load pads when page isn't even shown.
+		//If we get rid of (fix/replace) this line, we could load pads when page isn't even shown.
 		var padsColumn = document.getElementById("PadsList");
 
 		// Check and remove existing pad lists.
@@ -109,5 +130,8 @@ class Hub extends Page {
 		padList.insertBefore(addPad, null);
 
 		padsColumn.insertBefore(padList, null);
+
+		// Check for new pad invites... if we haven't already got the notification
+		this.loadInvites();
 	}
 }

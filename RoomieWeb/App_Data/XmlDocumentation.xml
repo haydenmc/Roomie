@@ -396,6 +396,33 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:RoomieWeb.Controllers.InvitesController.GetInvites">
+            <summary>
+            Get the invites sent to the current user.
+            </summary>
+            <returns>List of current user's invites.</returns>
+        </member>
+        <member name="M:RoomieWeb.Controllers.InvitesController.PutAcceptInvite(System.String)">
+            <summary>
+            Accept an invite to a room
+            </summary>
+            <param name="id">ID of the invite</param>
+            <returns></returns>
+        </member>
+        <member name="M:RoomieWeb.Controllers.InvitesController.Delete(System.String)">
+            <summary>
+            Used to decline an invite.
+            </summary>
+            <param name="id">ID of the invite</param>
+            <returns></returns>
+        </member>
+        <member name="M:RoomieWeb.Controllers.InvitesController.PostInvite(RoomieWeb.Models.BindingModels.InviteBindingModel)">
+            <summary>
+            Invite a user to a pad you belong to.
+            </summary>
+            <param name="invite">Invitation</param>
+            <returns>200 on success, bad request if you've done something wrong.</returns>
+        </member>
         <member name="M:RoomieWeb.Controllers.PadController.Get">
             <summary>
             Gets a list of the current user's Pads.

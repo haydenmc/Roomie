@@ -214,7 +214,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllerWithHub.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvitesController.cs" />
     <Compile Include="Controllers\PadController.cs" />
     <Compile Include="Controllers\WebappController.cs" />
     <Compile Include="Global.asax.cs">
@@ -225,15 +227,22 @@
     <Compile Include="Migrations\201403041548060_Initial.Designer.cs">
       <DependentUpon>201403041548060_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403042153358_AddInvites.cs" />
+    <Compile Include="Migrations\201403042153358_AddInvites.Designer.cs">
+      <DependentUpon>201403042153358_AddInvites.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationDbContextInitializer.cs" />
+    <Compile Include="Models\BindingModels\InviteBindingModel.cs" />
     <Compile Include="Models\BindingModels\PadBindingModel.cs" />
+    <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\Mate.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Pad.cs" />
+    <Compile Include="Models\ViewModels\InviteViewModel.cs" />
     <Compile Include="Models\ViewModels\MateViewModel.cs" />
     <Compile Include="Models\ViewModels\MessageViewModel.cs" />
     <Compile Include="Models\ViewModels\PadViewModel.cs" />
@@ -260,6 +269,8 @@
     <Content Include="Content\img\me_temp.jpg" />
     <Content Include="Content\svg\arrow_back_black.svg" />
     <Content Include="Content\svg\arrow_back_white.svg" />
+    <Content Include="Content\svg\icon_add_pad_black.svg" />
+    <Content Include="Content\svg\icon_add_pad_white.svg" />
     <Content Include="Content\svg\plus_black.svg" />
     <Content Include="Content\svg\plus_white.svg" />
     <Content Include="Content\svg\progress_stripe.svg" />
@@ -334,6 +345,9 @@
     <TypeScriptCompile Include="Scripts\ts\animation.ts" />
     <TypeScriptCompile Include="Scripts\ts\API.ts" />
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
+    <TypeScriptCompile Include="Scripts\ts\dialog.ts" />
+    <TypeScriptCompile Include="Scripts\ts\dialogs\invitedialog.ts" />
+    <TypeScriptCompile Include="Scripts\ts\dialogs\myinvitesdialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\hubs\padhub.ts" />
     <TypeScriptCompile Include="Scripts\ts\page.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\hub.ts" />
@@ -349,7 +363,11 @@
     <EmbeddedResource Include="Migrations\201403041548060_Initial.resx">
       <DependentUpon>201403041548060_Initial.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403042153358_AddInvites.resx">
+      <DependentUpon>201403042153358_AddInvites.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

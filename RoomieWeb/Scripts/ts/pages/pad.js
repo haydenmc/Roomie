@@ -23,7 +23,7 @@ var Pad = (function (_super) {
 
         var chatPane = document.createElement("div");
         chatPane.id = "ChatPane";
-        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + '<ul class="chatlist" ></ul>' + '<form class="messageEntry" >' + '<input type = "text" name = "body" placeholder ="type your message" / >' + '<input type = "submit" value ="Send" /></form>';
+        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + '<ul class="chatlist" ></ul>' + '<form class="messageEntry" >' + '<input type = "text" name = "body" placeholder ="type your message" />' + '<input type = "submit" value ="Send" /></form>';
         this.page_element.appendChild(chatPane);
 
         // Set up event handlers ...
@@ -70,6 +70,7 @@ var Pad = (function (_super) {
 
     //TODO: Make this update the existing list instead of replacing it entirely...
     Pad.prototype.loadMates_success = function (mates) {
+        var _this = this;
         this.mates = mates;
         var matesColumn = document.getElementById("MatesList");
 
@@ -89,7 +90,20 @@ var Pad = (function (_super) {
             mateList.insertBefore(mateListing, null);
         }
 
+        var addListing = document.createElement("li");
+        addListing.innerHTML = '<a href="#"></a><div class="desc">Invite</div>';
+        addListing.classList.add("add");
+        addListing.addEventListener("click", function () {
+            _this.showInviteDialog();
+        });
+        mateList.insertBefore(addListing, null);
+
         matesColumn.insertBefore(mateList, null);
+    };
+
+    Pad.prototype.showInviteDialog = function () {
+        var invite_dialog = new InviteDialog(this.pad_id);
+        invite_dialog.show();
     };
 
     Pad.prototype.loadHistory = function () {
@@ -120,8 +134,8 @@ var Pad = (function (_super) {
     Pad.prototype.guidToDisplayName = function (guid) {
         var dname = "Unknown User";
         for (var i = 0; i < this.mates.length; i++) {
-            if (this.mates[i].mateId == guid) {
-                var dname = this.mates[i].displayName;
+            if (this.mates[i].mateId === guid) {
+                dname = this.mates[i].displayName;
                 break;
             }
         }
@@ -129,8 +143,9 @@ var Pad = (function (_super) {
     };
 
     Pad.prototype.messageReceived = function (user_id, pad_id, body, time) {
-        if (pad_id != this.pad_id)
+        if (pad_id !== this.pad_id) {
             return;
+        }
 
         // Clean the message body
         var cleanBody = htmlEscape(body);

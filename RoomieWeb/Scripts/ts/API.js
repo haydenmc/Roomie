@@ -28,6 +28,33 @@ var API = (function () {
             }
         });
     };
+    API.put = function (url, data, success, error) {
+        $.ajax("/api/" + url, {
+            type: "PUT",
+            dataType: "JSON",
+            data: data,
+            headers: { "Authorization": "Bearer " + Application.auth_token },
+            success: function (d) {
+                success(d);
+            },
+            error: function () {
+                error();
+            }
+        });
+    };
+    API.delete = function (url, success, error) {
+        $.ajax("/api/" + url, {
+            type: "DELETE",
+            dataType: "JSON",
+            headers: { "Authorization": "Bearer " + Application.auth_token },
+            success: function (data) {
+                success(data);
+            },
+            error: function () {
+                error();
+            }
+        });
+    };
 
     /* AUTHENTICATION */
     API.token = function (username, password, success, error) {
@@ -68,6 +95,23 @@ var API = (function () {
 
     API.padmessages = function (padId, success, error) {
         API.get("Pad/" + padId + "/Messages", success, error);
+    };
+
+    /* Invite API */
+    API.invites = function (success, error) {
+        API.get("Invites", success, error);
+    };
+
+    API.sendInvite = function (padId, userEmail, success, error) {
+        API.post("Invites", { RecipientEmail: userEmail, PadId: padId }, success, error);
+    };
+
+    API.acceptInvite = function (inviteId, success, error) {
+        API.put("Invites/" + inviteId + "/Accept", {}, success, error);
+    };
+
+    API.declineInvite = function (inviteId, success, error) {
+        API.delete("Invites/" + inviteId, success, error);
     };
     return API;
 })();
