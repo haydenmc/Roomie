@@ -138,7 +138,7 @@ namespace RoomieWeb.Controllers
 				};
 			}
 			db.SaveChanges();
-			return CreatedAtRoute("DefaultApi", new { id = newPad.PadId }, new PadViewModel()
+			return Created(new Uri("/api/Pad/" + newPad.PadId,UriKind.Relative), new PadViewModel()
 			{
 				PadId = newPad.PadId,
 				StreetAddress = newPad.StreetAddress,

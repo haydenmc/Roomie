@@ -142,6 +142,7 @@ var Pad = (function (_super) {
         return dname;
     };
 
+    // SIGNALR HUB METHOD
     Pad.prototype.messageReceived = function (user_id, pad_id, body, time) {
         if (pad_id !== this.pad_id) {
             return;
@@ -174,13 +175,23 @@ var Pad = (function (_super) {
         }
     };
 
-    Pad.prototype.show = function () {
-        var _this = this;
-        _super.prototype.show.call(this);
+    // SIGNALR HUB METHOD
+    Pad.prototype.mateJoined = function (pad_id, mate) {
+        if (pad_id !== this.pad_id) {
+            return;
+        }
 
-        Application.pad_hub.assignMessageReceived(function (user_id, pad_id, body, time) {
-            _this.messageReceived(user_id, pad_id, body, time);
-        });
+        this.loadMates(); // Reload mates
+    };
+
+    Pad.prototype.show = function () {
+        _super.prototype.show.call(this);
+        Application.pad_hub.setPadPage(this);
+    };
+
+    Pad.prototype.hide = function () {
+        _super.prototype.hide.call(this);
+        Application.pad_hub.clearPadPage(this);
     };
     return Pad;
 })(Page);

@@ -223,13 +223,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PadHub.cs" />
-    <Compile Include="Migrations\201403041548060_Initial.cs" />
-    <Compile Include="Migrations\201403041548060_Initial.Designer.cs">
-      <DependentUpon>201403041548060_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201403042153358_AddInvites.cs" />
-    <Compile Include="Migrations\201403042153358_AddInvites.Designer.cs">
-      <DependentUpon>201403042153358_AddInvites.cs</DependentUpon>
+    <Compile Include="Migrations\201403062040472_InitialCreate.cs" />
+    <Compile Include="Migrations\201403062040472_InitialCreate.Designer.cs">
+      <DependentUpon>201403062040472_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -360,14 +356,10 @@
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403041548060_Initial.resx">
-      <DependentUpon>201403041548060_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201403042153358_AddInvites.resx">
-      <DependentUpon>201403042153358_AddInvites.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201403062040472_InitialCreate.resx">
+      <DependentUpon>201403062040472_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

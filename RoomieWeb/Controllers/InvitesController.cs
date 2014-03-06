@@ -92,9 +92,21 @@ namespace RoomieWeb.Controllers
 				};
 			}
 
+			// Gotta get the pad ID from the invite before we remove it...
+			string padId = invite.Pad.PadId.ToString();
+
 			db.Invites.Remove(invite);
 
 			db.SaveChanges();
+
+			// Alert pad members that someone has joined
+			Hub.Clients.All.systemMessage("It's working");
+			Hub.Clients.Group(padId).mateJoined(padId, new MateViewModel()
+			{
+				MateId = currentUser.Id,
+				DisplayName = currentUser.DisplayName,
+				JoinTime = currentUser.JoinTime
+			});
 			return Ok();
 		}
 

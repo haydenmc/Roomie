@@ -36,6 +36,7 @@ var NewPad = (function (_super) {
             API.newpad(inputs[0].value, inputs[1].value, function (data) {
                 // On success ...
                 Progress.hide();
+                Application.pad_hub.refreshGroups(); // Refresh SignalR group membership...
                 if (Application.instance.pages[Application.instance.pages.length - 2] instanceof Hub) {
                     (Application.instance.pages[Application.instance.pages.length - 2]).resetPadLoadTime(); // Reload pads
                 }

@@ -135,6 +135,7 @@ class Pad extends Page {
 		return dname;
 	}
 
+	// SIGNALR HUB METHOD
 	public messageReceived(user_id: string, pad_id: string, body: string, time: string) {
 		if (pad_id !== this.pad_id) {
 			return; // Don't do anything if this message isn't for this pad.
@@ -172,11 +173,22 @@ class Pad extends Page {
 		}
 	}
 
+	// SIGNALR HUB METHOD
+	public mateJoined(pad_id: string, mate: any) {
+		if (pad_id !== this.pad_id) {
+			return; // Don't do anything if this message isn't for this pad.
+		}
+
+		this.loadMates(); // Reload mates
+	}
+
 	public show(): void {
 		super.show();
+		Application.pad_hub.setPadPage(this);
+	}
 
-		Application.pad_hub.assignMessageReceived((user_id, pad_id, body, time) => {
-			this.messageReceived(user_id, pad_id, body, time);
-		});
+	public hide(): void {
+		super.hide();
+		Application.pad_hub.clearPadPage(this);
 	}
 } 
