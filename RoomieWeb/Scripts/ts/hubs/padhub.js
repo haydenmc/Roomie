@@ -50,7 +50,9 @@ var PadHub = (function () {
 
     /* Server-side methods */
     PadHub.prototype.sendMessage = function (padid, body) {
-        this.hub.server.sendMessage(padid, body);
+        this.hub.server.sendMessage(padid, body).fail(function () {
+            alert("FAILURE sending message to server");
+        });
     };
 
     PadHub.prototype.refreshGroups = function () {

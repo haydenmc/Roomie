@@ -476,7 +476,7 @@ h1.listTitle div.gradient {
   float: left;
   width: 36px;
   height: 36px;
-  background-image: url(../svg/plus_white.svg);
+  background-image: url(../svg/icon_add_pad_white.svg);
   background-size: 24px;
   background-position: 6px 6px;
   background-repeat: no-repeat;
@@ -485,7 +485,7 @@ h1.listTitle div.gradient {
 }
 #PadsList ul li.add a:active {
   background-color: #fff;
-  background-image: url(../svg/plus_black.svg);
+  background-image: url(../svg/icon_add_pad_black.svg);
 }
 #PadsList ul li.add .desc {
   float: left;
@@ -494,6 +494,33 @@ h1.listTitle div.gradient {
   font-family: 'Open Sans';
   font-weight: 100;
   font-size: 16px;
+}
+#PadsList ul li.invite {
+  list-style-type: none;
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin: 16px 0;
+}
+#PadsList ul li.invite img {
+  float: left;
+  width: 48px;
+  height: 48px;
+  background-color: #ffc831;
+  margin-right: 8px;
+}
+#PadsList ul li.invite .desc {
+  float: left;
+}
+#PadsList ul li.invite .desc .title {
+  font-size: 18px;
+  font-weight: 900;
+}
+#PadsList ul li.invite .desc .title .invtext {
+  font-weight: 100;
+}
+#PadsList ul li.invite .desc button {
+  font-size: 15px;
 }
 #PadsList ul li {
   cursor: pointer;

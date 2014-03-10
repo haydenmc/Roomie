@@ -50,7 +50,7 @@ class PadHub {
 
 	/* Server-side methods */
 	public sendMessage(padid,body) {
-		this.hub.server.sendMessage(padid, body);
+		this.hub.server.sendMessage(padid, body).fail(function () { alert("FAILURE sending message to server"); });
 	}
 
 	public refreshGroups() {

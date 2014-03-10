@@ -20,9 +20,9 @@ class Hub extends Page {
 		this.hide_animations.push(new Animation("#NewsList", "anim_shoveout_right"));
 		this.hide_animations.push(new Animation("#MeTile", "anim_fadeout"));
 
-		setTimeout(() => {
-			this.loadPads();
-		}, 100);
+		//setTimeout(() => {
+		//	this.loadPads();
+		//}, 100);
 	}
 
 	public show(): void {
@@ -45,16 +45,56 @@ class Hub extends Page {
 		if (data.length <= 0) {
 			return;
 		}
-		if (padsColumn.getElementsByClassName("invites").length > 0) {
-			return; //Don't show multiple multiple notifications
+		var list = padsColumn.getElementsByTagName("ul")[0];
+		var addItem = list.getElementsByClassName("add")[0];
+
+		for (var i = 0; i < data.length; i++) {
+			var inviteitem = document.createElement("li");
+			inviteitem.classList.add("invite");
+			inviteitem.innerHTML = '<img src="" /><div class="desc">' +
+			'<div class="title">' + data[i].pad.streetAddress + '&nbsp;<span class="invtext">(invite)</span></div>'+
+			'<div class="actions"><button>accept</button>&nbsp;/&nbsp;<button>decline</button></div>'+
+			'</div>';
+
+
+			(function (el:HTMLElement, invite, hub: Hub) {
+				el.addEventListener("click", function () {
+					Progress.show();
+					API.acceptInvite(invite.inviteId, function () {
+						Progress.hide();
+						el.classList.add("animation");
+						el.classList.add("anim_shoveout_right");
+						setTimeout(function () {
+							el.parentNode.removeChild(el);
+						}, 300);
+						hub.loadPads();
+					}, function () {
+						Progress.hide();
+						alert("Error accepting invite.");
+					});
+				});
+			})(inviteitem.getElementsByTagName("button")[0], data[i], this);
+
+			(function (el: HTMLElement, invite, hub: Hub) {
+				el.addEventListener("click", function () {
+					Progress.show();
+					API.declineInvite(invite.inviteId, function () {
+						Progress.hide();
+						el.classList.add("animation");
+						el.classList.add("anim_shoveout_right");
+						setTimeout(function () {
+							el.parentNode.removeChild(el);
+						}, 300);
+						Application.pad_hub.refreshGroups();
+						hub.loadPads();
+					}, function () {
+						Progress.hide();
+						alert("Error declining invite.");
+					});
+				});
+			})(inviteitem.getElementsByTagName("button")[1], data[i], this);
 		}
-		var inviteDiv = document.createElement("div");
-		inviteDiv.classList.add("invites");
-		inviteDiv.innerHTML = '<a href="#" class="inviteButton"></a>New Invites';
-		inviteDiv.addEventListener("click", () => {
-			(new MyInvitesDialog()).show();
-		});
-		padsColumn.insertBefore(inviteDiv, padsColumn.getElementsByTagName("ul")[0]);
+		list.insertBefore(inviteitem, addItem);
 	}
 
 	public loadPads() {

@@ -131,6 +131,7 @@ namespace RoomieWeb.Controllers
 			}
 			var invite = invites.First();
 			db.Invites.Remove(invite);
+			db.SaveChanges();
 			return Ok();
 		}
 
