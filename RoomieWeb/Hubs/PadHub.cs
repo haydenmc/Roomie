@@ -50,20 +50,21 @@ namespace RoomieWeb.Hubs
 
 		public override Task OnConnected()
 		{
-			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
-			using (var db = new ApplicationDbContext())
-			{
-				var user = (from u in db.Users
-							where u.Id == user_id
-							select u).First();
-				Clients.Caller.systemMessage("You've authenticated and connected! Hi " + user.DisplayName + "!");
-				var pads = user.Pads;
-				foreach (Pad p in pads)
-				{
-					Groups.Add(Context.ConnectionId, p.PadId.ToString());
-					Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
-				}
-			}
+			this.RefreshGroups();
+			//var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			//using (var db = new ApplicationDbContext())
+			//{
+			//	var user = (from u in db.Users
+			//				where u.Id == user_id
+			//				select u).First();
+			//	Clients.Caller.systemMessage("You've authenticated and connected! Hi " + user.DisplayName + "!");
+			//	var pads = user.Pads;
+			//	foreach (Pad p in pads)
+			//	{
+			//		Groups.Add(Context.ConnectionId, p.PadId.ToString());
+			//		Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
+			//	}
+			//}
 			return base.OnConnected();
 		}
 
@@ -81,6 +82,7 @@ namespace RoomieWeb.Hubs
 					Groups.Add(Context.ConnectionId, p.PadId.ToString());
 					Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
 				}
+				Groups.Add(Context.ConnectionId, user.Id.ToString());
 			}
 		}
 	}

@@ -12,6 +12,9 @@ var PadHub = (function () {
         this.hub.client.systemMessage = function (body) {
             _this.systemMessage(body);
         };
+        this.hub.client.inviteReceived = function (invite) {
+            _this.inviteReceived(invite);
+        };
         $.connection.hub.start().done(function () {
             _this.ready = true;
         });
@@ -41,6 +44,16 @@ var PadHub = (function () {
             this.currentPadPage.mateJoined(padid, mate);
         } else {
             console.log(mate.displayName + " joined one of your pads.");
+        }
+    };
+
+    PadHub.prototype.inviteReceived = function (invite) {
+        console.log("RECEIVED INVITE: ");
+        console.dir(invite);
+
+        // If we're on the hub page, reload them invites.
+        if (Application.instance.pages[Application.instance.pages.length - 1] instanceof Hub) {
+            Application.instance.pages[Application.instance.pages.length - 1].loadInvites();
         }
     };
 

@@ -58,11 +58,19 @@ var Hub = (function (_super) {
             return;
         }
         var list = padsColumn.getElementsByTagName("ul")[0];
+        var existing = list.getElementsByClassName("invite");
         var addItem = list.getElementsByClassName("add")[0];
+
+        for (var i = 0; i < existing.length; i++) {
+            //for (var j = 0; j < data.length; j++) {
+            //}
+            existing[i].parentNode.removeChild(existing[i]);
+        }
 
         for (var i = 0; i < data.length; i++) {
             var inviteitem = document.createElement("li");
             inviteitem.classList.add("invite");
+            inviteitem.attributes["data-invite-id"] = data[i].inviteId;
             inviteitem.innerHTML = '<img src="" /><div class="desc">' + '<div class="title">' + data[i].pad.streetAddress + '&nbsp;<span class="invtext">(invite)</span></div>' + '<div class="actions"><button>accept</button>&nbsp;/&nbsp;<button>decline</button></div>' + '</div>';
 
             (function (el, invite, hub) {
@@ -76,6 +84,7 @@ var Hub = (function (_super) {
                             el.parentNode.removeChild(el);
                         }, 300);
                         hub.loadPads();
+                        Application.pad_hub.refreshGroups();
                     }, function () {
                         Progress.hide();
                         alert("Error accepting invite.");
@@ -101,8 +110,9 @@ var Hub = (function (_super) {
                     });
                 });
             })(inviteitem.getElementsByTagName("button")[1], data[i], this);
+
+            list.insertBefore(inviteitem, addItem);
         }
-        list.insertBefore(inviteitem, addItem);
     };
 
     Hub.prototype.loadPads = function () {

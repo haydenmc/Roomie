@@ -535,6 +535,10 @@ h1.listTitle {
 			}
 			.desc {
 				float:left;
+				width: calc(~"100% - 56px");
+				overflow:hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 				.title {
 					.invtext {
 						font-weight:100;

@@ -511,6 +511,10 @@ h1.listTitle div.gradient {
 }
 #PadsList ul li.invite .desc {
   float: left;
+  width: calc(100% - 56px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #PadsList ul li.invite .desc .title {
   font-size: 18px;

@@ -243,6 +243,33 @@ namespace RoomieWeb.Controllers
 			db.Invites.Add(inv);
 			db.SaveChanges();
 
+			if (recipient.Count() > 0)
+			{
+				// Alert the recipient that they've received an invite.
+				Hub.Clients.Group(recipient.First().Id.ToString()).inviteReceived(new InviteViewModel()
+				{
+					InviteId = inv.InviteId,
+					Pad = new PadViewModel()
+					{
+						PadId = inv.Pad.PadId,
+						StreetAddress = inv.Pad.StreetAddress,
+						ZipCode = inv.Pad.ZipCode
+					},
+					Recipient = new MateViewModel()
+					{
+						MateId = inv.Recipient.Id,
+						DisplayName = inv.Recipient.DisplayName,
+						JoinTime = inv.Recipient.JoinTime
+					},
+					Sender = new MateViewModel()
+					{
+						MateId = inv.Sender.Id,
+						DisplayName = inv.Sender.Id,
+						JoinTime = inv.Sender.JoinTime
+					},
+				});
+			}
+
 			return Ok(); // This really should return Created ... but we need a viewmodel.
 		}
 

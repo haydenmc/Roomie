@@ -11,6 +11,7 @@ class PadHub {
 		this.hub.client.messageReceived = (userid, padid, body, time) => { this.messageReceived(userid, padid, body, time); };
 		this.hub.client.mateJoined = (padid, mate) => { this.mateJoined(padid, mate); };
 		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
+		this.hub.client.inviteReceived = (invite) => { this.inviteReceived(invite); };
 		$.connection.hub.start().done(() => {
 			this.ready = true;
 		});
@@ -41,6 +42,15 @@ class PadHub {
 			this.currentPadPage.mateJoined(padid, mate);
 		} else {
 			console.log(mate.displayName + " joined one of your pads.");
+		}
+	}
+
+	public inviteReceived(invite: any) {
+		console.log("RECEIVED INVITE: ");
+		console.dir(invite);
+		// If we're on the hub page, reload them invites.
+		if (Application.instance.pages[Application.instance.pages.length - 1] instanceof Hub) {
+			(<Hub>Application.instance.pages[Application.instance.pages.length - 1]).loadInvites();
 		}
 	}
 
