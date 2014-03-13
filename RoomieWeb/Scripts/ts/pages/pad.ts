@@ -171,6 +171,9 @@ class Pad extends Page {
 			// Scroll to bottom
 			messagelist.scrollTop = messagelist.scrollHeight;
 		}
+
+		// Notification
+		Application.instance.addNotification();
 	}
 
 	// SIGNALR HUB METHOD

@@ -1,13 +1,77 @@
 var Application = (function () {
     function Application() {
+        var _this = this;
         // Page stack!
         this.pages = new Array();
         Application.instance = this;
+
+        window.onfocus = function (evt) {
+            _this.onFocus();
+        };
+        window.onblur = function (evt) {
+            _this.onBlur();
+        };
     }
     /* Static Methods */
     Application.set_auth_token = function (token) {
         Application.auth_token = token;
         Application.pad_hub = new PadHub(); // Connect to SignalR Hub
+    };
+
+    /**
+    * onFocus
+    * Occurs when the page is put into focus by the user.
+    */
+    Application.prototype.onFocus = function () {
+        Application.has_focus = true;
+        this.setNotificationCount(0);
+        this.updateTitle();
+    };
+
+    /**
+    * onBlur
+    * Occurs when the page loses focus.
+    */
+    Application.prototype.onBlur = function () {
+        Application.has_focus = false;
+    };
+
+    /**
+    * addNotification
+    * Adds one to the notification count and updates title / makes sound / etc.
+    */
+    Application.prototype.addNotification = function () {
+        if (Application.has_focus) {
+            return;
+        }
+        Application.notification_count++;
+        Application.notification_sound.play();
+        this.updateTitle();
+    };
+
+    /**
+    * setNotificationCount
+    * Sets the count of notifications to the specified amount.
+    */
+    Application.prototype.setNotificationCount = function (count) {
+        Application.notification_count = count;
+        this.updateTitle();
+    };
+
+    /**
+    * Updates the title of the window with the current page name and
+    * notification count.
+    */
+    Application.prototype.updateTitle = function () {
+        var notification = "";
+        if (Application.notification_count > 0) {
+            notification = "(" + Application.notification_count + ") ";
+        }
+        if (this.pages[this.pages.length - 1].title.length > 0) {
+            document.title = notification + "roomie / " + this.pages[this.pages.length - 1].title;
+        } else {
+            document.title = notification + "roomie";
+        }
     };
 
     /**
@@ -31,6 +95,7 @@ var Application = (function () {
             this.pages[this.pages.length - 2].hide();
         }
         this.pages[this.pages.length - 1].show();
+        this.updateTitle();
     };
 
     /**
@@ -41,6 +106,7 @@ var Application = (function () {
         if (this.pages.length > 1) {
             this.pages.pop().hide();
             this.pages[this.pages.length - 1].show();
+            this.updateTitle();
         }
     };
 
@@ -60,6 +126,10 @@ var Application = (function () {
     Application.prototype.hasPages = function () {
         return (this.pages.length > 0);
     };
+    Application.has_focus = true;
+
+    Application.notification_count = 0;
+    Application.notification_sound = new Audio("/Content/snd/update.mp3");
     return Application;
 })();
 

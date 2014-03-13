@@ -3,6 +3,11 @@ class Application {
 	public static instance: Application;
 	public static auth_token: string;
 	public static pad_hub: PadHub;
+	public static has_focus: boolean = true;
+
+	// Notification count
+	public static notification_count: number = 0;
+	public static notification_sound: HTMLAudioElement = new Audio("/Content/snd/update.mp3");
 
 	// Page stack!
 	public pages: Page[] = new Array<Page>();
@@ -15,6 +20,69 @@ class Application {
 
 	constructor() {
 		Application.instance = this;
+
+		window.onfocus = (evt) => {
+			this.onFocus();
+		}
+		window.onblur = (evt) => {
+			this.onBlur();
+		}
+	}
+
+	/**
+	 * onFocus
+	 * Occurs when the page is put into focus by the user.
+	 */
+	public onFocus(): void {
+		Application.has_focus = true;
+		this.setNotificationCount(0);
+		this.updateTitle();
+	}
+
+	/**
+	 * onBlur
+	 * Occurs when the page loses focus.
+	 */
+	public onBlur(): void {
+		Application.has_focus = false;
+	}
+
+	/**
+	 * addNotification
+	 * Adds one to the notification count and updates title / makes sound / etc.
+	 */
+	public addNotification(): void {
+		if (Application.has_focus) {
+			return; // Return if we're looking at the window.
+		}
+		Application.notification_count++;
+		Application.notification_sound.play();
+		this.updateTitle();
+	}
+
+	/**
+	 * setNotificationCount
+	 * Sets the count of notifications to the specified amount.
+	 */
+	public setNotificationCount(count: number) {
+		Application.notification_count = count;
+		this.updateTitle();
+	}
+
+	/**
+	 * Updates the title of the window with the current page name and
+	 * notification count.
+	 */
+	public updateTitle() {
+		var notification = "";
+		if (Application.notification_count > 0) {
+			notification = "(" + Application.notification_count + ") ";
+		}
+		if (this.pages[this.pages.length - 1].title.length > 0) {
+			document.title = notification + "roomie / " + this.pages[this.pages.length - 1].title;
+		} else {
+			document.title = notification + "roomie";
+		}
 	}
 
 	/**
@@ -38,6 +106,7 @@ class Application {
 			this.pages[this.pages.length - 2].hide();
 		}
 		this.pages[this.pages.length - 1].show();
+		this.updateTitle();
 	}
 
 	/**
@@ -48,6 +117,7 @@ class Application {
 		if (this.pages.length > 1) {
 			this.pages.pop().hide();
 			this.pages[this.pages.length - 1].show();
+			this.updateTitle();
 		}
 	}
 

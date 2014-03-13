@@ -173,6 +173,9 @@ var Pad = (function (_super) {
             // Scroll to bottom
             messagelist.scrollTop = messagelist.scrollHeight;
         }
+
+        // Notification
+        Application.instance.addNotification();
     };
 
     // SIGNALR HUB METHOD

@@ -263,6 +263,8 @@
     <Content Include="Content\fonts\OpenSans-Light-webfont.svg" />
     <Content Include="Content\fonts\OpenSans-Regular-webfont.svg" />
     <Content Include="Content\img\me_temp.jpg" />
+    <Content Include="Content\snd\update.mp3" />
+    <Content Include="Content\snd\update.wav" />
     <Content Include="Content\svg\arrow_back_black.svg" />
     <Content Include="Content\svg\arrow_back_white.svg" />
     <Content Include="Content\svg\icon_add_pad_black.svg" />
