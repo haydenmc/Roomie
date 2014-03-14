@@ -21,7 +21,7 @@ var Dialog = (function () {
         if (def) {
             b.classList.add("default");
         }
-        b.innerText = text;
+        b.innerHTML = text;
         b.addEventListener("click", function (evt) {
             action();
         });

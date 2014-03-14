@@ -28,7 +28,7 @@ class Dialog {
 		if (def) {
 			b.classList.add("default");
 		}
-		b.innerText = text;
+		b.innerHTML = text;
 		b.addEventListener("click", (evt) => { action(); });
 		li.appendChild(b);
 

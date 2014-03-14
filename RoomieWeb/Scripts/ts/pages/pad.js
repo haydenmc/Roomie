@@ -118,7 +118,7 @@ var Pad = (function (_super) {
     Pad.prototype.loadHistory_success = function (data) {
         var html = '';
         for (var i = 0; i < data.length; i++) {
-            var color = Math.abs(this.guidToDisplayName(data[i].mateId).hashCode()) % 360;
+            var color = Math.abs(data[i].mateId.hashCode()) % 360;
             html += '<li class="animation anim_fadein">' + '<div class="idstrip" style="background-color: hsl(' + color + ',100%, 70%);"></div>' + '<div class="message">' + '<div class="body" > ' + data[i].body + ' </div > ' + '<div class="information">' + '<div class="name">' + this.guidToDisplayName(data[i].mateId) + '</div>' + '<div class="time">' + this.friendlyDateTime(new Date(data[i].sendTime)) + '</div>' + '</div>' + '</div>' + '</div>' + '</li>';
         }
         var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
@@ -163,7 +163,7 @@ var Pad = (function (_super) {
         var msgElement = document.createElement("li");
         msgElement.classList.add("animation");
         msgElement.classList.add("anim_shovein_left");
-        var color = Math.abs(dname.hashCode()) % 360;
+        var color = Math.abs(user_id.hashCode()) % 360;
         msgElement.innerHTML = '<div class="idstrip" style="background-color: hsl(' + color + ',100%, 70%);"></div>' + '<div class="message">' + '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + dname + '</div>' + '<div class="time">' + friendlyDate + '</div>' + '</div>' + '</div>' + '</div>';
 
         var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];

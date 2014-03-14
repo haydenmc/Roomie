@@ -104,7 +104,7 @@ class Pad extends Page {
 	public loadHistory_success(data: any): void {
 		var html = '';
 		for (var i = 0; i < data.length; i++) {
-			var color = Math.abs((<any>this.guidToDisplayName(data[i].mateId)).hashCode()) % 360;
+			var color = Math.abs((<any>data[i].mateId).hashCode()) % 360;
 			html += '<li class="animation anim_fadein">' +
 			'<div class="idstrip" style="background-color: hsl(' + color +',100%, 70%);"></div>' +
 			'<div class="message">' +
@@ -159,7 +159,7 @@ class Pad extends Page {
 		var msgElement = document.createElement("li");
 		msgElement.classList.add("animation");
 		msgElement.classList.add("anim_shovein_left");
-		var color = Math.abs((<any>dname).hashCode()) % 360;
+		var color = Math.abs((<any>user_id).hashCode()) % 360;
 		msgElement.innerHTML = '<div class="idstrip" style="background-color: hsl('+color+',100%, 70%);"></div>' +
 		'<div class="message">' +
 		'<div class="body">' + cleanBody + '</div>' +
