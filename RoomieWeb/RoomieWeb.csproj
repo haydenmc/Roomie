@@ -345,6 +345,7 @@
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialogs\invitedialog.ts" />
+    <TypeScriptCompile Include="Scripts\ts\dialogs\medialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialogs\myinvitesdialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\hubs\padhub.ts" />
     <TypeScriptCompile Include="Scripts\ts\page.ts" />

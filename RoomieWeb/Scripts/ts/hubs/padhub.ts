@@ -17,6 +17,10 @@ class PadHub {
 		});
 	}
 
+	public disconnect() {
+		$.connection.hub.stop();
+	}
+
 	public setPadPage(page: Pad) {
 		this.currentPadPage = page;
 	}

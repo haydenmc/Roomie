@@ -4,12 +4,30 @@ class Hub extends Page {
 
 	constructor() {
 		super("Roomie");
+
 		// Add Me Tile
-		this.page_element.innerHTML += '<div id="MeTile"><div class="dimmer"></div><a href="#" class="meText">Me</a></div>';
+		var mediv = document.createElement("div");
+		mediv.id = "MeTile";
+		mediv.innerHTML = '<div class="dimmer"></div><a href="#" class="meText">Me</a>';
+		mediv.getElementsByTagName("a")[0].addEventListener("click", (evt) => {
+			var d: MeDialog = new MeDialog();
+			d.show();
+		});
+		this.page_element.appendChild(mediv);
+
 		// Add Pads List
-		this.page_element.innerHTML += '<div id="PadsList"><h1 class="listTitle"><div class="gradient"></div>Pads</h1></div>';
+		var padlist = document.createElement("div");
+		padlist.id = "PadsList";
+		padlist.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Pads</h1>';
+		this.page_element.appendChild(padlist);
+
 		// Add News List
-		this.page_element.innerHTML += '<div id="NewsList"><h1 class="listTitle"><div class="gradient"></div>News</h1></div>';
+		var newslist = document.createElement("div");
+		newslist.id = "NewsList";
+		newslist.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>News</h1>';
+		this.page_element.appendChild(newslist);
+		
+
 		// Prepare animations
 		// Show
 		this.show_animations.push(new Animation("#PadsList", "anim_shovein_left"));

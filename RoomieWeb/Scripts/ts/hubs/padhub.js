@@ -19,6 +19,10 @@ var PadHub = (function () {
             _this.ready = true;
         });
     }
+    PadHub.prototype.disconnect = function () {
+        $.connection.hub.stop();
+    };
+
     PadHub.prototype.setPadPage = function (page) {
         this.currentPadPage = page;
     };

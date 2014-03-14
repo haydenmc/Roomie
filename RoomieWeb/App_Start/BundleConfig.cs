@@ -24,6 +24,7 @@ namespace RoomieWeb
 				"~/Scripts/ts/dialog.js",
 				"~/Scripts/ts/dialogs/invitedialog.js",
 				"~/Scripts/ts/dialogs/myinvitesdialog.js",
+				"~/Scripts/ts/dialogs/medialog.js",
 				"~/Scripts/ts/pages/login.js",
 				"~/Scripts/ts/pages/register.js",
 				"~/Scripts/ts/pages/newpad.js",
