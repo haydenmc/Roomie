@@ -104,11 +104,15 @@ class Pad extends Page {
 	public loadHistory_success(data: any): void {
 		var html = '';
 		for (var i = 0; i < data.length; i++) {
+			var color = Math.abs((<any>this.guidToDisplayName(data[i].mateId)).hashCode()) % 360;
 			html += '<li class="animation anim_fadein">' +
+			'<div class="idstrip" style="background-color: hsl(' + color +',100%, 70%);"></div>' +
+			'<div class="message">' +
 			'<div class="body" > ' + data[i].body + ' </div > ' +
 			'<div class="information">' +
 			'<div class="name">' + this.guidToDisplayName(data[i].mateId) + '</div>' +
 			'<div class="time">' + this.friendlyDateTime(new Date(data[i].sendTime)) + '</div>' +
+			'</div>' +
 			'</div>' +
 			'</div>' +
 			'</li>';
@@ -155,10 +159,14 @@ class Pad extends Page {
 		var msgElement = document.createElement("li");
 		msgElement.classList.add("animation");
 		msgElement.classList.add("anim_shovein_left");
-		msgElement.innerHTML = '<div class="body">' + cleanBody + '</div>' +
+		var color = Math.abs((<any>dname).hashCode()) % 360;
+		msgElement.innerHTML = '<div class="idstrip" style="background-color: hsl('+color+',100%, 70%);"></div>' +
+		'<div class="message">' +
+		'<div class="body">' + cleanBody + '</div>' +
 		'<div class="information">' +
 		'<div class="name">' + dname + '</div>' +
 		'<div class="time">' + friendlyDate + '</div>' +
+		'</div>' +
 		'</div>' +
 		'</div>';
 
