@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using RoomieWeb.Providers;
 using RoomieWeb.Models;
+using RoomieWeb.Misc;
 
 namespace RoomieWeb
 {
@@ -25,8 +26,9 @@ namespace RoomieWeb
 				TokenEndpointPath = new PathString("/Token"),
 				Provider = new ApplicationOAuthProvider(PublicClientId, UserManagerFactory),
 				AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-				AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-				AllowInsecureHttp = true
+				AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+				AllowInsecureHttp = true,
+				RefreshTokenProvider = new SimpleRefreshTokenProvider()
 			};
 		}
 
