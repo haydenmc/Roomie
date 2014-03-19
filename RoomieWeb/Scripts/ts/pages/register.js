@@ -67,13 +67,10 @@ var Register = (function (_super) {
 
         // Call API
         API.register(email, displayname, password, confirmpassword, function (data) {
-            // Fetch authentication token
-            API.token(email, password, function (data) {
+            // Authenticate
+            Application.auth_credentials(email, password, function (data) {
                 // Hide the progress bar
                 Progress.hide();
-
-                // Get our auth token
-                Application.set_auth_token(data.access_token);
 
                 // Navigate to hub!
                 Application.instance.clearPages();

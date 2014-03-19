@@ -58,24 +58,22 @@ class Register extends Page {
 
 		// Call API
 		API.register(email, displayname, password, confirmpassword, (data) => {
-			// Fetch authentication token
-			API.token(email, password, (data) => {
+			// Authenticate
+			Application.auth_credentials(email, password, (data) => {
 				// Hide the progress bar
 				Progress.hide();
-				// Get our auth token
-				Application.set_auth_token(data.access_token);
 				// Navigate to hub!
 				Application.instance.clearPages();
 				Application.instance.navigateTo(new Hub());
 			}, () => {
-				Progress.hide(); // Hide the progress bar.
-				alert("Error logging in.");
-				var inputs = this.page_element.getElementsByTagName("input");
-				inputs[0].disabled = false;
-				inputs[1].disabled = false;
-				inputs[2].disabled = false;
-				inputs[3].disabled = false;
-			});
+					Progress.hide(); // Hide the progress bar.
+					alert("Error logging in.");
+					var inputs = this.page_element.getElementsByTagName("input");
+					inputs[0].disabled = false;
+					inputs[1].disabled = false;
+					inputs[2].disabled = false;
+					inputs[3].disabled = false;
+				});
 		}, () => {
 			Progress.hide(); // Hide the progress bar.
 			alert("failure.");

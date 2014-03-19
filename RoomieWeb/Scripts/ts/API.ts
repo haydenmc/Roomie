@@ -69,6 +69,20 @@ class API {
 		});
 	}
 
+	public static refreshtoken(token: string, email: string, success: Function, error: Function) {
+		$.ajax("/Token", {
+			type: "POST",
+			dataType: "JSON",
+			data: { grant_type: "refresh_token", client_id: email, refresh_token: token },
+			success: (data) => {
+				success(data);
+			},
+			error: () => {
+				error();
+			}
+		});
+	}
+
 	public static register(email: string,displayname: string, password: string, confirmpassword: string, success: Function, error: Function) {
 		API.post("Account/Register", {
 			Email: email,

@@ -83,12 +83,9 @@ var LogIn = (function (_super) {
         Progress.show();
 
         // Authenticate!
-        API.token(username, password, function (data) {
+        Application.auth_credentials(username, password, function (data) {
             // Hide the progress bar
             Progress.hide();
-
-            // Get our auth token
-            Application.set_auth_token(data.access_token);
 
             // Navigate to hub!
             Application.instance.clearPages();

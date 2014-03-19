@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201403062040472_InitialCreate.Designer.cs">
       <DependentUpon>201403062040472_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403192233443_AddRefreshTokens.cs" />
+    <Compile Include="Migrations\201403192233443_AddRefreshTokens.Designer.cs">
+      <DependentUpon>201403192233443_AddRefreshTokens.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Misc\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -239,6 +243,7 @@
     <Compile Include="Models\Mate.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Pad.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\ViewModels\InviteViewModel.cs" />
     <Compile Include="Models\ViewModels\MateViewModel.cs" />
     <Compile Include="Models\ViewModels\MessageViewModel.cs" />
@@ -344,6 +349,7 @@
     <TypeScriptCompile Include="Scripts\ts\animation.ts" />
     <TypeScriptCompile Include="Scripts\ts\API.ts" />
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
+    <TypeScriptCompile Include="Scripts\ts\cookies.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialogs\invitedialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialogs\medialog.ts" />
@@ -362,6 +368,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201403062040472_InitialCreate.resx">
       <DependentUpon>201403062040472_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403192233443_AddRefreshTokens.resx">
+      <DependentUpon>201403192233443_AddRefreshTokens.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

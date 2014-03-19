@@ -28,7 +28,7 @@ var PadHub = (function () {
     };
 
     PadHub.prototype.clearPadPage = function (page) {
-        if (this.currentPadPage == page) {
+        if (this.currentPadPage === page) {
             this.currentPadPage = null;
         }
     };

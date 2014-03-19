@@ -79,11 +79,9 @@ class LogIn extends Page {
 		Progress.show();
 
 		// Authenticate!
-		API.token(username, password, (data) => {
+		Application.auth_credentials(username, password, (data) => {
 			// Hide the progress bar
 			Progress.hide();
-			// Get our auth token
-			Application.set_auth_token(data.access_token);
 			// Navigate to hub!
 			Application.instance.clearPages();
 			Application.instance.navigateTo(new Hub());

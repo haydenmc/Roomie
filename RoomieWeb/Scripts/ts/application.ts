@@ -2,6 +2,8 @@ class Application {
 	// Running instance reference
 	public static instance: Application;
 	public static auth_token: string;
+	public static refresh_token: string;
+	public static identity_email: string;
 	public static pad_hub: PadHub;
 	public static has_focus: boolean = true;
 
@@ -13,11 +15,36 @@ class Application {
 	public pages: Page[] = new Array<Page>();
 
 	/* Static Methods */
-	public static set_auth_token(token: string) {
-		// Save cookie
-		set_auth_cookie(token);
-		Application.auth_token = token;
-		Application.pad_hub = new PadHub(); // Connect to SignalR Hub
+	public static auth_credentials(username: string, password: string, success: Function, failure: Function) {
+		API.token(username, password, (data) => {
+			Application.update_auth_parameters(data.access_token, data.refresh_token, username);
+			success(data);
+		}, () => {
+			failure();
+		});
+	}
+	public static auth_refresh(token: string, identity: string, success: Function, failure: Function) {
+		API.refreshtoken(token, identity, (data) => {
+			Application.update_auth_parameters(data.access_token, data.refresh_token, identity);
+			success(data);
+		}, () => {
+			failure();
+		});
+	}
+	public static update_auth_parameters(auth_token: string, refresh_token: string, email: string) {
+		// Set application parameters
+		Application.auth_token = auth_token;
+		Application.refresh_token = refresh_token;
+		Application.identity_email = email;
+		// Set cookies
+		var expireDate: Date = new Date();
+		expireDate.setDate(expireDate.getDate() + 7);
+		Cookies.set_cookie("refresh_token", refresh_token, expireDate);
+		Cookies.set_cookie("identity_email", email, expireDate);
+		// Reconnect hub if it's not present.
+		if (!Application.pad_hub) {
+			Application.pad_hub = new PadHub();
+		}
 	}
 
 	constructor() {
@@ -92,8 +119,9 @@ class Application {
 	 * Logs the user out, resets cookies, returns to log in page.
 	 */
 	public logOut(): void {
-		delete_auth_cookie();
 		Application.auth_token = null;
+		Application.refresh_token = null;
+		Application.identity_email = null;
 		Application.pad_hub.disconnect();
 		Application.pad_hub = null;
 		this.clearPages();
@@ -180,58 +208,32 @@ function htmlEscape(str) {
 	for (var i = 0; i < this.length; i++) {
 		var char = this.charCodeAt(i);
 		hash += char;
-        hash %= 360;
+		hash %= 360;
 	}
 	return hash;
-}
-
-function get_auth_cookie() {
-	var results = document.cookie.match('(^|;) ?' + "auth_token" + '=([^;]*)(;|$)');
-
-	if (results)
-		return ((results[2]));
-	else
-		return null;
-}
-
-function set_auth_cookie(auth_token: string): void {
-	var cookie_string = "auth_token" + "=" + auth_token;
-	var actualDate = new Date(); // convert to actual date
-	var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 7); // create new increased date
-	cookie_string += "; expires=" + (<any>newDate).toGMTString();
-	document.cookie = cookie_string;
-}
-
-function delete_auth_cookie() {
-	var cookie_date = new Date();  // current date & time
-	cookie_date.setTime(cookie_date.getTime() - 1);
-	document.cookie = "auth_token" + "=; expires=" + (<any>cookie_date).toGMTString();
 }
 
 window.onload = function () {
 	var a: Application = new Application();
 
-	// Check to see if we have an auth token saved as a cookie.
-	var saved_token = get_auth_cookie();
-	if (saved_token == null) {
+	// Check to see if we have a refresh token saved as a cookie.
+	var refresh_token = Cookies.get_cookie("refresh_token");
+	var identity_email = Cookies.get_cookie("identity_email");
+	if (refresh_token == null || identity_email == null) {
 		// If not, show log in page.
 		a.navigateTo(new LogIn());
 	} else {
-		// Make sure this token is still valid.
-		Application.auth_token = saved_token;
+		// Use the refresh token to request a new auth token
 		Progress.show();
-		API.pads((data) => {
-			// On successful API call, show the hub.
+		Application.auth_refresh(refresh_token, identity_email, (data) => {
+			// On success, navigate to hub.
 			Progress.hide();
-			// Call set auth token method to ensure SignalR connection.
-			Application.set_auth_token(saved_token); 
 			a.clearPages();
 			a.navigateTo(new Hub());
 		}, () => {
-			// Otherwise, clear the auth token and present log in.
+			// On failure, 'log out'.
 			Progress.hide();
-			Application.auth_token = null;
-			a.navigateTo(new LogIn());
+			Application.instance.logOut();
 		});
 	}
 };

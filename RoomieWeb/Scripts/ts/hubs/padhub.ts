@@ -26,7 +26,7 @@ class PadHub {
 	}
 
 	public clearPadPage(page: Pad) {
-		if (this.currentPadPage == page) {
+		if (this.currentPadPage === page) {
 			this.currentPadPage = null;
 		}
 	}

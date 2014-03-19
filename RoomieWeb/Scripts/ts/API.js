@@ -71,6 +71,20 @@ var API = (function () {
         });
     };
 
+    API.refreshtoken = function (token, email, success, error) {
+        $.ajax("/Token", {
+            type: "POST",
+            dataType: "JSON",
+            data: { grant_type: "refresh_token", client_id: email, refresh_token: token },
+            success: function (data) {
+                success(data);
+            },
+            error: function () {
+                error();
+            }
+        });
+    };
+
     API.register = function (email, displayname, password, confirmpassword, success, error) {
         API.post("Account/Register", {
             Email: email,

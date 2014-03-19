@@ -1,9 +1,11 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using RoomieWeb.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -15,34 +17,53 @@ namespace RoomieWeb.Misc
 
 		public async Task CreateAsync(AuthenticationTokenCreateContext context)
 		{
-			var guid = Guid.NewGuid().ToString();
-
-			//copy properties and set the desired lifetime of refresh token
-			var refreshTokenProperties = new AuthenticationProperties(context.Ticket.Properties.Dictionary)
+			using (var db = new ApplicationDbContext())
 			{
-				IssuedUtc = context.Ticket.Properties.IssuedUtc,
-				//ExpiresUtc = DateTime.UtcNow.AddMinutes(5) //SET DATETIME to 5 Minutes
-				ExpiresUtc = DateTime.UtcNow.AddMonths(3) 
-			};
-			/*CREATE A NEW TICKET WITH EXPIRATION TIME OF 5 MINUTES 
-			 *INCLUDING THE VALUES OF THE CONTEXT TICKET: SO ALL WE 
-			 *DO HERE IS TO ADD THE PROPERTIES IssuedUtc and 
-			 *ExpiredUtc to the TICKET*/
-			var refreshTokenTicket = new AuthenticationTicket(context.Ticket.Identity, refreshTokenProperties);
-
-			//saving the new refreshTokenTicket to a local var of Type ConcurrentDictionary<string,AuthenticationTicket>
-			_refreshTokens.TryAdd(guid, refreshTokenTicket);
-
-			// consider storing only the hash of the handle
-			context.SetToken(guid);
+				var currentUserClaim = (from c in context.Ticket.Identity.Claims
+									where c.Type == ClaimTypes.NameIdentifier
+									select c).FirstOrDefault();
+				if (currentUserClaim == null) {
+					throw new UnauthorizedAccessException("Could not validate user.");
+				}
+				Mate currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserClaim.Value);
+				var refreshEntry = new RefreshToken()
+				{
+					RefreshTokenId = new Guid(),
+					Mate = currentUser,
+					IssuedTime = DateTime.UtcNow,
+					ExpiresTime = DateTime.UtcNow.AddDays(20)
+				};
+				db.RefreshTokens.Add(refreshEntry);
+				db.SaveChanges();
+				context.SetToken(refreshEntry.RefreshTokenId.ToString());
+			}
 		}
 
 		public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
 		{
-			AuthenticationTicket ticket;
-
-			if (_refreshTokens.TryRemove(context.Token, out ticket))
+			using (var db = new ApplicationDbContext())
 			{
+				var refreshEntry = (from r in db.RefreshTokens
+								   where r.RefreshTokenId == new Guid(context.Token)
+								   where r.ExpiresTime > DateTime.UtcNow
+								   select r).FirstOrDefault();
+				if (refreshEntry == null)
+				{
+					throw new UnauthorizedAccessException("Invalid refresh token.");
+				}
+				
+				var identity = new ClaimsIdentity("Bearer");
+				identity.AddClaim(new Claim(ClaimTypes.Name, refreshEntry.Mate.UserName));
+				identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, refreshEntry.Mate.Id));
+
+				var refreshTokenProperties = new AuthenticationProperties()
+				{
+					IssuedUtc = refreshEntry.IssuedTime,
+					ExpiresUtc = refreshEntry.ExpiresTime 
+				};
+				AuthenticationTicket ticket = new AuthenticationTicket(identity,refreshTokenProperties);
+				db.RefreshTokens.Remove(refreshEntry);
+				db.SaveChanges();
 				context.SetTicket(ticket);
 			}
 		}
