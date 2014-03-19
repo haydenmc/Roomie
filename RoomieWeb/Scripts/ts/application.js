@@ -111,6 +111,8 @@ var Application = (function () {
         Application.auth_token = null;
         Application.refresh_token = null;
         Application.identity_email = null;
+        Cookies.delete_cookie("refresh_token");
+        Cookies.delete_cookie("identity_email");
         Application.pad_hub.disconnect();
         Application.pad_hub = null;
         this.clearPages();
