@@ -744,6 +744,7 @@ ul.invitelist li div.actions button {
 #ChatPane ul.chatlist li div.message div.body {
   font-size: 16px;
   white-space: pre-line;
+  word-wrap: break-word;
 }
 #ChatPane ul.chatlist li div.message div.information {
   width: 100%;
