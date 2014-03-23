@@ -28,6 +28,23 @@ body {
   background-color: #000;
   color: #fff;
   font-family: 'Open Sans';
+  /* Scrollbar styles for IE */
+  scrollbar-base-color: #ff4ceb;
+  scrollbar-face-color: #ff4ceb;
+  scrollbar-track-color: #000;
+  scrollbar-arrow-color: #ff4ceb;
+  scrollbar-darkshadow-color: #808080;
+}
+/* Scrollbars for webkit browsers */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ff4ceb;
+}
+::-webkit-scrollbar-button {
+  color: #ff4ceb;
 }
 /* Input Styles */
 input {
@@ -617,8 +634,12 @@ ul.invitelist li div.actions button {
   position: absolute;
   left: 128px;
   height: 100%;
+  overflow: visible;
 }
 #MatesList ul {
+  height: calc(100% - 98px);
+  overflow-x: hidden;
+  overflow-y: auto;
   margin: 28px 0 0 32px;
   padding: 0;
 }
@@ -675,11 +696,11 @@ ul.invitelist li div.actions button {
   /* Normal user listings ... */
 }
 #MatesList ul li[class=mate]:hover {
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  -o-transform: scale(1.1);
-  transform: scale(1.1);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  transform: scale(0.95);
 }
 #MatesList ul li img {
   float: left;
@@ -692,11 +713,12 @@ ul.invitelist li div.actions button {
   float: left;
   height: 100%;
   line-height: 1.9;
-  width: calc(50%);
+  width: calc(100% - 50px);
   font-family: 'Open Sans';
   font-weight: 100;
   font-size: 20px;
   color: #fff;
+  overflow-x: hidden;
 }
 #ChatPane {
   position: absolute;
