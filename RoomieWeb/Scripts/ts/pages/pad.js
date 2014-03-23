@@ -84,7 +84,7 @@ var Pad = (function (_super) {
 
         for (var i = 0; i < mates.length; i++) {
             var mateListing = document.createElement("li");
-            mateListing.innerHTML = '<img src="" /><div class="name">' + mates[i].displayName.split(/\b/)[0];
+            mateListing.innerHTML = '<img src="" style="background-color: ' + this.guidToColor(mates[i].mateId) + ';" /><div class="name">' + mates[i].displayName.split(/\b/)[0];
             +'</div>';
             mateListing.classList.add("mate");
             mateList.insertBefore(mateListing, null);
@@ -143,6 +143,14 @@ var Pad = (function (_super) {
         return dname;
     };
 
+    Pad.prototype.guidToColor = function (guid) {
+        if (!guid) {
+            return 'hsl(0, 100%, 70%)';
+        }
+        var color = Math.abs(guid.hashCode()) % 360;
+        return 'hsl(' + color + ', 100%, 70%)';
+    };
+
     // SIGNALR HUB METHOD
     Pad.prototype.messageReceived = function (user_id, pad_id, body, time) {
         if (pad_id !== this.pad_id) {
@@ -164,7 +172,7 @@ var Pad = (function (_super) {
         msgElement.classList.add("animation");
         msgElement.classList.add("anim_shovein_left");
         var color = Math.abs(user_id.hashCode()) % 360;
-        msgElement.innerHTML = '<div class="idstrip" style="background-color: hsl(' + color + ',100%, 70%);"></div>' + '<div class="message">' + '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + dname + '</div>' + '<div class="time">' + friendlyDate + '</div>' + '</div>' + '</div>' + '</div>';
+        msgElement.innerHTML = '<div class="idstrip" style="background-color: ' + this.guidToColor(user_id) + ';"></div>' + '<div class="message">' + '<div class="body">' + cleanBody + '</div>' + '<div class="information">' + '<div class="name">' + dname + '</div>' + '<div class="time">' + friendlyDate + '</div>' + '</div>' + '</div>' + '</div>';
 
         var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
         var style = window.getComputedStyle(messagelist, null);

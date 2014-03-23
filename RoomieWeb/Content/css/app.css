@@ -378,7 +378,8 @@ h1.listTitle div.gradient {
   top: 20px;
   width: 48px;
   height: 48px;
-  background-image: url(../img/me_temp.jpg);
+  /* background-image:url(../img/me_temp.jpg); */
+  background-color: #ff4ceb;
   background-size: contain;
   opacity: 0.6;
   -webkit-transition: opacity 300ms ease-out;

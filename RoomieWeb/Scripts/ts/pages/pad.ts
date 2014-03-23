@@ -73,7 +73,7 @@ class Pad extends Page {
 
 		for (var i = 0; i < mates.length; i++) {
 			var mateListing = document.createElement("li");
-			mateListing.innerHTML = '<img src="" /><div class="name">'
+			mateListing.innerHTML = '<img src="" style="background-color: ' + this.guidToColor(mates[i].mateId) + ';" /><div class="name">'
 			+ mates[i].displayName.split(/\b/)[0];
 			+ '</div>';
 			mateListing.classList.add("mate");
@@ -139,6 +139,14 @@ class Pad extends Page {
 		return dname;
 	}
 
+	public guidToColor(guid: string): string {
+		if (!guid) {
+			return 'hsl(0, 100%, 70%)';
+		}
+		var color = Math.abs((<any>guid).hashCode()) % 360;
+		return 'hsl(' + color + ', 100%, 70%)';
+	}
+
 	// SIGNALR HUB METHOD
 	public messageReceived(user_id: string, pad_id: string, body: string, time: string) {
 		if (pad_id !== this.pad_id) {
@@ -160,7 +168,7 @@ class Pad extends Page {
 		msgElement.classList.add("animation");
 		msgElement.classList.add("anim_shovein_left");
 		var color = Math.abs((<any>user_id).hashCode()) % 360;
-		msgElement.innerHTML = '<div class="idstrip" style="background-color: hsl('+color+',100%, 70%);"></div>' +
+		msgElement.innerHTML = '<div class="idstrip" style="background-color: ' + this.guidToColor(user_id) + ';"></div>' +
 		'<div class="message">' +
 		'<div class="body">' + cleanBody + '</div>' +
 		'<div class="information">' +

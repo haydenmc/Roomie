@@ -200,7 +200,6 @@ String.prototype.hashCode = function () {
     for (var i = 0; i < this.length; i++) {
         var char = this.charCodeAt(i);
         hash += char;
-        hash %= 360;
     }
     return hash;
 };
