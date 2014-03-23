@@ -17,7 +17,7 @@ namespace RoomieWeb
 	{
 		static Startup()
 		{
-			PublicClientId = "self";
+			PublicClientId = "roomie";
 
 			UserManagerFactory = () => new UserManager<Mate>(new UserStore<Mate>(new ApplicationDbContext()));
 
@@ -28,7 +28,8 @@ namespace RoomieWeb
 				AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
 				AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
 				AllowInsecureHttp = true,
-				RefreshTokenProvider = new SimpleRefreshTokenProvider()
+				RefreshTokenProvider = new SimpleRefreshTokenProvider(),
+				
 			};
 		}
 

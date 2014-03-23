@@ -23,7 +23,7 @@ var Pad = (function (_super) {
 
         var chatPane = document.createElement("div");
         chatPane.id = "ChatPane";
-        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + '<ul class="chatlist" ></ul>' + '<form class="messageEntry" >' + '<input type = "text" name = "body" placeholder ="type your message" />' + '<input type = "submit" value ="Send" /></form>';
+        chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' + '<ul class="chatlist" ></ul>' + '<form class="messageEntry" >' + '<input type="text" name="body" placeholder ="type your message" autocomplete="off" />' + '<input type="submit" value="Send" /></form>';
         this.page_element.appendChild(chatPane);
 
         // Set up event handlers ...

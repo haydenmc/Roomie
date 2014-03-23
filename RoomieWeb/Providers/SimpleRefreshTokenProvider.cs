@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Infrastructure;
 using RoomieWeb.Models;
 using System;
@@ -13,7 +14,6 @@ namespace RoomieWeb.Misc
 {
 	public class SimpleRefreshTokenProvider : IAuthenticationTokenProvider
 	{
-		private static ConcurrentDictionary<string, AuthenticationTicket> _refreshTokens = new ConcurrentDictionary<string, AuthenticationTicket>();
 
 		public async Task CreateAsync(AuthenticationTokenCreateContext context)
 		{
@@ -55,15 +55,21 @@ namespace RoomieWeb.Misc
 				var identity = new ClaimsIdentity("Bearer");
 				identity.AddClaim(new Claim(ClaimTypes.Name, refreshEntry.Mate.UserName));
 				identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, refreshEntry.Mate.Id));
+				ClaimsIdentity cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+				cookiesIdentity.AddClaim(new Claim(ClaimTypes.Name, refreshEntry.Mate.UserName));
+				cookiesIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, refreshEntry.Mate.Id));
 
 				var refreshTokenProperties = new AuthenticationProperties()
 				{
 					IssuedUtc = refreshEntry.IssuedTime,
 					ExpiresUtc = refreshEntry.ExpiresTime 
 				};
+
 				AuthenticationTicket ticket = new AuthenticationTicket(identity,refreshTokenProperties);
 				db.RefreshTokens.Remove(refreshEntry);
 				db.SaveChanges();
+
+				context.Request.Context.Authentication.SignIn(cookiesIdentity);
 				context.SetTicket(ticket);
 			}
 		}

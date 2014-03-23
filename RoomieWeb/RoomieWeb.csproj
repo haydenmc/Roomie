@@ -232,7 +232,7 @@
       <DependentUpon>201403192233443_AddRefreshTokens.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Misc\SimpleRefreshTokenProvider.cs" />
+    <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -302,9 +302,6 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.min.js" />
-    <Content Include="Scripts\ts\application.js" />
-    <Content Include="Scripts\ts\page.js" />
-    <Content Include="Scripts\ts\pages\login.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\_Home.cshtml" />
     <Content Include="Views\Home\_Login.cshtml" />
@@ -341,9 +338,6 @@
     <Content Include="Content\fonts\OpenSans-Regular-webfont.eot" />
     <Content Include="Content\fonts\OpenSans-Regular-webfont.ttf" />
     <Content Include="Content\fonts\OpenSans-Regular-webfont.woff" />
-    <Content Include="Scripts\ts\application.js.map" />
-    <Content Include="Scripts\ts\page.js.map" />
-    <Content Include="Scripts\ts\pages\login.js.map" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\ts\animation.ts" />
