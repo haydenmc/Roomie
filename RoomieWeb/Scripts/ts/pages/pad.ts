@@ -86,7 +86,7 @@ class Pad extends Page {
 
 		for (var i = 0; i < mates.length; i++) {
 			var mateListing = document.createElement("li");
-			mateListing.innerHTML = '<img src="" style="background-color: ' + this.guidToColor(mates[i].mateId) + ';" /><div class="name">'
+			mateListing.innerHTML = '<div class="usericon" style="border-left-color: ' + this.guidToColor(mates[i].mateId) + ';"><img src="" /></div><div class="name">'
 			+ mates[i].displayName.split(/\b/)[0];
 			+ '</div>';
 			mateListing.classList.add("mate");
