@@ -45,7 +45,23 @@ namespace RoomieWeb.Hubs
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTime.UtcNow);
 				}
 			}
-			
+		}
+
+		public void Typing(string pad_id)
+		{
+			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			using (var db = new ApplicationDbContext())
+			{
+				var user = (from u in db.Users
+							where u.Id == user_id
+							select u).First();
+				var pads = (from p in user.Pads where p.PadId == new Guid(pad_id) select p);
+				if (pads.Count() > 0)
+				{
+					var pad = pads.First();
+					Clients.Group(pad_id).typingReceived(pad_id, user.toViewModel());
+				}
+			}
 		}
 
 		public override Task OnConnected()

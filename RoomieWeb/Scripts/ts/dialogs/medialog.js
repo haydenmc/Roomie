@@ -9,7 +9,8 @@ var MeDialog = (function (_super) {
     function MeDialog() {
         var _this = this;
         _super.call(this, "me");
-
+        var content = '<img src="" />';
+        this.setContent(content);
         this.addAction("log out", function () {
             _this.logout();
         });

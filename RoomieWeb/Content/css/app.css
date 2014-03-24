@@ -696,6 +696,13 @@ ul.invitelist li div.actions button {
   transition: transform 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
   /* Normal user listings ... */
 }
+#MatesList ul li.typing {
+  -webkit-transform: translateX(12px);
+  -moz-transform: translateX(12px);
+  -ms-transform: translateX(12px);
+  -o-transform: translateX(12px);
+  transform: translateX(12px);
+}
 #MatesList ul li[class=mate]:hover {
   -webkit-transform: scale(0.95);
   -moz-transform: scale(0.95);

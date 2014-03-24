@@ -101,12 +101,7 @@ namespace RoomieWeb.Controllers
 
 			// Alert pad members that someone has joined
 			Hub.Clients.All.systemMessage("It's working");
-			Hub.Clients.Group(padId).mateJoined(padId, new MateViewModel()
-			{
-				MateId = currentUser.Id,
-				DisplayName = currentUser.DisplayName,
-				JoinTime = currentUser.JoinTime
-			});
+			Hub.Clients.Group(padId).mateJoined(padId, currentUser.toViewModel());
 			return Ok();
 		}
 

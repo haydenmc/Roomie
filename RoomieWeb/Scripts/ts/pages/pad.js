@@ -15,6 +15,8 @@ var Pad = (function (_super) {
     function Pad(pad_id, pad_name) {
         var _this = this;
         _super.call(this, pad_name);
+        this.typingTimeouts = {};
+        this.lastTypingTime = 0;
         this.pad_id = pad_id;
         var mateList = document.createElement("div");
         mateList.id = "MatesList";
@@ -30,6 +32,9 @@ var Pad = (function (_super) {
         chatPane.getElementsByTagName("form")[0].addEventListener("submit", function (evt) {
             evt.preventDefault();
             _this.sendMessage();
+        });
+        chatPane.getElementsByTagName("input")[0].addEventListener("keypress", function (evt) {
+            _this.typing();
         });
 
         // Prepare animations
@@ -55,6 +60,14 @@ var Pad = (function (_super) {
         var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
         messagelist.scrollTop = messagelist.scrollHeight;
         input.focus();
+    };
+
+    Pad.prototype.typing = function () {
+        if ((new Date()).getTime() - this.lastTypingTime > 1000) {
+            console.log("I'm typing...");
+            this.lastTypingTime = (new Date()).getTime();
+            Application.pad_hub.typing(this.pad_id);
+        }
     };
 
     Pad.prototype.loadMates = function (f) {
@@ -195,6 +208,31 @@ var Pad = (function (_super) {
         }
 
         this.loadMates(); // Reload mates
+    };
+
+    // SIGNALR HUB METHOD
+    Pad.prototype.mateTyping = function (pad_id, mate) {
+        if (pad_id !== this.pad_id) {
+            return;
+        }
+        console.log("Typing from '" + mate.DisplayName + "'.");
+        if (this.typingTimeouts[mate.MateId]) {
+            clearTimeout(this.typingTimeouts[mate.MateId]);
+        }
+        var i;
+        for (i = 0; i < this.mates.length; i++) {
+            if (this.mates[i].mateId == mate.MateId) {
+                break;
+            }
+        }
+        var matesList = document.getElementById("MatesList").getElementsByTagName("ul")[0];
+        var mateItem = (matesList.childNodes[i]);
+        if (!mateItem.classList.contains("typing")) {
+            mateItem.classList.add("typing");
+        }
+        this.typingTimeouts[mate.MateId] = setTimeout(function () {
+            mateItem.classList.remove("typing");
+        }, 2000);
     };
 
     Pad.prototype.show = function () {

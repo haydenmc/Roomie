@@ -12,6 +12,7 @@ class PadHub {
 		this.hub.client.mateJoined = (padid, mate) => { this.mateJoined(padid, mate); };
 		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
 		this.hub.client.inviteReceived = (invite) => { this.inviteReceived(invite); };
+		this.hub.client.typingReceived = (padid, mate) => { this.typingReceived(padid, mate); }
 		$.connection.hub.start().done(() => {
 			this.ready = true;
 		});
@@ -40,6 +41,14 @@ class PadHub {
 		}
 	}
 
+	public typingReceived(padid: string, mate: any) {
+		if (this.currentPadPage) {
+			this.currentPadPage.mateTyping(padid, mate);
+		} else {
+			console.log("Typing from '" + mate.mateId + "'");
+		}
+	}
+
 	public mateJoined(padid: string, mate: any) {
 		console.log("MATE JOINED");
 		if (this.currentPadPage) {
@@ -65,6 +74,10 @@ class PadHub {
 	/* Server-side methods */
 	public sendMessage(padid,body) {
 		this.hub.server.sendMessage(padid, body).fail(function () { alert("FAILURE sending message to server"); });
+	}
+
+	public typing(padid) {
+		this.hub.server.typing(padid);
 	}
 
 	public refreshGroups() {

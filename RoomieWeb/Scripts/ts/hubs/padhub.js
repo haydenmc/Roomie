@@ -15,6 +15,9 @@ var PadHub = (function () {
         this.hub.client.inviteReceived = function (invite) {
             _this.inviteReceived(invite);
         };
+        this.hub.client.typingReceived = function (padid, mate) {
+            _this.typingReceived(padid, mate);
+        };
         $.connection.hub.start().done(function () {
             _this.ready = true;
         });
@@ -39,6 +42,14 @@ var PadHub = (function () {
             this.currentPadPage.messageReceived(userid, padid, body, time);
         } else {
             console.log("Message @ " + time + " from '" + userid + "': " + body);
+        }
+    };
+
+    PadHub.prototype.typingReceived = function (padid, mate) {
+        if (this.currentPadPage) {
+            this.currentPadPage.mateTyping(padid, mate);
+        } else {
+            console.log("Typing from '" + mate.mateId + "'");
         }
     };
 
@@ -70,6 +81,10 @@ var PadHub = (function () {
         this.hub.server.sendMessage(padid, body).fail(function () {
             alert("FAILURE sending message to server");
         });
+    };
+
+    PadHub.prototype.typing = function (padid) {
+        this.hub.server.typing(padid);
     };
 
     PadHub.prototype.refreshGroups = function () {

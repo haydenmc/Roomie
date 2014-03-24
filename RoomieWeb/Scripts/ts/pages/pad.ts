@@ -7,6 +7,8 @@ class Mate {
 class Pad extends Page {
 	pad_id: string;
 	mates: Array<Mate>;
+	typingTimeouts: any = {}; // Hash map for storing typing timeouts
+	lastTypingTime: number = 0;
 	constructor(pad_id: string, pad_name: string) {
 		super(pad_name);
 		this.pad_id = pad_id;
@@ -28,6 +30,9 @@ class Pad extends Page {
 		chatPane.getElementsByTagName("form")[0].addEventListener("submit", (evt) => {
 			evt.preventDefault();
 			this.sendMessage();
+		});
+		chatPane.getElementsByTagName("input")[0].addEventListener("keypress", (evt) => {
+			this.typing();
 		});
 
 		// Prepare animations
@@ -52,6 +57,14 @@ class Pad extends Page {
 		messagelist.scrollTop = messagelist.scrollHeight;
 		input.focus();
 
+	}
+
+	public typing() {
+		if ((new Date()).getTime() - this.lastTypingTime > 1000) {
+			console.log("I'm typing...");
+			this.lastTypingTime = (new Date()).getTime();
+			Application.pad_hub.typing(this.pad_id);
+		}
 	}
 
 	public loadMates(f?:Function): void {
@@ -199,6 +212,31 @@ class Pad extends Page {
 		}
 
 		this.loadMates(); // Reload mates
+	}
+
+	// SIGNALR HUB METHOD
+	public mateTyping(pad_id: string, mate: any) {
+		if (pad_id !== this.pad_id) {
+			return; // Don't do anything if this message isn't for this pad.
+		}
+		console.log("Typing from '" + mate.DisplayName + "'.");
+		if (this.typingTimeouts[mate.MateId]) {
+			clearTimeout(this.typingTimeouts[mate.MateId]);
+		}
+		var i;
+		for (i = 0; i < this.mates.length; i++) {
+			if (this.mates[i].mateId == mate.MateId) {
+				break;
+			}
+		}
+		var matesList = document.getElementById("MatesList").getElementsByTagName("ul")[0];
+		var mateItem = (<HTMLElement>(matesList.childNodes[i]));
+		if (!mateItem.classList.contains("typing")) {
+			mateItem.classList.add("typing");
+		}
+		this.typingTimeouts[mate.MateId] = setTimeout(() => {
+			mateItem.classList.remove("typing");
+		}, 2000);
 	}
 
 	public show(): void {
