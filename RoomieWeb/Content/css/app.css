@@ -20,6 +20,8 @@
   font-style: normal;
 }
 /* Some functions ... */
+/* Colors */
+/* Media Query Breakpoints */
 html {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -241,6 +243,20 @@ div.page h1.title {
   text-transform: lowercase;
   white-space: nowrap;
 }
+@media (max-width: 768px) {
+  div.page h1.title {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    font-size: 48px;
+    margin: 0 0 0 64px;
+  }
+}
 /* Dark overlay to render something on top of */
 div.darkOverlay {
   position: fixed;
@@ -451,6 +467,13 @@ h1.listTitle div.gradient {
   left: 128px;
   height: 100%;
 }
+@media (max-width: 768px) {
+  #PadsList {
+    left: 0px;
+    right: 0px;
+    top: 32px;
+  }
+}
 #PadsList div.invites {
   margin-left: 32px;
   cursor: pointer;
@@ -607,6 +630,11 @@ h1.listTitle div.gradient {
   right: 0;
   height: 100%;
 }
+@media (max-width: 768px) {
+  #NewsList {
+    display: none;
+  }
+}
 ul.invitelist {
   margin: 24px 24px 6px 24px;
   padding: 0;
@@ -672,6 +700,11 @@ ul.invitelist li div.actions button {
   left: 128px;
   height: 100%;
   overflow: visible;
+}
+@media (max-width: 768px) {
+  #MatesList {
+    display: none;
+  }
 }
 #MatesList ul {
   height: calc(100% - 98px);
@@ -780,6 +813,15 @@ ul.invitelist li div.actions button {
   /* height:100%; */
   top: 0;
   bottom: 64px;
+}
+@media (max-width: 768px) {
+  #ChatPane {
+    left: 0;
+    top: 32px;
+    right: 0;
+    bottom: 32px;
+    width: auto;
+  }
 }
 #ChatPane ul.chatlist {
   height: calc(100% - 134px);
