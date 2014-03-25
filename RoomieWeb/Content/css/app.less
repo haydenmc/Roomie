@@ -86,7 +86,11 @@
 @bp-med: 768px;
 
 /* Metro IE viewport fix */
-@-ms-viewport{width: device-width !important}
+@-webkit-viewport{width:device-width}
+@-moz-viewport{width:device-width}
+@-ms-viewport{width:device-width}
+@-o-viewport{width:device-width}
+@viewport{width:device-width}
 
 html {
 	-ms-touch-action: manipulation;
