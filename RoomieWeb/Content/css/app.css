@@ -22,6 +22,10 @@
 /* Some functions ... */
 /* Colors */
 /* Media Query Breakpoints */
+/* Metro IE viewport fix */
+@-ms-viewport {
+  width: device-width !important;
+}
 html {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
