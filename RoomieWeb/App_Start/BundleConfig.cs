@@ -12,7 +12,8 @@ namespace RoomieWeb
 		{
 			bundles.Add(new ScriptBundle("~/bundle/Scripts/js").Include(
 				"~/Scripts/jquery-1.6.4.min.js",
-				"~/Scripts/jquery.signalR-2.0.2.min.js"));
+				"~/Scripts/jquery.signalR-2.0.2.min.js",
+				"~/Scripts/Autolinker.min.js"));
 
 			bundles.Add(new ScriptBundle("~/bundle/Scripts/ts").Include(
 				"~/Scripts/ts/application.js",

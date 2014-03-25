@@ -303,6 +303,7 @@
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.eot" />
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.ttf" />
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.woff" />
+    <Content Include="Scripts\Autolinker.min.js" />
     <Content Include="wide.png" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="large.png" />
@@ -366,6 +367,7 @@
     <TypeScriptCompile Include="Scripts\ts\pages\pad.ts" />
     <TypeScriptCompile Include="Scripts\ts\pages\register.ts" />
     <TypeScriptCompile Include="Scripts\ts\progress.ts" />
+    <TypeScriptCompile Include="Scripts\typings\autolinker\autolinker.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>

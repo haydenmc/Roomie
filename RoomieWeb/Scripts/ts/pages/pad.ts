@@ -117,18 +117,7 @@ class Pad extends Page {
 	public loadHistory_success(data: any): void {
 		var html = '';
 		for (var i = 0; i < data.length; i++) {
-			var color = Math.abs((<any>data[i].mateId).hashCode()) % 360;
-			html += '<li class="animation anim_fadein">' +
-			'<div class="idstrip" style="background-color: hsl(' + color +',100%, 70%);"></div>' +
-			'<div class="message">' +
-			'<div class="body" > ' + data[i].body + ' </div > ' +
-			'<div class="information">' +
-			'<div class="name">' + this.guidToDisplayName(data[i].mateId) + '</div>' +
-			'<div class="time">' + this.friendlyDateTime(new Date(data[i].sendTime)) + '</div>' +
-			'</div>' +
-			'</div>' +
-			'</div>' +
-			'</li>';
+			html += this.formatMessage(data[i].mateId, data[i].body, new Date(data[i].sendTime), true);
 		}
 		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
 		messagelist.innerHTML = html + messagelist.innerHTML;
@@ -136,7 +125,34 @@ class Pad extends Page {
 		// Scroll to bottom
 		messagelist.scrollTop = messagelist.scrollHeight;
 	}
-	
+
+	/**
+	 * Returns a formatted message in either HTML string or HTMLElement
+	 */
+	public formatMessage(mateid: string, body: string, sendtime: Date, html?: boolean): any {
+		var color = guidToColor(mateid);
+		body = htmlEscape(body);
+		body = (<any>Autolinker).link(body, { truncate: 128, stripPrefix: true, newWindow: true, twitter: false });
+		var contents = '<div class="idstrip" style="background-color: ' + color + ';"></div>' +
+			'<div class="message">' +
+			'<div class="body" > ' + body + ' </div > ' +
+			'<div class="information">' +
+			'<div class="name">' + this.guidToDisplayName(mateid) + '</div>' +
+			'<div class="time">' + this.friendlyDateTime(sendtime) + '</div>' +
+			'</div>' +
+			'</div>' +
+			'</div>';
+		if (html) {
+			return '<li class="animation anim_fadein">' + contents + '</li>';
+		} else {
+			var msgElement = document.createElement("li");
+			msgElement.classList.add("animation");
+			msgElement.classList.add("anim_shovein_left");
+			msgElement.innerHTML = contents;
+			return msgElement;
+		}
+	}
+
 	public friendlyDateTime(date: Date) {
 		var d = new Date(); // Current
 		if (date.getDate() != d.getDate() || date.getMonth() != d.getMonth() || date.getFullYear() != d.getFullYear())
@@ -163,30 +179,8 @@ class Pad extends Page {
 			return; // Don't do anything if this message isn't for this pad.
 		}
 
-		// Clean the message body
-		var cleanBody = htmlEscape(body);
-
-		// Find the user
-		var dname = this.guidToDisplayName(user_id);
-
-		// Format the date
-		var date = new Date(time);
-		var friendlyDate = this.friendlyDateTime(date);
-		
 		// Build the message element
-		var msgElement = document.createElement("li");
-		msgElement.classList.add("animation");
-		msgElement.classList.add("anim_shovein_left");
-		var color = Math.abs((<any>user_id).hashCode()) % 360;
-		msgElement.innerHTML = '<div class="idstrip" style="background-color: ' + guidToColor(user_id) + ';"></div>' +
-		'<div class="message">' +
-		'<div class="body">' + cleanBody + '</div>' +
-		'<div class="information">' +
-		'<div class="name">' + dname + '</div>' +
-		'<div class="time">' + friendlyDate + '</div>' +
-		'</div>' +
-		'</div>' +
-		'</div>';
+		var msgElement = <HTMLElement>(this.formatMessage(user_id, body, new Date(time)));
 
 		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
 		var style = window.getComputedStyle(messagelist, null);

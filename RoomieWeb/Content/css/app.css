@@ -110,6 +110,18 @@ button:hover {
 button.default {
   border-bottom: 2px dotted #ff4ceb;
 }
+a {
+  color: #ff4ceb;
+  text-decoration: none;
+  opacity: 0.7;
+  -webkit-transition: opacity 200ms ease-out;
+  -moz-transition: opacity 200ms ease-out;
+  -o-transition: opacity 200ms ease-out;
+  transition: opacity 200ms ease-out;
+}
+a:hover {
+  opacity: 1.0;
+}
 /* Global Progress Indicator */
 @-moz-keyframes progress-indicator {
   from {
