@@ -259,6 +259,7 @@
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="browserconfig.xml" />
     <Content Include="Content\css\animation.css">
       <DependentUpon>animation.less</DependentUpon>
     </Content>
@@ -297,11 +298,15 @@
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.eot" />
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.ttf" />
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.woff" />
+    <Content Include="wide.png" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="large.png" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.min.js" />
+    <Content Include="square.png" />
+    <Content Include="tiny.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\_Home.cshtml" />
     <Content Include="Views\Home\_Login.cshtml" />

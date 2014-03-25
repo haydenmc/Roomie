@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using RoomieWeb.Models;
+using Newtonsoft.Json;
 
 namespace RoomieWeb.Providers
 {
@@ -58,11 +59,18 @@ namespace RoomieWeb.Providers
 
 		public override Task TokenEndpoint(OAuthTokenEndpointContext context)
 		{
-			foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+			using (UserManager<Mate> userManager = _userManagerFactory())
 			{
-				context.AdditionalResponseParameters.Add(property.Key, property.Value);
-			}
+				foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+				{
+					context.AdditionalResponseParameters.Add(property.Key, property.Value);
+				}
 
+				// Add user information ...
+				Mate user = userManager.FindById(context.Identity.GetUserId());
+				context.AdditionalResponseParameters.Add("MateId", user.Id.ToString());
+				context.AdditionalResponseParameters.Add("DisplayName", user.DisplayName);
+			}
 			return Task.FromResult<object>(null);
 		}
 
@@ -95,9 +103,9 @@ namespace RoomieWeb.Providers
 		public static AuthenticationProperties CreateProperties(string userName)
 		{
 			IDictionary<string, string> data = new Dictionary<string, string>
-            {
-                { "userName", userName }
-            };
+			{
+				{ "userName", userName }
+			};
 			return new AuthenticationProperties(data);
 		}
 	}

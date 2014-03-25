@@ -4,6 +4,8 @@ class Application {
 	public static auth_token: string;
 	public static refresh_token: string;
 	public static identity_email: string;
+	public static identity_id: string;
+	public static identity_displayname: string;
 	public static pad_hub: PadHub;
 	public static has_focus: boolean = true;
 
@@ -17,25 +19,27 @@ class Application {
 	/* Static Methods */
 	public static auth_credentials(username: string, password: string, success: Function, failure: Function) {
 		API.token(username, password, (data) => {
-			Application.update_auth_parameters(data.access_token, data.refresh_token, username);
+			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, username, data.DisplayName);
 			success(data);
 		}, () => {
 			failure();
 		});
 	}
-	public static auth_refresh(token: string, identity: string, success: Function, failure: Function) {
-		API.refreshtoken(token, identity, (data) => {
-			Application.update_auth_parameters(data.access_token, data.refresh_token, identity);
+	public static auth_refresh(token: string, email: string, success: Function, failure: Function) {
+		API.refreshtoken(token, email, (data) => {
+			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, email, data.DisplayName);
 			success(data);
 		}, () => {
 			failure();
 		});
 	}
-	public static update_auth_parameters(auth_token: string, refresh_token: string, email: string) {
+	public static update_auth_parameters(auth_token: string, refresh_token: string, mateid: string, email: string, displayname: string) {
 		// Set application parameters
 		Application.auth_token = auth_token;
 		Application.refresh_token = refresh_token;
 		Application.identity_email = email;
+		Application.identity_id = mateid;
+		Application.identity_displayname = displayname;
 		// Set cookies
 		var expireDate: Date = new Date();
 		expireDate.setDate(expireDate.getDate() + 7);
@@ -122,6 +126,8 @@ class Application {
 		Application.auth_token = null;
 		Application.refresh_token = null;
 		Application.identity_email = null;
+		Application.identity_id = null;
+		Application.identity_displayname = null;
 		Cookies.delete_cookie("refresh_token");
 		Cookies.delete_cookie("identity_email");
 		Application.pad_hub.disconnect();
@@ -212,6 +218,14 @@ function htmlEscape(str) {
 		hash += char;
 	}
 	return hash;
+}
+
+function guidToColor(guid: string): string {
+	if (!guid) {
+		return 'hsl(0, 100%, 70%)';
+	}
+	var color = Math.abs((<any>guid).hashCode()) % 360;
+	return 'hsl(' + color + ', 100%, 70%)';
 }
 
 window.onload = function () {

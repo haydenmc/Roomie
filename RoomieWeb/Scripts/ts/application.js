@@ -15,25 +15,27 @@ var Application = (function () {
     /* Static Methods */
     Application.auth_credentials = function (username, password, success, failure) {
         API.token(username, password, function (data) {
-            Application.update_auth_parameters(data.access_token, data.refresh_token, username);
+            Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, username, data.DisplayName);
             success(data);
         }, function () {
             failure();
         });
     };
-    Application.auth_refresh = function (token, identity, success, failure) {
-        API.refreshtoken(token, identity, function (data) {
-            Application.update_auth_parameters(data.access_token, data.refresh_token, identity);
+    Application.auth_refresh = function (token, email, success, failure) {
+        API.refreshtoken(token, email, function (data) {
+            Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, email, data.DisplayName);
             success(data);
         }, function () {
             failure();
         });
     };
-    Application.update_auth_parameters = function (auth_token, refresh_token, email) {
+    Application.update_auth_parameters = function (auth_token, refresh_token, mateid, email, displayname) {
         // Set application parameters
         Application.auth_token = auth_token;
         Application.refresh_token = refresh_token;
         Application.identity_email = email;
+        Application.identity_id = mateid;
+        Application.identity_displayname = displayname;
 
         // Set cookies
         var expireDate = new Date();
@@ -111,6 +113,8 @@ var Application = (function () {
         Application.auth_token = null;
         Application.refresh_token = null;
         Application.identity_email = null;
+        Application.identity_id = null;
+        Application.identity_displayname = null;
         Cookies.delete_cookie("refresh_token");
         Cookies.delete_cookie("identity_email");
         Application.pad_hub.disconnect();
@@ -203,6 +207,14 @@ String.prototype.hashCode = function () {
     }
     return hash;
 };
+
+function guidToColor(guid) {
+    if (!guid) {
+        return 'hsl(0, 100%, 70%)';
+    }
+    var color = Math.abs(guid.hashCode()) % 360;
+    return 'hsl(' + color + ', 100%, 70%)';
+}
 
 window.onload = function () {
     var a = new Application();
