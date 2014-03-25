@@ -279,6 +279,17 @@ div.dialog {
   background-color: #000;
   z-index: 15;
 }
+@media (max-width: 768px) {
+  div.dialog {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: auto;
+    height: auto;
+  }
+}
 div.dialog h1 {
   font-family: 'Open Sans';
   font-weight: 100;
@@ -326,6 +337,20 @@ div.dialog ul.actions li {
   left: 50%;
   margin: -100px 0 0 -240px;
 }
+@media (max-width: 768px) {
+  #LogIn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    text-align: center;
+    overflow-y: auto;
+  }
+}
 #LogIn h1 {
   display: block;
   font-family: 'Open Sans';
@@ -333,6 +358,12 @@ div.dialog ul.actions li {
   font-size: 60px;
   margin: 56px 0 0 0;
   float: left;
+}
+@media (max-width: 768px) {
+  #LogIn h1 {
+    float: none;
+    text-align: center;
+  }
 }
 #LogIn div.separator {
   height: 100%;
@@ -347,10 +378,30 @@ div.dialog ul.actions li {
   background-image: -ms-linear-gradient(top, #ffc831, #ff4ceb);
   background-image: linear-gradient(top, #ffc831, #ff4ceb);
 }
+@media (max-width: 768px) {
+  #LogIn div.separator {
+    float: none;
+    height: 3px;
+    width: 100%;
+    margin: 8px 0px;
+    background-color: #ff4ceb;
+    background-image: -webkit-gradient(linear, left middle, right middle, from(#ffc831), to(#ff4ceb));
+    background-image: -webkit-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -moz-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -o-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -ms-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: linear-gradient(left, #ffc831, #ff4ceb);
+  }
+}
 #LogIn form {
   display: block;
   margin-top: 20px;
   float: left;
+}
+@media (max-width: 768px) {
+  #LogIn form {
+    float: none;
+  }
 }
 #LogIn form input {
   width: 200px;

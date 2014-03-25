@@ -22,7 +22,7 @@ class Pad extends Page {
 		chatPane.innerHTML = '<h1 class="listTitle"><div class="gradient"></div>Chat</h1>' +
 		'<ul class="chatlist" ></ul>' +
 		'<form class="messageEntry" >' +
-		'<input type="text" name="body" placeholder ="type your message" autocomplete="off" />' +
+		'<input type="text" name="body" placeholder ="type your message" autocomplete="off" autocorrect="on" autocapitalize="on" />' +
 		'<input type="submit" value="Send" /></form>';
 		this.page_element.appendChild(chatPane);
 

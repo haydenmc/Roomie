@@ -1,4 +1,6 @@
-﻿.transform(@transform) {
+﻿@bp-med: 768px;
+
+.transform(@transform) {
 	-webkit-transform: @transform;
 	-moz-transform: @transform;
 	-ms-transform: @transform;
@@ -119,7 +121,7 @@
 }
 
 /* Title fly in/out animations */
-@-moz-keyframes anim_title_flyout {
+@-moz-keyframes anim_title_flyout_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px));
 	}
@@ -129,7 +131,7 @@
 	}
 }
 
-@-webkit-keyframes anim_title_flyout {
+@-webkit-keyframes anim_title_flyout_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px));
 	}
@@ -139,25 +141,58 @@
 	}
 }
 
-@keyframes anim_title_flyout {
+@keyframes anim_title_flyout_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px));
 	}
 	to {
 		.transform(rotate(-90deg) translateY(-36px) translateX(300px));
+		opacity:0;
+	}
+}
+
+@-moz-keyframes anim_title_flyout_hor {
+	from{
+		.transform(translateX());
+	}
+	to {
+		.transform(translateX(300px));
+		opacity:0;
+	}
+}
+
+@-webkit-keyframes anim_title_flyout_hor {
+	from{
+		.transform(translateX());
+	}
+	to {
+		.transform(translateX(300px));
+		opacity:0;
+	}
+}
+
+@keyframes anim_title_flyout_hor {
+	from{
+		.transform(translateX());
+	}
+	to {
+		.transform(translateX(300px));
 		opacity:0;
 	}
 }
 
 .animation.anim_title_flyout {
-	.animation-name(anim_title_flyout);
+	.animation-name(anim_title_flyout_vert);
 	.animation-duration(300ms);
 	.animation-timing-function(cubic-bezier(0.860, 0.000, 0.070, 1.000));
 	.animation-iteration-count(1);
 	.animation-fill-mode(forwards);
+	@media (max-width: @bp-med) {
+		.animation-name(anim_title_flyout_hor);
+	}
 }
 
-@-moz-keyframes anim_title_flyin {
+@-moz-keyframes anim_title_flyin_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px) translateX(-300px));
 		opacity:0;
@@ -167,7 +202,7 @@
 	}
 }
 
-@-webkit-keyframes anim_title_flyin {
+@-webkit-keyframes anim_title_flyin_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px) translateX(-300px));
 		opacity:0;
@@ -177,22 +212,55 @@
 	}
 }
 
-@keyframes anim_title_flyin {
+@keyframes anim_title_flyin_vert {
 	from{
 		.transform(rotate(-90deg) translateY(-36px) translateX(-300px));
 		opacity:0;
 	}
 	to {
 		.transform(rotate(-90deg) translateY(-36px));
+	}
+}
+
+@-moz-keyframes anim_title_flyin_hor {
+	from{
+		.transform(translateX(-300px));
+		opacity:0;
+	}
+	to {
+		.transform(translateX());
+	}
+}
+
+@-webkit-keyframes anim_title_flyin_hor {
+	from{
+		.transform(translateX(-300px));
+		opacity:0;
+	}
+	to {
+		.transform(translateX());
+	}
+}
+
+@keyframes anim_title_flyin_hor {
+	from{
+		.transform(translateX(-300px));
+		opacity:0;
+	}
+	to {
+		.transform(translateX());
 	}
 }
 
 .animation.anim_title_flyin {
-	.animation-name(anim_title_flyin);
+	.animation-name(anim_title_flyin_vert);
 	.animation-duration(300ms);
 	.animation-timing-function(cubic-bezier(0.860, 0.000, 0.070, 1.000));
 	.animation-iteration-count(1);
 	.animation-fill-mode(none);
+	@media (max-width: @bp-med) {
+		.animation-name(anim_title_flyin_hor);
+	}
 }
 
 /* Shove out animations */
