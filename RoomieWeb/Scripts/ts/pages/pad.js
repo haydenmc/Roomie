@@ -142,6 +142,10 @@ var Pad = (function (_super) {
     };
 
     Pad.prototype.friendlyDateTime = function (date) {
+        var d = new Date();
+        if (date.getDate() != d.getDate() || date.getMonth() != d.getMonth() || date.getFullYear() != d.getFullYear()) {
+            return date.toLocaleDateString() + " " + date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
+        }
         return date.getHours() + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2);
     };
 

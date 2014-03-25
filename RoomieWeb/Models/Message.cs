@@ -15,6 +15,6 @@ namespace RoomieWeb.Models
 		public virtual Mate Author { get; set; }
 		public virtual Pad Pad { get; set; }
 		public string Body { get; set; }
-		public DateTime SendTime { get; set; }
+		public DateTimeOffset SendTime { get; set; }
 	}
 }

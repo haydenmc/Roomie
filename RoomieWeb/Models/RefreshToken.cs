@@ -14,7 +14,7 @@ namespace RoomieWeb.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public Guid RefreshTokenId { get; set; }
 		public virtual Mate Mate { get; set; }
-		public DateTime IssuedTime { get; set; }
-		public DateTime ExpiresTime { get; set; }
+		public DateTimeOffset IssuedTime { get; set; }
+		public DateTimeOffset ExpiresTime { get; set; }
 	}
 }

@@ -326,7 +326,7 @@ namespace RoomieWeb.Controllers
 			{
 				UserName = model.Email,
 				DisplayName = model.DisplayName,
-				JoinTime = DateTime.Now
+				JoinTime = DateTimeOffset.UtcNow
 			};
 
 			IdentityResult result = await UserManager.CreateAsync(user, model.Password);

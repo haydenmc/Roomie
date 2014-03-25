@@ -9,6 +9,6 @@ namespace RoomieWeb.Models.ViewModels
 	{
 		public string MateId { get; set; }
 		public string DisplayName { get; set; }
-		public DateTime JoinTime { get; set; }
+		public DateTimeOffset JoinTime { get; set; }
 	}
 }

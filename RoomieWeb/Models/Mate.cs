@@ -21,7 +21,7 @@ namespace RoomieWeb.Models
 			}
 		}
 		public string DisplayName { get; set; }
-		public DateTime JoinTime { get; set; }
+		public DateTimeOffset JoinTime { get; set; }
 
 		public virtual ICollection<Pad> Pads { get; set; }
 

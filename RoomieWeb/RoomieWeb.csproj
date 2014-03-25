@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201403192233443_AddRefreshTokens.Designer.cs">
       <DependentUpon>201403192233443_AddRefreshTokens.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403250145246_DateTimeOffset.cs" />
+    <Compile Include="Migrations\201403250145246_DateTimeOffset.Designer.cs">
+      <DependentUpon>201403250145246_DateTimeOffset.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -256,6 +260,7 @@
   <ItemGroup>
     <Content Include="App_Data\XmlDocumentation.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
@@ -370,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403192233443_AddRefreshTokens.resx">
       <DependentUpon>201403192233443_AddRefreshTokens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403250145246_DateTimeOffset.resx">
+      <DependentUpon>201403250145246_DateTimeOffset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

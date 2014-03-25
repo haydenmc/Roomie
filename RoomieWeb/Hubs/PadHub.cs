@@ -35,14 +35,14 @@ namespace RoomieWeb.Hubs
 						MessageId = new Guid(),
 						Author = user,
 						Body = body,
-						SendTime = DateTime.UtcNow,
+						SendTime = DateTimeOffset.UtcNow,
 						Pad = pads.First()
 					};
 					pad.Messages.Add(msg);
 					db.Messages.Add(msg);
 					db.SaveChanges();
 					// Send the message to all clients
-					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTime.UtcNow);
+					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow);
 				}
 			}
 		}

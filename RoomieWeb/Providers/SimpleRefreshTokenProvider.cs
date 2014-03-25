@@ -30,8 +30,8 @@ namespace RoomieWeb.Misc
 				{
 					RefreshTokenId = new Guid(),
 					Mate = currentUser,
-					IssuedTime = DateTime.UtcNow,
-					ExpiresTime = DateTime.UtcNow.AddDays(20)
+					IssuedTime = DateTimeOffset.UtcNow,
+					ExpiresTime = DateTimeOffset.UtcNow.AddDays(20)
 				};
 				db.RefreshTokens.Add(refreshEntry);
 				db.SaveChanges();
@@ -45,7 +45,7 @@ namespace RoomieWeb.Misc
 			{
 				var refreshEntry = (from r in db.RefreshTokens
 								   where r.RefreshTokenId == new Guid(context.Token)
-								   where r.ExpiresTime > DateTime.UtcNow
+								   where r.ExpiresTime > DateTimeOffset.UtcNow
 								   select r).FirstOrDefault();
 				if (refreshEntry == null)
 				{
