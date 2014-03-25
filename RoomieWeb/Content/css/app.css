@@ -70,6 +70,9 @@ input:focus {
   opacity: 1;
   border-color: #ffc831;
 }
+input.error {
+  border-bottom-color: red;
+}
 input[type=submit] {
   cursor: pointer;
   color: #ff4ceb;

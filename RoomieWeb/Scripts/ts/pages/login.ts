@@ -71,6 +71,13 @@ class LogIn extends Page {
 		var username = input_elements[0].value;
 		var password = input_elements[1].value;
 
+		// Take off error styles
+		for (var i = 0; i < 2; i++) {
+			if (input_elements[i].classList.contains("error")) {
+				input_elements[i].classList.remove("error");
+			}
+		}
+
 		// Disable input
 		input_elements[0].disabled = true;
 		input_elements[1].disabled = true;
@@ -86,12 +93,14 @@ class LogIn extends Page {
 			Application.instance.clearPages();
 			Application.instance.navigateTo(new Hub());
 		}, () => {
-			alert("Boo.");
 			// Hide the progress bar
 			Progress.hide();
 			// Re-enable inputs
 			input_elements[0].disabled = false;
 			input_elements[1].disabled = false;
+			// Set error styles
+			input_elements[0].classList.add("error");
+			input_elements[1].classList.add("error");
 		});
 	}
 } 
