@@ -97,6 +97,9 @@ var Pad = (function (_super) {
 
         for (var i = 0; i < mates.length; i++) {
             var mateListing = document.createElement("li");
+            if (!mates[i].isOnline) {
+                mateListing.classList.add("offline");
+            }
             mateListing.innerHTML = '<div class="usericon" style="border-left-color: ' + guidToColor(mates[i].mateId) + ';"><img src="" /></div><div class="name">' + mates[i].displayName.split(/\b/)[0];
             +'</div>';
             mateListing.classList.add("mate");
@@ -233,6 +236,36 @@ var Pad = (function (_super) {
         this.typingTimeouts[mate.MateId] = setTimeout(function () {
             mateItem.classList.remove("typing");
         }, 2000);
+    };
+
+    // SIGNALR HUB METHOD
+    Pad.prototype.mateOnline = function (mate) {
+        var i;
+        for (i = 0; i < this.mates.length; i++) {
+            if (this.mates[i].mateId == mate.MateId) {
+                break;
+            }
+        }
+        var matesList = document.getElementById("MatesList").getElementsByTagName("ul")[0];
+        var mateItem = (matesList.childNodes[i]);
+        if (mateItem.classList.contains("offline")) {
+            mateItem.classList.remove("offline");
+        }
+    };
+
+    // SIGNALR HUB METHOD
+    Pad.prototype.mateOffine = function (mate) {
+        var i;
+        for (i = 0; i < this.mates.length; i++) {
+            if (this.mates[i].mateId == mate.MateId) {
+                break;
+            }
+        }
+        var matesList = document.getElementById("MatesList").getElementsByTagName("ul")[0];
+        var mateItem = (matesList.childNodes[i]);
+        if (!mateItem.classList.contains("offline")) {
+            mateItem.classList.add("offline");
+        }
     };
 
     Pad.prototype.show = function () {

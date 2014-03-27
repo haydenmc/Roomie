@@ -847,6 +847,11 @@ ul.invitelist {
 			&.typing {
 				.transform(translateX(12px));
 			}
+			&.offline {
+				div.name {
+					opacity:0.4;
+				}
+			}
 
 			&[class=mate]:hover {
 				.transform(scale(0.95));

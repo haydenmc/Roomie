@@ -839,6 +839,9 @@ ul.invitelist li div.actions button {
   -o-transform: translateX(12px);
   transform: translateX(12px);
 }
+#MatesList ul li.offline div.name {
+  opacity: 0.4;
+}
 #MatesList ul li[class=mate]:hover {
   -webkit-transform: scale(0.95);
   -moz-transform: scale(0.95);

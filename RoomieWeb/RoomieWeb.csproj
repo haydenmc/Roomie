@@ -235,7 +235,12 @@
     <Compile Include="Migrations\201403250145246_DateTimeOffset.Designer.cs">
       <DependentUpon>201403250145246_DateTimeOffset.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403270508293_Connections.cs" />
+    <Compile Include="Migrations\201403270508293_Connections.Designer.cs">
+      <DependentUpon>201403270508293_Connections.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Connection.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -380,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403250145246_DateTimeOffset.resx">
       <DependentUpon>201403250145246_DateTimeOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403270508293_Connections.resx">
+      <DependentUpon>201403270508293_Connections.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

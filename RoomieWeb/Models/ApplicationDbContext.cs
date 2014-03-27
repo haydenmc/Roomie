@@ -15,6 +15,7 @@ namespace RoomieWeb.Models
 
 		}
 
+		public DbSet<Connection> Connections { get; set; }
 		public DbSet<Pad> Pads { get; set; }
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<Invite> Invites { get; set; }

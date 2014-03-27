@@ -18,6 +18,12 @@ var PadHub = (function () {
         this.hub.client.typingReceived = function (padid, mate) {
             _this.typingReceived(padid, mate);
         };
+        this.hub.client.mateOnline = function (mate) {
+            _this.mateOnline(mate);
+        };
+        this.hub.client.mateOffline = function (mate) {
+            _this.mateOffline(mate);
+        };
         $.connection.hub.start().done(function () {
             _this.ready = true;
         });
@@ -59,6 +65,18 @@ var PadHub = (function () {
             this.currentPadPage.mateJoined(padid, mate);
         } else {
             console.log(mate.displayName + " joined one of your pads.");
+        }
+    };
+    PadHub.prototype.mateOnline = function (mate) {
+        console.log("MATE ONLINE");
+        if (this.currentPadPage) {
+            this.currentPadPage.mateOnline(mate);
+        }
+    };
+    PadHub.prototype.mateOffline = function (mate) {
+        console.log("MATE OFFLINE");
+        if (this.currentPadPage) {
+            this.currentPadPage.mateOffine(mate);
         }
     };
 

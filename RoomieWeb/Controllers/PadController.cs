@@ -181,16 +181,14 @@ namespace RoomieWeb.Controllers
 		{
 			var padGuid = new Guid(id);
 			//var Pad = db.Pads.Find(id);
-			var R = from p in db.Pads
-					where p.PadId == padGuid
-					from m in p.Mates
-					select new MateViewModel()
-					{
-						MateId = m.Id,
-						DisplayName = m.DisplayName,
-						JoinTime = m.JoinTime
-					};
-			return Ok(R);
+			var R = (from p in db.Pads
+					 where p.PadId == padGuid
+					 from m in p.Mates
+					 select m).ToList();
+			var V = from m in R
+					select m.toViewModel();
+			//var R = db.Pads.Where(p => p.PadId == padGuid).Include(p => p.Mates.Select(m => m.Connections)).Select(p => p.Mates.Select(m => m));
+			return Ok(V);
 		}
 		[Route("{id}/Messages")]
 		[ResponseType(typeof(IEnumerable<MessageViewModel>))]

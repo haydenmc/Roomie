@@ -10,5 +10,6 @@ namespace RoomieWeb.Models.ViewModels
 		public string MateId { get; set; }
 		public string DisplayName { get; set; }
 		public DateTimeOffset JoinTime { get; set; }
+		public bool IsOnline { get; set; }
 	}
 }

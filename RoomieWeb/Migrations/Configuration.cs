@@ -12,7 +12,6 @@ namespace RoomieWeb.Migrations
 			AutomaticMigrationsEnabled = true;
 			ContextKey = "RoomieWeb.Models.ApplicationDbContext";
 		}
-
 		protected override void Seed(RoomieWeb.Models.ApplicationDbContext context)
 		{
 			//  This method will be called after migrating to the latest version.

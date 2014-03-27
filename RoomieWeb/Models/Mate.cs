@@ -24,13 +24,15 @@ namespace RoomieWeb.Models
 		public DateTimeOffset JoinTime { get; set; }
 
 		public virtual ICollection<Pad> Pads { get; set; }
+		public virtual ICollection<Connection> Connections { get; set; }
 
 		public MateViewModel toViewModel() {
 			return new MateViewModel()
 			{
 				MateId = this.Id,
 				DisplayName = this.DisplayName,
-				JoinTime = this.JoinTime
+				JoinTime = this.JoinTime,
+				IsOnline = (this.Connections.Count > 0)
 			};
 		}
 	}

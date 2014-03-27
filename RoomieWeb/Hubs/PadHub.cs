@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using RoomieWeb.Models;
+using RoomieWeb.Models.ViewModels;
 
 namespace RoomieWeb.Hubs
 {
@@ -66,22 +67,60 @@ namespace RoomieWeb.Hubs
 
 		public override Task OnConnected()
 		{
+			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
+			using (var db = new ApplicationDbContext())
+			{
+				var user = (from u in db.Users
+							where u.Id == user_id
+							select u).First();
+				var conn = new Connection()
+				{
+					connectionId = Context.ConnectionId,
+					User = user,
+					UserAgent = Context.Request.Headers["User-Agent"],
+					StartTime = DateTimeOffset.UtcNow
+				};
+				db.Connections.Add(conn);
+				db.SaveChanges();
+
+				// Notify everyone you're online
+				var uservm = user.toViewModel();
+				foreach (var p in user.Pads)
+				{
+					Clients.Group(p.PadId.ToString()).mateOnline(uservm);
+				}
+			}
 			this.RefreshGroups();
-			//var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
-			//using (var db = new ApplicationDbContext())
-			//{
-			//	var user = (from u in db.Users
-			//				where u.Id == user_id
-			//				select u).First();
-			//	Clients.Caller.systemMessage("You've authenticated and connected! Hi " + user.DisplayName + "!");
-			//	var pads = user.Pads;
-			//	foreach (Pad p in pads)
-			//	{
-			//		Groups.Add(Context.ConnectionId, p.PadId.ToString());
-			//		Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
-			//	}
-			//}
 			return base.OnConnected();
+		}
+
+		public override Task OnDisconnected()
+		{
+			using (var db = new ApplicationDbContext())
+			{
+				var connection = (from c in db.Connections
+								 where c.connectionId == Context.ConnectionId
+									  select c).FirstOrDefault();
+				if (connection == null)
+				{
+					return base.OnDisconnected();
+				}
+				var user = connection.User;
+
+				// Notify everyone you're offline
+				var uservm = user.toViewModel();
+				foreach (var p in user.Pads)
+				{
+					Clients.Group(p.PadId.ToString()).mateOffline(uservm);
+				}
+
+				if (connection != null)
+				{
+					db.Connections.Remove(connection);
+					db.SaveChanges();
+				}
+			}
+			return base.OnDisconnected();
 		}
 
 		public void RefreshGroups()

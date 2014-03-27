@@ -13,6 +13,8 @@ class PadHub {
 		this.hub.client.systemMessage = (body) => { this.systemMessage(body); };
 		this.hub.client.inviteReceived = (invite) => { this.inviteReceived(invite); };
 		this.hub.client.typingReceived = (padid, mate) => { this.typingReceived(padid, mate); }
+		this.hub.client.mateOnline = (mate) => { this.mateOnline(mate); }
+		this.hub.client.mateOffline = (mate) => { this.mateOffline(mate); }
 		$.connection.hub.start().done(() => {
 			this.ready = true;
 		});
@@ -55,6 +57,18 @@ class PadHub {
 			this.currentPadPage.mateJoined(padid, mate);
 		} else {
 			console.log(mate.displayName + " joined one of your pads.");
+		}
+	}
+	public mateOnline(mate: any) {
+		console.log("MATE ONLINE");
+		if (this.currentPadPage) {
+			this.currentPadPage.mateOnline(mate);
+		}
+	}
+	public mateOffline(mate: any) {
+		console.log("MATE OFFLINE");
+		if (this.currentPadPage) {
+			this.currentPadPage.mateOffine(mate);
 		}
 	}
 
