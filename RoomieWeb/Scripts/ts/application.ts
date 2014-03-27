@@ -21,6 +21,9 @@ class Application {
 		API.token(username, password, (data) => {
 			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, username, data.DisplayName);
 			success(data);
+			setTimeout(() => {
+				Application.auth_refresh_interval();
+			}, 1000 * 60 * 50);
 		}, () => {
 			failure();
 		});
@@ -29,8 +32,31 @@ class Application {
 		API.refreshtoken(token, email, (data) => {
 			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, email, data.DisplayName);
 			success(data);
+			setTimeout(() => {
+				Application.auth_refresh_interval();
+			}, 1000 * 60 * 50);
 		}, () => {
 			failure();
+		});
+	}
+
+	public static auth_refresh_interval(tries?: number) {
+		if (tries === undefined) tries = 0;
+		Application.auth_refresh(Application.refresh_token, Application.identity_email, () => {
+			setTimeout(() => {
+				Application.auth_refresh_interval();
+			}, 1000*60*50); // Refresh our auth token every 50 min.
+		}, () => {
+			console.log("Refresh token interval failure... trying again real quick...");
+			if (tries < 3)
+			{
+				setTimeout(() => {
+					Application.auth_refresh_interval(tries + 1);
+				}, 3000);
+			} else {
+				console.log("Refresh auth failed. Logging out...");
+				Application.instance.logOut();
+			}
 		});
 	}
 	public static update_auth_parameters(auth_token: string, refresh_token: string, mateid: string, email: string, displayname: string) {
@@ -49,6 +75,7 @@ class Application {
 		if (!Application.pad_hub) {
 			Application.pad_hub = new PadHub();
 		}
+		Application.pad_hub.connect();
 	}
 
 	constructor() {
@@ -130,8 +157,10 @@ class Application {
 		Application.identity_displayname = null;
 		Cookies.delete_cookie("refresh_token");
 		Cookies.delete_cookie("identity_email");
+		//Cookies.delete_cookie(".AspNet.Cookies"); // Delete ASP Identity Cookies, too.
+		//TODO: ASPNET AUTH COOKIE IS NEVER REMOVED! This has to be done from the server side.
 		Application.pad_hub.disconnect();
-		Application.pad_hub = null;
+		// Application.pad_hub = null; // Should only ever create one instance of this.
 		this.clearPages();
 		Application.instance.navigateTo(new LogIn());
 	}

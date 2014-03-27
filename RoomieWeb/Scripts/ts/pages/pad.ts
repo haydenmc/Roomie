@@ -264,6 +264,15 @@ class Pad extends Page {
 		}
 	}
 
+	// SIGNALR HUB METHOD
+	public reconnected() {
+		this.loadMates(() => {
+			var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+			messagelist.innerHTML = ''; // TODO: Don't clear the list - just update it.
+			this.loadHistory();
+		});
+	}
+
 	public show(): void {
 		super.show();
 		Application.pad_hub.setPadPage(this);

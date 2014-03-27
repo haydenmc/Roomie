@@ -3,6 +3,7 @@ var PadHub = (function () {
         var _this = this;
         this.hub = $.connection.padHub;
         this.ready = false;
+        this.disconnecting = false;
         this.hub.client.messageReceived = function (userid, padid, body, time) {
             _this.messageReceived(userid, padid, body, time);
         };
@@ -24,12 +25,48 @@ var PadHub = (function () {
         this.hub.client.mateOffline = function (mate) {
             _this.mateOffline(mate);
         };
+
+        $.connection.hub.disconnected(function () {
+            if (!_this.disconnecting) {
+                _this.lostConnection();
+            }
+        });
+    }
+    PadHub.prototype.connect = function () {
+        var _this = this;
         $.connection.hub.start().done(function () {
             _this.ready = true;
         });
-    }
+    };
     PadHub.prototype.disconnect = function () {
+        this.disconnecting = true;
         $.connection.hub.stop();
+        this.disconnecting = false;
+    };
+
+    PadHub.prototype.lostConnection = function (retry) {
+        var _this = this;
+        if (retry === undefined)
+            retry = false;
+        if (!retry) {
+            Progress.show();
+        }
+        console.log("Lost connection to server. Attempting reconnect...");
+        setTimeout(function () {
+            $.connection.hub.start().done(function () {
+                _this.reconnected();
+            }).fail(function () {
+                _this.lostConnection(true);
+            });
+        }, 5000); // Restart connection after 5 seconds.
+    };
+
+    PadHub.prototype.reconnected = function () {
+        console.log("Reconnected successfully.");
+        Progress.hide();
+        if (this.currentPadPage) {
+            this.currentPadPage.reconnected();
+        }
     };
 
     PadHub.prototype.setPadPage = function (page) {

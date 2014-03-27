@@ -17,6 +17,9 @@ var Application = (function () {
         API.token(username, password, function (data) {
             Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, username, data.DisplayName);
             success(data);
+            setTimeout(function () {
+                Application.auth_refresh_interval();
+            }, 1000 * 60 * 50);
         }, function () {
             failure();
         });
@@ -25,8 +28,31 @@ var Application = (function () {
         API.refreshtoken(token, email, function (data) {
             Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, email, data.DisplayName);
             success(data);
+            setTimeout(function () {
+                Application.auth_refresh_interval();
+            }, 1000 * 60 * 50);
         }, function () {
             failure();
+        });
+    };
+
+    Application.auth_refresh_interval = function (tries) {
+        if (tries === undefined)
+            tries = 0;
+        Application.auth_refresh(Application.refresh_token, Application.identity_email, function () {
+            setTimeout(function () {
+                Application.auth_refresh_interval();
+            }, 1000 * 60 * 50); // Refresh our auth token every 50 min.
+        }, function () {
+            console.log("Refresh token interval failure... trying again real quick...");
+            if (tries < 3) {
+                setTimeout(function () {
+                    Application.auth_refresh_interval(tries + 1);
+                }, 3000);
+            } else {
+                console.log("Refresh auth failed. Logging out...");
+                Application.instance.logOut();
+            }
         });
     };
     Application.update_auth_parameters = function (auth_token, refresh_token, mateid, email, displayname) {
@@ -47,6 +73,7 @@ var Application = (function () {
         if (!Application.pad_hub) {
             Application.pad_hub = new PadHub();
         }
+        Application.pad_hub.connect();
     };
 
     /**
@@ -117,8 +144,12 @@ var Application = (function () {
         Application.identity_displayname = null;
         Cookies.delete_cookie("refresh_token");
         Cookies.delete_cookie("identity_email");
+
+        //Cookies.delete_cookie(".AspNet.Cookies"); // Delete ASP Identity Cookies, too.
+        //TODO: ASPNET AUTH COOKIE IS NEVER REMOVED! This has to be done from the server side.
         Application.pad_hub.disconnect();
-        Application.pad_hub = null;
+
+        // Application.pad_hub = null; // Should only ever create one instance of this.
         this.clearPages();
         Application.instance.navigateTo(new LogIn());
     };

@@ -863,6 +863,7 @@ ul.invitelist li div.actions button {
   height: 42px;
   /* background-color: @gradient-end-color; */
   background-color: #323232;
+  border: 0;
 }
 #MatesList ul li div.name {
   float: left;

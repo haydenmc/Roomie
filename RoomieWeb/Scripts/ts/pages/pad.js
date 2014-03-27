@@ -268,6 +268,16 @@ var Pad = (function (_super) {
         }
     };
 
+    // SIGNALR HUB METHOD
+    Pad.prototype.reconnected = function () {
+        var _this = this;
+        this.loadMates(function () {
+            var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
+            messagelist.innerHTML = ''; // TODO: Don't clear the list - just update it.
+            _this.loadHistory();
+        });
+    };
+
     Pad.prototype.show = function () {
         _super.prototype.show.call(this);
         Application.pad_hub.setPadPage(this);
