@@ -19,10 +19,10 @@ namespace RoomieWeb
 			app.MapSignalR();
 
 			// Clear all old connections
-			using (var db = new ApplicationDbContext())
-			{
-				db.Database.ExecuteSqlCommand("TRUNCATE TABLE Connections");
-			}
+			//using (var db = new ApplicationDbContext())
+			//{
+			//	db.Database.ExecuteSqlCommand("TRUNCATE TABLE Connections");
+			//}
 		}
 		
 	}

@@ -108,12 +108,15 @@ namespace RoomieWeb.Hubs
 				var user = connection.User;
 
 				// Notify everyone you're offline
-				var uservm = user.toViewModel();
-				foreach (var p in user.Pads)
+				if (user.Connections.Count() == 1)
 				{
-					Clients.Group(p.PadId.ToString()).mateOffline(uservm);
+					var uservm = user.toViewModel();
+					foreach (var p in user.Pads)
+					{
+						Clients.Group(p.PadId.ToString()).mateOffline(uservm);
+					}
 				}
-
+				
 				if (connection != null)
 				{
 					db.Connections.Remove(connection);
