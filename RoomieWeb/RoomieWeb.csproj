@@ -21,7 +21,6 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -310,6 +309,7 @@
     <Content Include="Content\fonts\OpenSans-ExtraBold-webfont.woff" />
     <Content Include="Scripts\Autolinker.min.js" />
     <Content Include="wide.png" />
+    <None Include="Properties\PublishProfiles\roomie-development.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="large.png" />
     <Content Include="Scripts\jquery-1.6.4.js" />
