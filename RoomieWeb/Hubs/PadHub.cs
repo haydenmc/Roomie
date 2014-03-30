@@ -27,9 +27,8 @@ namespace RoomieWeb.Hubs
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
-				var pads = (from p in user.Pads where p.PadId == new Guid(pad_id) select p);
-				if (pads.Count() > 0) {
-					var pad = pads.First();
+				var pad = (from p in user.Pads where p.PadId == new Guid(pad_id) select p).FirstOrDefault();
+				if (pad != null) {
 					// Save the message to the database
 					var msg = new Message()
 					{
@@ -37,10 +36,11 @@ namespace RoomieWeb.Hubs
 						Author = user,
 						Body = body,
 						SendTime = DateTimeOffset.UtcNow,
-						Pad = pads.First()
+						Pad = pad
 					};
-					pad.Messages.Add(msg);
+					// Try flipping these guys around for perf..?
 					db.Messages.Add(msg);
+					pad.Messages.Add(msg);
 					db.SaveChanges();
 					// Send the message to all clients
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow);
