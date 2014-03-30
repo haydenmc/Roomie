@@ -13,6 +13,7 @@ namespace RoomieWeb.Hubs
 	[Authorize]
 	public class PadHub : Hub
 	{
+		private ApplicationDbContext db = new ApplicationDbContext();
 		public void SendMessage(string pad_id, string body)
 		{
 			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
@@ -22,9 +23,8 @@ namespace RoomieWeb.Hubs
 				return;
 			}
 			// Check that the user belongs in this pad...
-			using (var db = new ApplicationDbContext())
-			{
-				db.Configuration.AutoDetectChangesEnabled = false;
+			//using (var db = new ApplicationDbContext())
+			//{
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
@@ -44,15 +44,15 @@ namespace RoomieWeb.Hubs
 					db.SaveChanges();
 					// Send the message to all clients
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow);
-				}
+				//}
 			}
 		}
 
 		public void Typing(string pad_id)
 		{
 			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
-			using (var db = new ApplicationDbContext())
-			{
+			//using (var db = new ApplicationDbContext())
+			//{
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
@@ -62,14 +62,14 @@ namespace RoomieWeb.Hubs
 					var pad = pads.First();
 					Clients.Group(pad_id).typingReceived(pad_id, user.toViewModel());
 				}
-			}
+			//}
 		}
 
 		public override Task OnConnected()
 		{
 			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
-			using (var db = new ApplicationDbContext())
-			{
+			//using (var db = new ApplicationDbContext())
+			//{
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
@@ -89,15 +89,15 @@ namespace RoomieWeb.Hubs
 				{
 					Clients.Group(p.PadId.ToString()).mateOnline(uservm);
 				}
-			}
+			//}
 			this.RefreshGroups();
 			return base.OnConnected();
 		}
 
 		public override Task OnDisconnected()
 		{
-			using (var db = new ApplicationDbContext())
-			{
+			//using (var db = new ApplicationDbContext())
+			//{
 				var connection = (from c in db.Connections
 								 where c.connectionId == Context.ConnectionId
 									  select c).FirstOrDefault();
@@ -122,15 +122,15 @@ namespace RoomieWeb.Hubs
 					db.Connections.Remove(connection);
 					db.SaveChanges();
 				}
-			}
+			//}
 			return base.OnDisconnected();
 		}
 
 		public void RefreshGroups()
 		{
 			var user_id = IdentityExtensions.GetUserId(Context.User.Identity);
-			using (var db = new ApplicationDbContext())
-			{
+			//using (var db = new ApplicationDbContext())
+			//{
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
@@ -141,7 +141,7 @@ namespace RoomieWeb.Hubs
 					Clients.Caller.systemMessage("Adding you to '" + p.StreetAddress + "'...");
 				}
 				Groups.Add(Context.ConnectionId, user.Id.ToString());
-			}
+			//}
 		}
 	}
 }
