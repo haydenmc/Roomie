@@ -37,12 +37,11 @@ namespace RoomieWeb.Hubs
 					SendTime = DateTimeOffset.UtcNow,
 					Pad = pad
 				};
-				Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow); //Perf test.
+				
 				pad.Messages.Add(msg);
 				db.Messages.Add(msg);
-				
 				db.SaveChangesAsync();
-				// Send the message to all clients
+				Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow); //Perf test.
 				
 			}
 		}
