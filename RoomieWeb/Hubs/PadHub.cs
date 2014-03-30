@@ -24,6 +24,7 @@ namespace RoomieWeb.Hubs
 			// Check that the user belongs in this pad...
 			using (var db = new ApplicationDbContext())
 			{
+				db.Configuration.AutoDetectChangesEnabled = false;
 				var user = (from u in db.Users
 							where u.Id == user_id
 							select u).First();
@@ -38,9 +39,8 @@ namespace RoomieWeb.Hubs
 						SendTime = DateTimeOffset.UtcNow,
 						Pad = pad
 					};
-					// Try flipping these guys around for perf..?
-					db.Messages.Add(msg);
 					pad.Messages.Add(msg);
+					db.Messages.Add(msg);
 					db.SaveChanges();
 					// Send the message to all clients
 					Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow);
