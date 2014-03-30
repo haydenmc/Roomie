@@ -38,7 +38,7 @@ namespace RoomieWeb.Hubs
 					Pad = pad
 				};
 				
-				pad.Messages.Add(msg);
+				//pad.Messages.Add(msg); // Perhaps removing this will improve performance?
 				db.Messages.Add(msg);
 				db.SaveChangesAsync();
 				Clients.Group(pad_id).messageReceived(user.Id, pad_id, body, DateTimeOffset.UtcNow); //Perf test.
