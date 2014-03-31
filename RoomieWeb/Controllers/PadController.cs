@@ -207,8 +207,8 @@ namespace RoomieWeb.Controllers
 			}
 			var pad = pads.First();
 
-			// Grab the last 100 messages in this pad.
-			var messages = pad.Messages.OrderBy(c => c.SendTime).Skip(Math.Max(0, pad.Messages.Count() - 100));
+			// Grab the last 25 messages in this pad.
+			var messages = pad.Messages.OrderBy(c => c.SendTime).Skip(Math.Max(0, pad.Messages.Count() - 25));
 			var messagesmodel = from m in messages
 				   select new MessageViewModel()
 				   {
