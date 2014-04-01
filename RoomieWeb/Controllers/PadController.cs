@@ -200,7 +200,7 @@ namespace RoomieWeb.Controllers
 			// Try to find the pad referenced by the passed ID
 			var pads = (from p in db.Pads
 						where p.PadId == padGuid
-						select p);
+						select p).Include(p => p.Messages);
 			if (pads.Count() <= 0)
 			{
 				return NotFound();
@@ -208,16 +208,12 @@ namespace RoomieWeb.Controllers
 			var pad = pads.First();
 
 			// Grab the last 25 messages in this pad.
-			var messages = pad.Messages.OrderBy(c => c.SendTime).Skip(Math.Max(0, pad.Messages.Count() - 25));
+			var messages = db.Pads.Where(p => p.PadId == pad.PadId)
+							.SelectMany(p => p.Messages.OrderByDescending(m => m.SendTime).Take(25))
+							.ToList();
+			messages.Reverse();
 			var messagesmodel = from m in messages
-				   select new MessageViewModel()
-				   {
-					   MessageId = m.MessageId,
-					   MateId = new Guid(m.Author.Id),
-					   PadId = m.Pad.PadId,
-					   Body = m.Body,
-					   SendTime = m.SendTime
-				   };
+				   select m.toViewModel();
 			return Ok(messagesmodel);
 		}
 

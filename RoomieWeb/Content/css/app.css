@@ -908,7 +908,7 @@ ul.invitelist li div.actions button {
   color: #fff;
   font-family: 'Open Sans';
   overflow: auto;
-  margin: 16px 4px;
+  margin: 10px 4px;
   padding: 6px 10px;
 }
 #ChatPane ul.chatlist li:first-child {
