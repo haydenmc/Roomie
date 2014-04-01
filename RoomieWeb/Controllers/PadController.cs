@@ -200,7 +200,7 @@ namespace RoomieWeb.Controllers
 			// Try to find the pad referenced by the passed ID
 			var pads = (from p in db.Pads
 						where p.PadId == padGuid
-						select p).Include(p => p.Messages);
+						select p);
 			if (pads.Count() <= 0)
 			{
 				return NotFound();
