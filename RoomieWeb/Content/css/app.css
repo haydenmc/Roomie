@@ -833,11 +833,11 @@ ul.invitelist li div.actions button {
   /* Normal user listings ... */
 }
 #MatesList ul li.typing {
-  -webkit-transform: translateX(12px);
-  -moz-transform: translateX(12px);
-  -ms-transform: translateX(12px);
-  -o-transform: translateX(12px);
-  transform: translateX(12px);
+  -webkit-transform: translate3d(12px, 0, 0);
+  -moz-transform: translate3d(12px, 0, 0);
+  -ms-transform: translate3d(12px, 0, 0);
+  -o-transform: translate3d(12px, 0, 0);
+  transform: translate3d(12px, 0, 0);
 }
 #MatesList ul li.offline div.name {
   opacity: 0.4;
