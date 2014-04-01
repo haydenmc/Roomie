@@ -208,7 +208,7 @@ namespace RoomieWeb.Controllers
 			var pad = pads.First();
 
 			// Grab the last 25 messages in this pad.
-			var messages = db.Pads.Where(p => p.PadId == pad.PadId)
+			var messages = db.Pads.Where(p => p.PadId == padGuid)
 							.SelectMany(p => p.Messages.OrderByDescending(m => m.SendTime).Take(25))
 							.ToList();
 			messages.Reverse();
