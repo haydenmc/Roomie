@@ -132,6 +132,14 @@ class Authentication {
 		this.mate_id = null;
 		this.display_name = null;
 		this.expire_time = null;
+
+		Cookies.delete_cookie("auth_access_token");
+		Cookies.delete_cookie("auth_refresh_token");
+		Cookies.delete_cookie("auth_expire_time");
+		Cookies.delete_cookie("auth_email_address");
+		Cookies.delete_cookie("auth_mate_id");
+		Cookies.delete_cookie("auth_display_name");
+
 		//Cookies.delete_cookie(".AspNet.Cookies"); // Delete ASP Identity Cookies, too.
 		//TODO: ASPNET AUTH COOKIE IS NEVER REMOVED! This has to be done from the server side.
 	}
