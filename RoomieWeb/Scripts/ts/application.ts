@@ -1,85 +1,27 @@
 class Application {
 	// Running instance reference
 	public static instance: Application;
-	public static auth_token: string;
-	public static refresh_token: string;
-	public static identity_email: string;
-	public static identity_id: string;
-	public static identity_displayname: string;
-	public static pad_hub: PadHub;
-	public static has_focus: boolean = true;
+	
+	// SignalR Hub
+	public pad_hub: PadHub;
+	
+	// Focus tracker
+	public has_focus: boolean = true;
 
 	// Notification count
-	public static notification_count: number = 0;
-	public static notification_sound: HTMLAudioElement = new Audio("/Content/snd/update.mp3");
+	public notification_count: number = 0;
+	public notification_sound: HTMLAudioElement = new Audio("/Content/snd/update.mp3");
 
 	// Page stack!
 	public pages: Page[] = new Array<Page>();
 
-	/* Static Methods */
-	public static auth_credentials(username: string, password: string, success: Function, failure: Function) {
-		API.token(username, password, (data) => {
-			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, username, data.DisplayName);
-			success(data);
-			setTimeout(() => {
-				Application.auth_refresh_interval();
-			}, 1000 * 60 * 50);
-		}, () => {
-			failure();
-		});
-	}
-	public static auth_refresh(token: string, email: string, success: Function, failure: Function) {
-		API.refreshtoken(token, email, (data) => {
-			Application.update_auth_parameters(data.access_token, data.refresh_token, data.MateId, email, data.DisplayName);
-			success(data);
-			setTimeout(() => {
-				Application.auth_refresh_interval();
-			}, 1000 * 60 * 50);
-		}, () => {
-			failure();
-		});
-	}
-
-	public static auth_refresh_interval(tries?: number) {
-		if (tries === undefined) tries = 0;
-		Application.auth_refresh(Application.refresh_token, Application.identity_email, () => {
-			setTimeout(() => {
-				Application.auth_refresh_interval();
-			}, 1000*60*50); // Refresh our auth token every 50 min.
-		}, () => {
-			console.log("Refresh token interval failure... trying again real quick...");
-			if (tries < 3)
-			{
-				setTimeout(() => {
-					Application.auth_refresh_interval(tries + 1);
-				}, 3000);
-			} else {
-				console.log("Refresh auth failed. Logging out...");
-				Application.instance.logOut();
-			}
-		});
-	}
-	public static update_auth_parameters(auth_token: string, refresh_token: string, mateid: string, email: string, displayname: string) {
-		// Set application parameters
-		Application.auth_token = auth_token;
-		Application.refresh_token = refresh_token;
-		Application.identity_email = email;
-		Application.identity_id = mateid;
-		Application.identity_displayname = displayname;
-		// Set cookies
-		var expireDate: Date = new Date();
-		expireDate.setDate(expireDate.getDate() + 7);
-		Cookies.set_cookie("refresh_token", refresh_token, expireDate);
-		Cookies.set_cookie("identity_email", email, expireDate);
-		// Reconnect hub if it's not present.
-		if (!Application.pad_hub) {
-			Application.pad_hub = new PadHub();
-		}
-		Application.pad_hub.connect();
-	}
+	// Authentication instance
+	public authentication: Authentication;
 
 	constructor() {
-		Application.instance = this;
+		Application.instance = this; // Set this instance to the global instance
+		this.authentication = new Authentication(); // Instantiate authenticator
+		this.pad_hub = new PadHub();
 
 		window.onfocus = (evt) => {
 			this.onFocus();
@@ -94,7 +36,7 @@ class Application {
 	 * Occurs when the page is put into focus by the user.
 	 */
 	public onFocus(): void {
-		Application.has_focus = true;
+		this.has_focus = true;
 		this.setNotificationCount(0);
 		this.updateTitle();
 	}
@@ -104,7 +46,7 @@ class Application {
 	 * Occurs when the page loses focus.
 	 */
 	public onBlur(): void {
-		Application.has_focus = false;
+		this.has_focus = false;
 	}
 
 	/**
@@ -112,11 +54,11 @@ class Application {
 	 * Adds one to the notification count and updates title / makes sound / etc.
 	 */
 	public addNotification(): void {
-		if (Application.has_focus) {
+		if (this.has_focus) {
 			return; // Return if we're looking at the window.
 		}
-		Application.notification_count++;
-		Application.notification_sound.play();
+		this.notification_count++;
+		this.notification_sound.play();
 		this.updateTitle();
 	}
 
@@ -125,7 +67,7 @@ class Application {
 	 * Sets the count of notifications to the specified amount.
 	 */
 	public setNotificationCount(count: number) {
-		Application.notification_count = count;
+		this.notification_count = count;
 		this.updateTitle();
 	}
 
@@ -135,8 +77,8 @@ class Application {
 	 */
 	public updateTitle() {
 		var notification = "";
-		if (Application.notification_count > 0) {
-			notification = "(" + Application.notification_count + ") ";
+		if (this.notification_count > 0) {
+			notification = "(" + this.notification_count + ") ";
 		}
 		if (this.pages.length > 0 && this.pages[this.pages.length - 1].title.length > 0) {
 			document.title = notification + "roomie / " + this.pages[this.pages.length - 1].title;
@@ -150,17 +92,8 @@ class Application {
 	 * Logs the user out, resets cookies, returns to log in page.
 	 */
 	public logOut(): void {
-		Application.auth_token = null;
-		Application.refresh_token = null;
-		Application.identity_email = null;
-		Application.identity_id = null;
-		Application.identity_displayname = null;
-		Cookies.delete_cookie("refresh_token");
-		Cookies.delete_cookie("identity_email");
-		//Cookies.delete_cookie(".AspNet.Cookies"); // Delete ASP Identity Cookies, too.
-		//TODO: ASPNET AUTH COOKIE IS NEVER REMOVED! This has to be done from the server side.
-		Application.pad_hub.disconnect();
-		// Application.pad_hub = null; // Should only ever create one instance of this.
+		this.authentication.logout();
+		this.pad_hub.disconnect();
 		this.clearPages();
 		Application.instance.navigateTo(new LogIn());
 	}
@@ -259,27 +192,17 @@ function guidToColor(guid: string): string {
 
 window.onload = function () {
 	var a: Application = new Application();
-
-	// Check to see if we have a refresh token saved as a cookie.
-	var refresh_token = Cookies.get_cookie("refresh_token");
-	var identity_email = Cookies.get_cookie("identity_email");
-	if (refresh_token == null || identity_email == null) {
-		// If not, show log in page.
+	Progress.show();
+	a.authentication.validate(() => {
+		Progress.hide();
+		a.pad_hub.connect();
+		a.clearPages();
+		a.navigateTo(new Hub());
+	}, () => {
+		Progress.hide();
+		a.clearPages();
 		a.navigateTo(new LogIn());
-	} else {
-		// Use the refresh token to request a new auth token
-		Progress.show();
-		Application.auth_refresh(refresh_token, identity_email, (data) => {
-			// On success, navigate to hub.
-			Progress.hide();
-			a.clearPages();
-			a.navigateTo(new Hub());
-		}, () => {
-			// On failure, 'log out'.
-			Progress.hide();
-			Application.instance.logOut();
-		});
-	}
+	});
 };
 
 // Fix for Windows Phone device width. Hideous...

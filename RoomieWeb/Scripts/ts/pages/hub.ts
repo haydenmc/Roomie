@@ -95,7 +95,7 @@ class Hub extends Page {
 							el.parentNode.removeChild(el);
 						}, 300);
 						hub.loadPads();
-						Application.pad_hub.refreshGroups();
+						Application.instance.pad_hub.refreshGroups();
 					}, function () {
 						Progress.hide();
 						alert("Error accepting invite.");
@@ -113,7 +113,7 @@ class Hub extends Page {
 						setTimeout(function () {
 							el.parentNode.removeChild(el);
 						}, 300);
-						Application.pad_hub.refreshGroups();
+						Application.instance.pad_hub.refreshGroups();
 						hub.loadPads();
 					}, function () {
 						Progress.hide();

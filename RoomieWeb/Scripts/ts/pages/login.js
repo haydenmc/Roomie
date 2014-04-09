@@ -89,9 +89,10 @@ var LogIn = (function (_super) {
         Progress.show();
 
         // Authenticate!
-        Application.auth_credentials(username, password, function (data) {
+        Application.instance.authentication.authenticate(username, password, function (data) {
             // Hide the progress bar
             Progress.hide();
+            Application.instance.pad_hub.connect();
 
             // Navigate to hub!
             Application.instance.clearPages();

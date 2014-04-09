@@ -1,57 +1,110 @@
 class API {
-	public static get(url: string, success: Function, error: Function) {
-		$.ajax("/api/"+url, {
-			type: "GET",
-			dataType: "JSON",
-			headers: { "Authorization": "Bearer " + Application.auth_token },
-			success: (data) => {
-				success(data);
-			},
-			error: () => {
-				error();
-			}
+	public static RETRY_COUNT: number = 3;
+	public static get(url: string, success: Function, error: Function, retry?: number) {
+		if (!retry) {
+			retry = 0;
+		}
+		Application.instance.authentication.validate(() => {
+			$.ajax("/api/" + url, {
+				type: "GET",
+				dataType: "JSON",
+				headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+				success: (data) => {
+					success(data);
+				},
+				error: () => {
+					error();
+				}
+			});
+		}, () => {
+				if (retry > API.RETRY_COUNT) {
+					Application.instance.logOut();
+				} else {
+					setTimeout(() => {
+						API.get(url, success, error, retry+1);
+					}, 5000);
+				}
 		});
 	}
-	public static post(url: string, data: any, success: Function, error: Function) {
-		$.ajax("/api/" + url, {
-			type: "POST",
-			dataType: "JSON",
-			data: data,
-			headers: { "Authorization": "Bearer " + Application.auth_token },
-			success: (d) => {
-				success(d);
-			},
-			error: () => {
-				error();
-			}
-		});
+	public static post(url: string, data: any, success: Function, error: Function, retry?: number) {
+		if (!retry) {
+			retry = 0;
+		}
+		Application.instance.authentication.validate(() => {
+			$.ajax("/api/" + url, {
+				type: "POST",
+				dataType: "JSON",
+				data: data,
+				headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+				success: (d) => {
+					success(d);
+				},
+				error: () => {
+					error();
+				}
+			});
+		}, () => {
+				if (retry > API.RETRY_COUNT) {
+					Application.instance.logOut();
+				} else {
+					setTimeout(() => {
+						API.post(url, data, success, error, retry + 1);
+					}, 5000);
+				}
+			});
 	}
-	public static put(url: string, data: any, success: Function, error: Function) {
-		$.ajax("/api/" + url, {
-			type: "PUT",
-			dataType: "JSON",
-			data: data,
-			headers: { "Authorization": "Bearer " + Application.auth_token },
-			success: (d) => {
-				success(d);
-			},
-			error: () => {
-				error();
-			}
-		});
+	public static put(url: string, data: any, success: Function, error: Function, retry?: number) {
+		if (!retry) {
+			retry = 0;
+		}
+		Application.instance.authentication.validate(() => {
+			$.ajax("/api/" + url, {
+				type: "PUT",
+				dataType: "JSON",
+				data: data,
+				headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+				success: (d) => {
+					success(d);
+				},
+				error: () => {
+					error();
+				}
+			});
+		}, () => {
+				if (retry > API.RETRY_COUNT) {
+					Application.instance.logOut();
+				} else {
+					setTimeout(() => {
+						API.put(url, data, success, error, retry + 1);
+					}, 5000);
+				}
+			});
 	}
-	public static delete(url: string, success: Function, error: Function) {
-		$.ajax("/api/" + url, {
-			type: "DELETE",
-			dataType: "JSON",
-			headers: { "Authorization": "Bearer " + Application.auth_token },
-			success: (data) => {
-				success(data);
-			},
-			error: () => {
-				error();
-			}
-		});
+	public static delete(url: string, success: Function, error: Function, retry?: number) {
+		if (!retry) {
+			retry = 0;
+		}
+		Application.instance.authentication.validate(() => {
+			$.ajax("/api/" + url, {
+				type: "DELETE",
+				dataType: "JSON",
+				headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+				success: (data) => {
+					success(data);
+				},
+				error: () => {
+					error();
+				}
+			});
+		}, () => {
+				if (retry > API.RETRY_COUNT) {
+					Application.instance.logOut();
+				} else {
+					setTimeout(() => {
+						API.delete(url, success, error, retry + 1);
+					}, 5000);
+				}
+			});
 	}
 
 	/* AUTHENTICATION */

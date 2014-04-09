@@ -68,9 +68,10 @@ var Register = (function (_super) {
         // Call API
         API.register(email, displayname, password, confirmpassword, function (data) {
             // Authenticate
-            Application.auth_credentials(email, password, function (data) {
+            Application.instance.authentication.authenticate(email, password, function (data) {
                 // Hide the progress bar
                 Progress.hide();
+                Application.instance.pad_hub.connect();
 
                 // Navigate to hub!
                 Application.instance.clearPages();

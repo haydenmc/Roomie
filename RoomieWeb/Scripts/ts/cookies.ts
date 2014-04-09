@@ -1,5 +1,5 @@
 class Cookies {
-	public static set_cookie(name: string, value: string, expires: Date): void {
+	public static set_cookie(name: string, value: string, expires?: Date): void {
 		var cookie_string = name + "=" + encodeURI(value);
 		if (expires) {
 			cookie_string += "; expires=" + expires.toUTCString();

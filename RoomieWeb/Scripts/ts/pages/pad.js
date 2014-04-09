@@ -53,7 +53,7 @@ var Pad = (function (_super) {
     }
     Pad.prototype.sendMessage = function () {
         var input = this.page_element.getElementsByTagName("input")[0];
-        Application.pad_hub.sendMessage(this.pad_id, input.value);
+        Application.instance.pad_hub.sendMessage(this.pad_id, input.value);
         input.value = '';
 
         // Scroll to bottom
@@ -66,7 +66,7 @@ var Pad = (function (_super) {
         if ((new Date()).getTime() - this.lastTypingTime > 1000) {
             console.log("I'm typing...");
             this.lastTypingTime = (new Date()).getTime();
-            Application.pad_hub.typing(this.pad_id);
+            Application.instance.pad_hub.typing(this.pad_id);
         }
     };
 
@@ -280,12 +280,12 @@ var Pad = (function (_super) {
 
     Pad.prototype.show = function () {
         _super.prototype.show.call(this);
-        Application.pad_hub.setPadPage(this);
+        Application.instance.pad_hub.setPadPage(this);
     };
 
     Pad.prototype.hide = function () {
         _super.prototype.hide.call(this);
-        Application.pad_hub.clearPadPage(this);
+        Application.instance.pad_hub.clearPadPage(this);
     };
     return Pad;
 })(Page);

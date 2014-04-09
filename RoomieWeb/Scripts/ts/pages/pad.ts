@@ -50,7 +50,7 @@ class Pad extends Page {
 
 	public sendMessage() {
 		var input = this.page_element.getElementsByTagName("input")[0];
-		Application.pad_hub.sendMessage(this.pad_id, input.value);
+		Application.instance.pad_hub.sendMessage(this.pad_id, input.value);
 		input.value = '';
 		// Scroll to bottom
 		var messagelist = document.getElementById("ChatPane").getElementsByTagName("ul")[0];
@@ -63,7 +63,7 @@ class Pad extends Page {
 		if ((new Date()).getTime() - this.lastTypingTime > 1000) {
 			console.log("I'm typing...");
 			this.lastTypingTime = (new Date()).getTime();
-			Application.pad_hub.typing(this.pad_id);
+			Application.instance.pad_hub.typing(this.pad_id);
 		}
 	}
 
@@ -275,11 +275,11 @@ class Pad extends Page {
 
 	public show(): void {
 		super.show();
-		Application.pad_hub.setPadPage(this);
+		Application.instance.pad_hub.setPadPage(this);
 	}
 
 	public hide(): void {
 		super.hide();
-		Application.pad_hub.clearPadPage(this);
+		Application.instance.pad_hub.clearPadPage(this);
 	}
 } 

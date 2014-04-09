@@ -359,6 +359,7 @@
     <TypeScriptCompile Include="Scripts\ts\animation.ts" />
     <TypeScriptCompile Include="Scripts\ts\API.ts" />
     <TypeScriptCompile Include="Scripts\ts\application.ts" />
+    <TypeScriptCompile Include="Scripts\ts\authentication.ts" />
     <TypeScriptCompile Include="Scripts\ts\cookies.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialog.ts" />
     <TypeScriptCompile Include="Scripts\ts\dialogs\invitedialog.ts" />

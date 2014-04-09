@@ -1,57 +1,109 @@
 var API = (function () {
     function API() {
     }
-    API.get = function (url, success, error) {
-        $.ajax("/api/" + url, {
-            type: "GET",
-            dataType: "JSON",
-            headers: { "Authorization": "Bearer " + Application.auth_token },
-            success: function (data) {
-                success(data);
-            },
-            error: function () {
-                error();
+    API.get = function (url, success, error, retry) {
+        if (!retry) {
+            retry = 0;
+        }
+        Application.instance.authentication.validate(function () {
+            $.ajax("/api/" + url, {
+                type: "GET",
+                dataType: "JSON",
+                headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+                success: function (data) {
+                    success(data);
+                },
+                error: function () {
+                    error();
+                }
+            });
+        }, function () {
+            if (retry > API.RETRY_COUNT) {
+                Application.instance.logOut();
+            } else {
+                setTimeout(function () {
+                    API.get(url, success, error, retry + 1);
+                }, 5000);
             }
         });
     };
-    API.post = function (url, data, success, error) {
-        $.ajax("/api/" + url, {
-            type: "POST",
-            dataType: "JSON",
-            data: data,
-            headers: { "Authorization": "Bearer " + Application.auth_token },
-            success: function (d) {
-                success(d);
-            },
-            error: function () {
-                error();
+    API.post = function (url, data, success, error, retry) {
+        if (!retry) {
+            retry = 0;
+        }
+        Application.instance.authentication.validate(function () {
+            $.ajax("/api/" + url, {
+                type: "POST",
+                dataType: "JSON",
+                data: data,
+                headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+                success: function (d) {
+                    success(d);
+                },
+                error: function () {
+                    error();
+                }
+            });
+        }, function () {
+            if (retry > API.RETRY_COUNT) {
+                Application.instance.logOut();
+            } else {
+                setTimeout(function () {
+                    API.post(url, data, success, error, retry + 1);
+                }, 5000);
             }
         });
     };
-    API.put = function (url, data, success, error) {
-        $.ajax("/api/" + url, {
-            type: "PUT",
-            dataType: "JSON",
-            data: data,
-            headers: { "Authorization": "Bearer " + Application.auth_token },
-            success: function (d) {
-                success(d);
-            },
-            error: function () {
-                error();
+    API.put = function (url, data, success, error, retry) {
+        if (!retry) {
+            retry = 0;
+        }
+        Application.instance.authentication.validate(function () {
+            $.ajax("/api/" + url, {
+                type: "PUT",
+                dataType: "JSON",
+                data: data,
+                headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+                success: function (d) {
+                    success(d);
+                },
+                error: function () {
+                    error();
+                }
+            });
+        }, function () {
+            if (retry > API.RETRY_COUNT) {
+                Application.instance.logOut();
+            } else {
+                setTimeout(function () {
+                    API.put(url, data, success, error, retry + 1);
+                }, 5000);
             }
         });
     };
-    API.delete = function (url, success, error) {
-        $.ajax("/api/" + url, {
-            type: "DELETE",
-            dataType: "JSON",
-            headers: { "Authorization": "Bearer " + Application.auth_token },
-            success: function (data) {
-                success(data);
-            },
-            error: function () {
-                error();
+    API.delete = function (url, success, error, retry) {
+        if (!retry) {
+            retry = 0;
+        }
+        Application.instance.authentication.validate(function () {
+            $.ajax("/api/" + url, {
+                type: "DELETE",
+                dataType: "JSON",
+                headers: { "Authorization": "Bearer " + Application.instance.authentication.get_access_token() },
+                success: function (data) {
+                    success(data);
+                },
+                error: function () {
+                    error();
+                }
+            });
+        }, function () {
+            if (retry > API.RETRY_COUNT) {
+                Application.instance.logOut();
+            } else {
+                setTimeout(function () {
+                    API.delete(url, success, error, retry + 1);
+                }, 5000);
             }
         });
     };
@@ -127,6 +179,7 @@ var API = (function () {
     API.declineInvite = function (inviteId, success, error) {
         API.delete("Invites/" + inviteId, success, error);
     };
+    API.RETRY_COUNT = 3;
     return API;
 })();
 //# sourceMappingURL=API.js.map

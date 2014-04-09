@@ -17,6 +17,7 @@ namespace RoomieWeb
 
 			bundles.Add(new ScriptBundle("~/bundle/Scripts/ts").Include(
 				"~/Scripts/ts/application.js",
+				"~/Scripts/ts/authentication.js",
 				"~/Scripts/ts/cookies.js",
 				"~/Scripts/ts/API.js",
 				"~/Scripts/ts/progress.js",
@@ -32,8 +33,14 @@ namespace RoomieWeb
 				"~/Scripts/ts/pages/newpad.js",
 				"~/Scripts/ts/pages/hub.js",
 				"~/Scripts/ts/pages/pad.js"));
-
+			
 			bundles.Add(new StyleBundle("~/bundle/Content/css").Include("~/Content/css/*.css", new CssRewriteUrlTransform()));
+
+			#if DEBUG
+				BundleTable.EnableOptimizations = false;
+			#else
+				BundleTable.EnableOptimizations = true;
+			#endif
 		}
 	}
 }

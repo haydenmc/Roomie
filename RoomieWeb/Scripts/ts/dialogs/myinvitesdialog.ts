@@ -26,7 +26,7 @@ class MyInvitesDialog extends Dialog {
 						Progress.hide();
 						element.classList.add("animation");
 						element.classList.add("anim_shoveout_right");
-						Application.pad_hub.refreshGroups(); // Refresh SignalR group membership...
+						Application.instance.pad_hub.refreshGroups(); // Refresh SignalR group membership...
 						// Reload pad listings if we're on the hub.
 						if (Application.instance.pages[Application.instance.pages.length - 1] instanceof Hub) {
 							(<Hub>(Application.instance.pages[Application.instance.pages.length - 1])).resetPadLoadTime(); // Reload pads

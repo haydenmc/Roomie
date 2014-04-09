@@ -26,7 +26,7 @@ namespace RoomieWeb
 				TokenEndpointPath = new PathString("/Token"),
 				Provider = new ApplicationOAuthProvider(PublicClientId, UserManagerFactory),
 				AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-				AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+				AccessTokenExpireTimeSpan = TimeSpan.FromSeconds(10),
 				AllowInsecureHttp = true,
 				RefreshTokenProvider = new SimpleRefreshTokenProvider(),
 				

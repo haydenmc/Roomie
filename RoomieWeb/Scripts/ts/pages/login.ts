@@ -86,21 +86,22 @@ class LogIn extends Page {
 		Progress.show();
 
 		// Authenticate!
-		Application.auth_credentials(username, password, (data) => {
+		Application.instance.authentication.authenticate(username, password, (data) => {
 			// Hide the progress bar
 			Progress.hide();
+			Application.instance.pad_hub.connect();
 			// Navigate to hub!
 			Application.instance.clearPages();
 			Application.instance.navigateTo(new Hub());
 		}, () => {
-			// Hide the progress bar
-			Progress.hide();
-			// Re-enable inputs
-			input_elements[0].disabled = false;
-			input_elements[1].disabled = false;
-			// Set error styles
-			input_elements[0].classList.add("error");
-			input_elements[1].classList.add("error");
-		});
+				// Hide the progress bar
+				Progress.hide();
+				// Re-enable inputs
+				input_elements[0].disabled = false;
+				input_elements[1].disabled = false;
+				// Set error styles
+				input_elements[0].classList.add("error");
+				input_elements[1].classList.add("error");
+			});
 	}
 } 

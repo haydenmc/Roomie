@@ -59,9 +59,10 @@ class Register extends Page {
 		// Call API
 		API.register(email, displayname, password, confirmpassword, (data) => {
 			// Authenticate
-			Application.auth_credentials(email, password, (data) => {
+			Application.instance.authentication.authenticate(email, password, (data) => {
 				// Hide the progress bar
 				Progress.hide();
+				Application.instance.pad_hub.connect();
 				// Navigate to hub!
 				Application.instance.clearPages();
 				Application.instance.navigateTo(new Hub());
