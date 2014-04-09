@@ -75,13 +75,14 @@ class Authentication {
 	}
 
 	private save_cookies(): void {
-		// Check to see if we have auth information in our cookies...
-		Cookies.set_cookie("auth_access_token", this.access_token);
-		Cookies.set_cookie("auth_refresh_token", this.refresh_token);
-		Cookies.set_cookie("auth_expire_time", this.expire_time.toDateString());
-		Cookies.set_cookie("auth_email_address", this.email_address);
-		Cookies.set_cookie("auth_mate_id", this.mate_id);
-		Cookies.set_cookie("auth_display_name", this.display_name);
+		var expireDate: Date = new Date();
+		expireDate.setDate(expireDate.getDate() + 7);
+		Cookies.set_cookie("auth_access_token", this.access_token, expireDate);
+		Cookies.set_cookie("auth_refresh_token", this.refresh_token, expireDate);
+		Cookies.set_cookie("auth_expire_time", this.expire_time.toString(), expireDate);
+		Cookies.set_cookie("auth_email_address", this.email_address, expireDate);
+		Cookies.set_cookie("auth_mate_id", this.mate_id, expireDate);
+		Cookies.set_cookie("auth_display_name", this.display_name, expireDate);
 	}
 
 	public has_expired(): boolean {

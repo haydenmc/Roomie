@@ -179,10 +179,16 @@ window.onload = function () {
     var a = new Application();
     Progress.show();
     a.authentication.validate(function () {
-        Progress.hide();
-        a.pad_hub.connect();
-        a.clearPages();
-        a.navigateTo(new Hub());
+        a.authentication.refresh(function () {
+            Progress.hide();
+            a.pad_hub.connect();
+            a.clearPages();
+            a.navigateTo(new Hub());
+        }, function () {
+            Progress.hide();
+            a.clearPages();
+            a.navigateTo(new LogIn());
+        });
     }, function () {
         Progress.hide();
         a.clearPages();

@@ -194,10 +194,16 @@ window.onload = function () {
 	var a: Application = new Application();
 	Progress.show();
 	a.authentication.validate(() => {
-		Progress.hide();
-		a.pad_hub.connect();
-		a.clearPages();
-		a.navigateTo(new Hub());
+		a.authentication.refresh(() => {
+			Progress.hide();
+			a.pad_hub.connect();
+			a.clearPages();
+			a.navigateTo(new Hub());
+		}, () => {
+				Progress.hide();
+				a.clearPages();
+				a.navigateTo(new LogIn());
+			});
 	}, () => {
 		Progress.hide();
 		a.clearPages();
