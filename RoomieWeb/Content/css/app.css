@@ -47,10 +47,10 @@ body {
   color: #fff;
   font-family: 'Open Sans';
   /* Scrollbar styles for IE */
-  scrollbar-base-color: #69ff4c;
-  scrollbar-face-color: #69ff4c;
+  scrollbar-base-color: #ff4ceb;
+  scrollbar-face-color: #ff4ceb;
   scrollbar-track-color: #000;
-  scrollbar-arrow-color: #69ff4c;
+  scrollbar-arrow-color: #ff4ceb;
   scrollbar-darkshadow-color: #808080;
 }
 /* Scrollbars for webkit browsers */
@@ -59,10 +59,10 @@ body {
   background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #69ff4c;
+  background-color: #ff4ceb;
 }
 ::-webkit-scrollbar-button {
-  color: #69ff4c;
+  color: #ff4ceb;
 }
 /* Input Styles */
 input {
@@ -86,14 +86,14 @@ input:hover {
 }
 input:focus {
   opacity: 1;
-  border-color: #4caeff;
+  border-color: #ffc831;
 }
 input.error {
   border-bottom-color: red;
 }
 input[type=submit] {
   cursor: pointer;
-  color: #69ff4c;
+  color: #ff4ceb;
   font-family: 'Open Sans';
   font-weight: normal;
   font-size: 15px;
@@ -115,7 +115,7 @@ button {
   font-family: 'Open Sans';
   font-size: 20px;
   background-color: transparent;
-  color: #69ff4c;
+  color: #ff4ceb;
   border: none;
   cursor: pointer;
   padding: 2px 8px;
@@ -129,10 +129,10 @@ button:hover {
   opacity: 1.0;
 }
 button.default {
-  border-bottom: 2px dotted #69ff4c;
+  border-bottom: 2px dotted #ff4ceb;
 }
 a {
-  color: #69ff4c;
+  color: #ff4ceb;
   text-decoration: none;
   opacity: 0.7;
   -webkit-transition: opacity 200ms ease-out;
@@ -319,13 +319,13 @@ div.dialog h1 {
 div.dialog div.separator {
   height: 6px;
   width: 100%;
-  background-color: #69ff4c;
-  background-image: -webkit-gradient(linear, left middle, right middle, from(#4caeff), to(#69ff4c));
-  background-image: -webkit-linear-gradient(left, #4caeff, #69ff4c);
-  background-image: -moz-linear-gradient(left, #4caeff, #69ff4c);
-  background-image: -o-linear-gradient(left, #4caeff, #69ff4c);
-  background-image: -ms-linear-gradient(left, #4caeff, #69ff4c);
-  background-image: linear-gradient(left, #4caeff, #69ff4c);
+  background-color: #ff4ceb;
+  background-image: -webkit-gradient(linear, left middle, right middle, from(#ffc831), to(#ff4ceb));
+  background-image: -webkit-linear-gradient(left, #ffc831, #ff4ceb);
+  background-image: -moz-linear-gradient(left, #ffc831, #ff4ceb);
+  background-image: -o-linear-gradient(left, #ffc831, #ff4ceb);
+  background-image: -ms-linear-gradient(left, #ffc831, #ff4ceb);
+  background-image: linear-gradient(left, #ffc831, #ff4ceb);
 }
 div.dialog div.content {
   height: calc(100% - 248px);
@@ -386,13 +386,13 @@ div.dialog ul.actions li {
   width: 3px;
   margin: 0 16px 0 32px;
   float: left;
-  background-color: #69ff4c;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#4caeff), to(#69ff4c));
-  background-image: -webkit-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -moz-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -o-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -ms-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: linear-gradient(top, #4caeff, #69ff4c);
+  background-color: #ff4ceb;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc831), to(#ff4ceb));
+  background-image: -webkit-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -moz-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -o-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -ms-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: linear-gradient(top, #ffc831, #ff4ceb);
 }
 @media (max-width: 768px) {
   #LogIn div.separator {
@@ -400,13 +400,13 @@ div.dialog ul.actions li {
     height: 3px;
     width: 100%;
     margin: 8px 0px;
-    background-color: #69ff4c;
-    background-image: -webkit-gradient(linear, left middle, right middle, from(#4caeff), to(#69ff4c));
-    background-image: -webkit-linear-gradient(left, #4caeff, #69ff4c);
-    background-image: -moz-linear-gradient(left, #4caeff, #69ff4c);
-    background-image: -o-linear-gradient(left, #4caeff, #69ff4c);
-    background-image: -ms-linear-gradient(left, #4caeff, #69ff4c);
-    background-image: linear-gradient(left, #4caeff, #69ff4c);
+    background-color: #ff4ceb;
+    background-image: -webkit-gradient(linear, left middle, right middle, from(#ffc831), to(#ff4ceb));
+    background-image: -webkit-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -moz-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -o-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: -ms-linear-gradient(left, #ffc831, #ff4ceb);
+    background-image: linear-gradient(left, #ffc831, #ff4ceb);
   }
 }
 #LogIn form {
@@ -428,7 +428,7 @@ div.dialog ul.actions li {
   transition: opacity 200ms ease-out;
 }
 #LogIn a.register {
-  color: #69ff4c;
+  color: #ff4ceb;
   font-size: 12px;
   text-decoration: none;
 }
@@ -461,13 +461,13 @@ h1.listTitle div.gradient {
   height: 34px;
   width: 10px;
   margin: 4px 12px 0 8px;
-  background-color: #69ff4c;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#4caeff), to(#69ff4c));
-  background-image: -webkit-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -moz-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -o-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: -ms-linear-gradient(top, #4caeff, #69ff4c);
-  background-image: linear-gradient(top, #4caeff, #69ff4c);
+  background-color: #ff4ceb;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc831), to(#ff4ceb));
+  background-image: -webkit-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -moz-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -o-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: -ms-linear-gradient(top, #ffc831, #ff4ceb);
+  background-image: linear-gradient(top, #ffc831, #ff4ceb);
 }
 #MeTile {
   z-index: 10;
@@ -477,7 +477,7 @@ h1.listTitle div.gradient {
   width: 48px;
   height: 48px;
   /* background-image:url(../img/me_temp.jpg); */
-  background-color: #69ff4c;
+  background-color: #ff4ceb;
   background-size: contain;
   opacity: 0.6;
   -webkit-transition: opacity 300ms ease-out;
@@ -521,7 +521,7 @@ h1.listTitle div.gradient {
   text-decoration: none;
   text-transform: lowercase;
   line-height: 2.5;
-  color: #69ff4c;
+  color: #ff4ceb;
   opacity: 0;
   -webkit-transition: opacity 300ms ease-out;
   -moz-transition: opacity 300ms ease-out;
@@ -627,7 +627,7 @@ h1.listTitle div.gradient {
   float: left;
   width: 48px;
   height: 48px;
-  background-color: #4caeff;
+  background-color: #ffc831;
   margin-right: 8px;
 }
 #PadsList ul li.invite .desc {
@@ -671,7 +671,7 @@ h1.listTitle div.gradient {
   float: left;
   width: 48px;
   height: 48px;
-  background-color: #69ff4c;
+  background-color: #ff4ceb;
   margin-right: 8px;
 }
 #PadsList ul li div.desc {
@@ -923,7 +923,7 @@ ul.invitelist li div.actions button {
   bottom: 0;
   left: 0;
   width: 5px;
-  background-color: #4caeff;
+  background-color: #ffc831;
 }
 #ChatPane ul.chatlist li div.message {
   width: calc(100% - 10px);
