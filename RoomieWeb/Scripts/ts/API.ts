@@ -136,13 +136,24 @@ class API {
 		});
 	}
 
+	// This doesn't require AUTH, so we have a different POST call...
 	public static register(email: string,displayname: string, password: string, confirmpassword: string, success: Function, error: Function) {
-		API.post("Account/Register", {
-			Email: email,
-			DisplayName: displayname,
-			Password: password,
-			ConfirmPassword: confirmpassword
-		}, success, error);
+		$.ajax("/api/Account/Register", {
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				Email: email,
+				DisplayName: displayname,
+				Password: password,
+				ConfirmPassword: confirmpassword
+			},
+			success: (d) => {
+				success(d);
+			},
+			error: () => {
+				error();
+			}
+		});
 	}
 
 	/* PAD API */

@@ -1,4 +1,6 @@
-﻿using RoomieWeb.Migrations;
+﻿using Microsoft.AspNet.SignalR;
+using RoomieWeb.Hubs;
+using RoomieWeb.Migrations;
 using RoomieWeb.Models;
 using System.Data.Entity;
 using System.Web;
@@ -18,7 +20,9 @@ namespace RoomieWeb
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+
 			
+
 			//System.Data.Entity.Database.SetInitializer(new RoomieWeb.Models.ApplicationDbContextInitializer());
 			System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
 		}

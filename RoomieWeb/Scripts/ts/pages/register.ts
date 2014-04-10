@@ -58,8 +58,10 @@ class Register extends Page {
 
 		// Call API
 		API.register(email, displayname, password, confirmpassword, (data) => {
+			console.log("Registration successful");
 			// Authenticate
 			Application.instance.authentication.authenticate(email, password, (data) => {
+				console.log("Authentication successful...");
 				// Hide the progress bar
 				Progress.hide();
 				Application.instance.pad_hub.connect();

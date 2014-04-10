@@ -2,6 +2,7 @@
 using RoomieWeb.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Web;
 
@@ -32,7 +33,7 @@ namespace RoomieWeb.Models
 				MateId = this.Id,
 				DisplayName = this.DisplayName,
 				JoinTime = this.JoinTime,
-				IsOnline = (this.Connections.Count > 0)
+				IsOnline = (this.Connections.Where(c => DateTimeOffset.UtcNow.Subtract ( c.LastActivity ).Minutes < 2).Count() > 0)
 			};
 		}
 	}

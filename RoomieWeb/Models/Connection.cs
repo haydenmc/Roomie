@@ -14,5 +14,6 @@ namespace RoomieWeb.Models
 		public virtual Mate User { get; set; }
 		public string UserAgent { get; set; }
 		public DateTimeOffset StartTime { get; set; }
+		public DateTimeOffset LastActivity { get; set; }
 	}
 }

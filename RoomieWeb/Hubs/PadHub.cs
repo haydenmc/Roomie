@@ -69,7 +69,8 @@ namespace RoomieWeb.Hubs
 				connectionId = Context.ConnectionId,
 				User = user,
 				UserAgent = Context.Request.Headers["User-Agent"],
-				StartTime = DateTimeOffset.UtcNow
+				StartTime = DateTimeOffset.UtcNow,
+				LastActivity = DateTimeOffset.UtcNow
 			};
 			db.Connections.Add(conn);
 			db.SaveChanges();
@@ -96,7 +97,7 @@ namespace RoomieWeb.Hubs
 			var user = connection.User;
 
 			// Notify everyone you're offline
-			if (user.Connections.Count() == 1)
+			if (user.Connections.Where(c => DateTimeOffset.UtcNow.Subtract(c.LastActivity).Minutes < 2).Count() == 1)
 			{
 				var uservm = user.toViewModel();
 				foreach (var p in user.Pads)

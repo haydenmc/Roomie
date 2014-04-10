@@ -221,6 +221,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ConnectionMonitorPipelineModule.cs" />
     <Compile Include="Hubs\PadHub.cs" />
     <Compile Include="Migrations\201403062040472_InitialCreate.cs" />
     <Compile Include="Migrations\201403062040472_InitialCreate.Designer.cs">
@@ -237,6 +238,10 @@
     <Compile Include="Migrations\201403270508293_Connections.cs" />
     <Compile Include="Migrations\201403270508293_Connections.Designer.cs">
       <DependentUpon>201403270508293_Connections.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404101711446_ConnectionLastActivity.cs" />
+    <Compile Include="Migrations\201404101711446_ConnectionLastActivity.Designer.cs">
+      <DependentUpon>201404101711446_ConnectionLastActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Connection.cs" />
@@ -259,6 +264,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\ConnectionMonitorService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403270508293_Connections.resx">
       <DependentUpon>201403270508293_Connections.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404101711446_ConnectionLastActivity.resx">
+      <DependentUpon>201404101711446_ConnectionLastActivity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
